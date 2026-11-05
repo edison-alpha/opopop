@@ -1,0 +1,509 @@
+/* ───── Meeting mode (dark stage, chat panel, bottom bar) ───── */
+.mtg {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  background: #1c1c1e;
+  color: #f2f2f4;
+}
+.mtg-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 8px;
+}
+.mtg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #2a2a2d;
+  font-size: 13px;
+}
+.mtg-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #a3a3ab;
+  font-variant-numeric: tabular-nums;
+  padding: 0 6px;
+}
+.mtg-toggle {
+  display: inline-flex;
+  background: #2a2a2d;
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.mtg-toggle button {
+  width: 30px;
+  height: 26px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #c9c9d1;
+  display: grid;
+  place-items: center;
+}
+.mtg-toggle button:hover {
+  color: #fff;
+}
+.mtg-toggle button.is-active {
+  background: #46464c;
+  color: #fff;
+}
+.mtg-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 12px;
+  padding: 0 12px;
+}
+.mtg-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background: #161618;
+  padding: 10px;
+}
+.mtg-main .meeting-grid,
+.mtg-main .meeting-presenting {
+  flex: 1;
+}
+.mtg .video-tile {
+  background: #161618;
+  border: 1px solid #26262a;
+  border-radius: 12px;
+}
+.mtg .meeting-grid .video-tile:only-child {
+  border-color: transparent;
+}
+.mtg .video-tile-name {
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.mtg .video-tile-name .mic-off {
+  color: #ff5a5f;
+}
+.mtg-panel {
+  width: 310px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  background: #1c1c1e;
+  border: 1px solid #2c2c30;
+  border-radius: 12px;
+  min-height: 0;
+}
+.mtg-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 10px 12px 14px;
+  border-bottom: 1px solid #2c2c30;
+}
+.mtg-panel-head h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+.mtg-icon {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #d4d4da;
+  display: grid;
+  place-items: center;
+}
+.mtg-icon:hover,
+.mtg-icon.is-active {
+  background: #2e2e32;
+  color: #fff;
+}
+.mtg-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: #3a3a40;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.mtg-chat-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mtg-empty {
+  margin: auto 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: #8f8f98;
+}
+.mtg-msg {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.mtg-msg-head {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 13px;
+}
+.mtg-msg-head span {
+  font-size: 11px;
+  color: #8f8f98;
+}
+.mtg-msg-text {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #e4e4e8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.mtg-msg-img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+.mtg-composer {
+  padding: 8px;
+}
+.mtg-composer .composer {
+  background: #1c1c1e;
+  border: 1px solid #3a3a40;
+  border-radius: 10px;
+  color: #f2f2f4;
+}
+.mtg-composer .composer textarea {
+  background: transparent;
+  color: #f2f2f4;
+}
+.mtg-composer .composer textarea::placeholder {
+  color: #8f8f98;
+}
+.mtg-composer .tool {
+  color: #c9c9d1;
+}
+.mtg-composer .tool:hover {
+  background: #2e2e32;
+  color: #fff;
+}
+.mtg-composer .send-btn {
+  background: #2c3fe0;
+  color: #fff;
+}
+.mtg-composer .send-btn:disabled {
+  background: #26264a;
+  color: #8f8fd0;
+}
+.mtg-people {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+.mtg-people li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.mtg-people li:hover {
+  background: #2a2a2d;
+}
+.mtg-people .mic-off {
+  color: #ff5a5f;
+}
+.mtg-info {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+.mtg-info > div {
+  display: flex;
+  justify-content: space-between;
+}
+.mtg-info span {
+  color: #8f8f98;
+}
+.mtg-info .mtg-empty {
+  margin-top: 8px;
+  text-align: left;
+}
+.mtg-foot {
+  height: 64px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 14px;
+}
+/* The shared toolbar sits in the meeting's bottom bar */
+.stage:has(.mtg) .toolbar {
+  bottom: 10px;
+  background: #1c1c1e;
+  box-shadow: none;
+}
+.stage:has(.mtg) .map-controls,
+.stage:has(.mtg) .minimap,
+.stage:has(.mtg) .stage-header,
+.stage:has(.mtg) .view-toggle {
+  display: none;
+}
+
+/* Top-right action bar (map + meeting) */
+.stage-actions-dock {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 6;
+}
+.stage-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sa-group {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 9px;
+  background: rgba(32, 32, 36, 0.86);
+  backdrop-filter: blur(6px);
+}
+.mtg .sa-group {
+  background: #2a2a2d;
+}
+.sa-anchor {
+  position: relative;
+}
+.sa-btn {
+  height: 26px;
+  min-width: 28px;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #d4d4da;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.sa-btn.wide {
+  padding: 0 7px;
+}
+.sa-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.sa-btn.is-active {
+  background: #4a4a50;
+  color: #fff;
+}
+.sa-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 30;
+}
+.sa-pop-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+.sa-pop-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #a3a3ab;
+}
+.sa-pop .input {
+  background: #2a2a2d;
+  border-color: #3a3a40;
+  color: #fff;
+}
+
+/* Record popover */
+.record-menu {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #2b2b2e;
+  color: #f2f2f4;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  z-index: 30;
+}
+.rec-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #3a3a40;
+}
+.rec-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #45454b;
+  color: #d4d4da;
+}
+.rec-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.rec-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+}
+.rec-card {
+  background: #343438;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rec-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #45454b;
+}
+.rec-cal {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.rec-people {
+  display: flex;
+  gap: 4px;
+}
+.rec-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #c4c4cc;
+  line-height: 1.45;
+}
+.record-menu .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.tb-btn.is-recording {
+  color: #ff5a5f;
+  animation: rec-pulse 1.4s ease-in-out infinite;
+}
+@keyframes rec-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Left rail: meeting shortcut */
+.rail-meeting {
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 0;
+  color: var(--text-2);
+}
+.rail-meeting-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--blue);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+.rail-meeting.is-open .rail-meeting-icon {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--blue);
+}
+.rail-meeting-label {
+  font-size: 10px;
+  font-weight: 600;
+}
+.ico {
+  flex: none;
+}
+.tb-btn.tb-leave {
+  color: #ff5a5f;
+  background: rgba(229, 72, 77, 0.14);
+}
+.tb-btn.tb-leave:hover {
+  color: #fff;
+  background: #e5484d;
+}
+.mtg .grow,
+.ae .grow,
+.build-panel .grow,
+.profile-modal .grow {
+  flex: 1;
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .mtg-panel {
+    position: absolute;
+    right: 12px;
+    top: 52px;
+    bottom: 72px;
+    width: min(310px, calc(100% - 24px));
+    z-index: 2;
+  }
+}

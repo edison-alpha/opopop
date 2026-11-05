@@ -1,0 +1,2213 @@
+{
+  "scope": "Installer build resources and static URLs observed in public Gather pages; not an authenticated inventory.",
+  "files": [
+    {
+      "url": "/assets/gather/desktop/0e2d83d926375725.ttf",
+      "source": "installer:build/0e2d83d926375725.ttf",
+      "bytes": 71764,
+      "sha256": "418ce314f345540ffabeb91fb58c9a3cd83cb2df850ff32313c833e4604740c0"
+    },
+    {
+      "url": "/assets/gather/desktop/dc1f43884dc9325c.png",
+      "source": "installer:build/dc1f43884dc9325c.png",
+      "bytes": 104203,
+      "sha256": "064cb543009996380e9a2f10703e3c77794bc84fd26956c218bc05358baadafd"
+    },
+    {
+      "url": "/assets/gather/desktop/f67a25ea4a130582.ttf",
+      "source": "installer:build/f67a25ea4a130582.ttf",
+      "bytes": 71852,
+      "sha256": "3edb1342cebb1b19c3e3fee912497961006e29bf58486ba0404c33c54c463435"
+    },
+    {
+      "url": "/assets/gather/desktop/fonts/DMSans-Bold.ttf",
+      "source": "installer:build/fonts/DMSans-Bold.ttf",
+      "bytes": 71852,
+      "sha256": "3edb1342cebb1b19c3e3fee912497961006e29bf58486ba0404c33c54c463435"
+    },
+    {
+      "url": "/assets/gather/desktop/fonts/DMSans-Medium.ttf",
+      "source": "installer:build/fonts/DMSans-Medium.ttf",
+      "bytes": 71764,
+      "sha256": "418ce314f345540ffabeb91fb58c9a3cd83cb2df850ff32313c833e4604740c0"
+    },
+    {
+      "url": "/assets/gather/desktop/js/background.css",
+      "source": "installer:build/js/background.css",
+      "bytes": 853,
+      "sha256": "70755b09f4b8ab0fc89a1fd3e9bc64e134ff8f06b50a4ccd165cda5092bb1a06"
+    },
+    {
+      "url": "/assets/gather/desktop/js/networkError.css",
+      "source": "installer:build/js/networkError.css",
+      "bytes": 855,
+      "sha256": "b1c39dab0432a0235e3896dd2f17e20879a46541bb0e21ced96c1427ffcdbaf7"
+    },
+    {
+      "url": "/assets/gather/desktop/js/screenShareModal.css",
+      "source": "installer:build/js/screenShareModal.css",
+      "bytes": 859,
+      "sha256": "f9241338810f7c25e4a16bbf380781fbdb77c022916489f68eaa9b961a0ee06c"
+    },
+    {
+      "url": "/assets/gather/desktop/js/trayWindow.css",
+      "source": "installer:build/js/trayWindow.css",
+      "bytes": 853,
+      "sha256": "bf667095e3c1158d638092af882358765b9274aa703b02468cbdc96a8d4579c8"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/de.local.json",
+      "source": "installer:build/locales/de.local.json",
+      "bytes": 3095,
+      "sha256": "25321ba6e5414016256b691be6297af01f6ccba4119e567116addb51388fa82e"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/en-US.local.json",
+      "source": "installer:build/locales/en-US.local.json",
+      "bytes": 2662,
+      "sha256": "228bc50abc210ba6108d81d6a929e74293f0adbdd094613704fab2c5671e09f3"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/es.local.json",
+      "source": "installer:build/locales/es.local.json",
+      "bytes": 3108,
+      "sha256": "f8490b6b101f67b88a0a3995ba62eaf5e1399d0a49b9934f52829de1677ebc08"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/fr.local.json",
+      "source": "installer:build/locales/fr.local.json",
+      "bytes": 3244,
+      "sha256": "36ae18def3b0642be8f0599fb79ee7fdce87cdfa7069e59edd9b62376d1094e5"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/hi-IN.local.json",
+      "source": "installer:build/locales/hi-IN.local.json",
+      "bytes": 5470,
+      "sha256": "eee58bde3673d2f65d79800dac3f00f00b7d67e520e77a720696e33abef22410"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/ja-JP.local.json",
+      "source": "installer:build/locales/ja-JP.local.json",
+      "bytes": 3745,
+      "sha256": "93a57a6918f548bfe62cd7088e94449c18e5c2a077b6520e2203b5a444670136"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/pt-BR.local.json",
+      "source": "installer:build/locales/pt-BR.local.json",
+      "bytes": 3176,
+      "sha256": "957070586440b7c1ec780abc4106b110ce139327ac3cc7a06efd425bf42acc8f"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/source.local.json",
+      "source": "installer:build/locales/source.local.json",
+      "bytes": 3782,
+      "sha256": "e5b24fb3fbe7f251e46c2600616a60b185a66e8f2e6013d43683cd9c252a0c0a"
+    },
+    {
+      "url": "/assets/gather/desktop/locales/th.local.json",
+      "source": "installer:build/locales/th.local.json",
+      "bytes": 5421,
+      "sha256": "4e41f1a7df34eb7d78dc3e56cf612dbbb48db086272ed1f47fb8a28950244ea7"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/appIcons/mac/installer.icns",
+      "source": "installer:build/src/images/appIcons/mac/installer.icns",
+      "bytes": 996190,
+      "sha256": "6bd7d4ee70cb77f69129938c6196bc81f3e83135905a0ffba35be539a4982d0c"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/avatar-at-desk.png",
+      "source": "installer:build/src/images/avatar-at-desk.png",
+      "bytes": 23071,
+      "sha256": "541e977a10f4d6f121467ef17312f38609972b2d66ac50b8232feea7a6b12148"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/avatar-at-office-door.png",
+      "source": "installer:build/src/images/avatar-at-office-door.png",
+      "bytes": 37125,
+      "sha256": "55375ac8cdb3709edb972b04bed8ed6644e35510bf7dcf42b5f9f658c164463d"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black.png",
+      "source": "installer:build/src/images/black.png",
+      "bytes": 570,
+      "sha256": "94303589966e743da17091e22f9efff855021e033af33fa04eed3cae7ea16eea"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black@2x.ico",
+      "source": "installer:build/src/images/black@2x.ico",
+      "bytes": 5774,
+      "sha256": "67b44f41b9e92c981c7e5e14fec38ca04953743b12c8ee49d5e6e28d818183a2"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black@2x.png",
+      "source": "installer:build/src/images/black@2x.png",
+      "bytes": 1124,
+      "sha256": "da84730a1be042d0549179eee1ea8ea5118b618e9e302ff7be68e70aa983a295"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_available.png",
+      "source": "installer:build/src/images/black_available.png",
+      "bytes": 654,
+      "sha256": "bfcc4cb91b2d487da2f5b6ff607912f6d220c28c44e8dfd5ad160eb8640234ec"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_available@2x.ico",
+      "source": "installer:build/src/images/black_available@2x.ico",
+      "bytes": 5774,
+      "sha256": "63f773d507f69e9d0a2d6eda4097c304eccd2b52dca85c6926c50b0d9357d40c"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_available@2x.png",
+      "source": "installer:build/src/images/black_available@2x.png",
+      "bytes": 1411,
+      "sha256": "f5165f311dea3e442aa3faf2eb9f35f8fe752598a85c414f5a55e87d4e78a1cb"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_busy.png",
+      "source": "installer:build/src/images/black_busy.png",
+      "bytes": 653,
+      "sha256": "8cae21d5a69f7018569824a759e78eda2476105e6f2fa65a2d2536fea51a91ee"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_busy@2x.ico",
+      "source": "installer:build/src/images/black_busy@2x.ico",
+      "bytes": 5774,
+      "sha256": "9d1d1cf2392527373743b62d23d5bdf0c848fc98debff554b5b6b23d2f8bff18"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_busy@2x.png",
+      "source": "installer:build/src/images/black_busy@2x.png",
+      "bytes": 1368,
+      "sha256": "420384ca94f20cea6015583447f1b3a524be03f2e806bba0b02b669ebf787130"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_work.png",
+      "source": "installer:build/src/images/black_work.png",
+      "bytes": 641,
+      "sha256": "ad433a33e22e263e062e003eb2bb843a3e247aab25d08c9462b670df1d91f15d"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_work@2x.ico",
+      "source": "installer:build/src/images/black_work@2x.ico",
+      "bytes": 5774,
+      "sha256": "4c8d36d35fa90b9376841e86154dc6e54f75347083996d1a5c14e6c601cc612b"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/black_work@2x.png",
+      "source": "installer:build/src/images/black_work@2x.png",
+      "bytes": 1406,
+      "sha256": "63866e67bb2e12977469a77044a02d039ce990c9896c13af87da91e7ea98b3bf"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/camera.svg",
+      "source": "installer:build/src/images/icons/camera.svg",
+      "bytes": 1158,
+      "sha256": "af6f97e4f510d32b8afd36eec023414e7f4ef6e269b243c12739d381a7da8829"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/circle-filled.svg",
+      "source": "installer:build/src/images/icons/circle-filled.svg",
+      "bytes": 347,
+      "sha256": "00c87623ebf7e9595cd4ae1bb48d769c7c3e2eb3b8d6005886c19f32dcc0046b"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/close.svg",
+      "source": "installer:build/src/images/icons/close.svg",
+      "bytes": 788,
+      "sha256": "d87a95447b1d4686473aa11b4d6b9869e82194b6b8812316cdc2eaa00e1c18ab"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/door-open.svg",
+      "source": "installer:build/src/images/icons/door-open.svg",
+      "bytes": 1466,
+      "sha256": "acb819235d705c35f36ef0ba222e3a7c1337eee2db443d4052b16b153f4da3f8"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/drag-ellipsis.svg",
+      "source": "installer:build/src/images/icons/drag-ellipsis.svg",
+      "bytes": 1319,
+      "sha256": "43a6030a209b1c92cf6de9dad195795a80dcd882dbc912940a876382be4d1eb4"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/eraser.svg",
+      "source": "installer:build/src/images/icons/eraser.svg",
+      "bytes": 618,
+      "sha256": "e9bf1cabd354b52914fba2bed2b5f3bd3c78465e9995ea7bb866a93d5417e8f9"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/external-link.svg",
+      "source": "installer:build/src/images/icons/external-link.svg",
+      "bytes": 1361,
+      "sha256": "d8e79b3ee678ec42b75c55690d74e19aabd42773530c23ce56c7e8b8b9c72036"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/live-cursor.svg",
+      "source": "installer:build/src/images/icons/live-cursor.svg",
+      "bytes": 1493,
+      "sha256": "4aee965f948034170839864fe6f30c2cbe2d14546b2148e3ce4822fc3c3fabb1"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/rotate-ccw.svg",
+      "source": "installer:build/src/images/icons/rotate-ccw.svg",
+      "bytes": 747,
+      "sha256": "878453c8e27cb339738380d22df60204a1d2c96f93473c858c4eaf7a84d1e922"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/rotate-cw.svg",
+      "source": "installer:build/src/images/icons/rotate-cw.svg",
+      "bytes": 747,
+      "sha256": "2a5c9d509e41fb0af9a6d606fc2581d9378299d5ea4b1c7a6b9fbd1033e55e8a"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/sign-in.svg",
+      "source": "installer:build/src/images/icons/sign-in.svg",
+      "bytes": 960,
+      "sha256": "bc4f1c8c7d44dd3820e86a48a12be998fa75cb862094a38aacc9afbb484d376a"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/icons/trash.svg",
+      "source": "installer:build/src/images/icons/trash.svg",
+      "bytes": 1063,
+      "sha256": "d91e5b8fd73089371548c27f3505eb0a68e2f8ee96aff2d56bf8f028ce89e867"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/logo.icns",
+      "source": "installer:build/src/images/logo.icns",
+      "bytes": 439779,
+      "sha256": "9f9018b4b2da40b276a4c9ba6239190848611a6de7cc2750db5df1bd37fdc769"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/logo.png",
+      "source": "installer:build/src/images/logo.png",
+      "bytes": 104203,
+      "sha256": "064cb543009996380e9a2f10703e3c77794bc84fd26956c218bc05358baadafd"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/sad-computer.svg",
+      "source": "installer:build/src/images/sad-computer.svg",
+      "bytes": 10510,
+      "sha256": "9671819cae418ddac375b0a06ddaeeaab58a7a102279f87c5416e422ec6a09aa"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/tray_icon/tray_macosTemplate.png",
+      "source": "installer:build/src/images/tray_icon/tray_macosTemplate.png",
+      "bytes": 1478,
+      "sha256": "39e0033bdd148bd3db8158ee648a6a01cd5b37875dc9a3427fd3866d8ab5af42"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/tray_icon/tray_macosTemplate@2x.png",
+      "source": "installer:build/src/images/tray_icon/tray_macosTemplate@2x.png",
+      "bytes": 2319,
+      "sha256": "8207aef6f54f97cacaf9551ab0497d5ef2dcf278b8705f84e86bc5fef09f7d2b"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/tray_icon/tray_windows.ico",
+      "source": "installer:build/src/images/tray_icon/tray_windows.ico",
+      "bytes": 201472,
+      "sha256": "f8a824574cfa5257435c3fa9236cefa020dffd3846a2b4258231c2cf92b613ec"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white.png",
+      "source": "installer:build/src/images/white.png",
+      "bytes": 563,
+      "sha256": "8088c2ba61434a9846e5cf3bae28dda24190bbe341c3dbf697b435e1340f162b"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white@2x.ico",
+      "source": "installer:build/src/images/white@2x.ico",
+      "bytes": 5774,
+      "sha256": "5f8892aaa01d3eb25b43e413f5b91a58ff532e1ab7d882e5d4d962b822d2d1ca"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white@2x.png",
+      "source": "installer:build/src/images/white@2x.png",
+      "bytes": 1131,
+      "sha256": "964c783d4b3da2f1b261765f111fbb7c0b0a9b1b2c0ba88e2fab49687c77e60a"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_available.png",
+      "source": "installer:build/src/images/white_available.png",
+      "bytes": 652,
+      "sha256": "547256c596c932e48e22ed647734569988fb7f5a5d491a76c2b3f61901319b34"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_available@2x.ico",
+      "source": "installer:build/src/images/white_available@2x.ico",
+      "bytes": 5774,
+      "sha256": "f7f5b0a5dc8d6758d47477ca852cb75f980ae8aa53317415ec9baf948ddb6dca"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_available@2x.png",
+      "source": "installer:build/src/images/white_available@2x.png",
+      "bytes": 1417,
+      "sha256": "9f7a633911e83fb221687d3464e36e105fd5c25aa4f12c94f723215de3dc4a57"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_busy.png",
+      "source": "installer:build/src/images/white_busy.png",
+      "bytes": 652,
+      "sha256": "d58da6413781d621806c7a9742068c3fa4c1686ed1ea0a7a9479876fdeb5c0fe"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_busy@2x.ico",
+      "source": "installer:build/src/images/white_busy@2x.ico",
+      "bytes": 5774,
+      "sha256": "a2edc5b8a611262c4fc5b0396e7c217341eb3c197a57e730e3897fb1a518359c"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_busy@2x.png",
+      "source": "installer:build/src/images/white_busy@2x.png",
+      "bytes": 1377,
+      "sha256": "f7289cce4d9513b40fe19a7abb9923724430b9f89187cc2d318f8f75ad354221"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_work.png",
+      "source": "installer:build/src/images/white_work.png",
+      "bytes": 643,
+      "sha256": "a1caa5b01839e86ec470b46f869fb3826ce6a51ed7161ab27724805a6759b810"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_work@2x.ico",
+      "source": "installer:build/src/images/white_work@2x.ico",
+      "bytes": 5774,
+      "sha256": "5f71b25f795f0fcfea1f519e28dc444abb68ca5febb6ca4cf9bb7fc16771c7df"
+    },
+    {
+      "url": "/assets/gather/desktop/src/images/white_work@2x.png",
+      "source": "installer:build/src/images/white_work@2x.png",
+      "bytes": 1400,
+      "sha256": "ce6b55a40b93ffe4e39f9c162b0934ea0291ce151dc4f44af61f1e3a57bd2ee3"
+    },
+    {
+      "url": "/assets/gather/desktop/styles/global.css",
+      "source": "installer:build/styles/global.css",
+      "bytes": 544,
+      "sha256": "bb2f1ed1a73a39fea60c2de0324593b965eadc7835c2ff5c1517e1ad59e07e80"
+    },
+    {
+      "url": "/assets/gather/desktop/styles/reset.css",
+      "source": "installer:build/styles/reset.css",
+      "bytes": 305,
+      "sha256": "e7bbb32635db0521401cc6529da347e215e329f0c4806d0fc29393ace7c267b4"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/YCOs0jnCL3GglNUJGEovXYDs.woff2",
+      "source": "https://framerusercontent.com/assets/YCOs0jnCL3GglNUJGEovXYDs.woff2",
+      "bytes": 47876,
+      "sha256": "d0101fcc0f884198410555e862bde8e1cb372e358807099a122b7c31c4debc4e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/P5hrzskVvpcfIIXVKNXfzAkXLw.png",
+      "source": "https://framerusercontent.com/images/P5hrzskVvpcfIIXVKNXfzAkXLw.png",
+      "bytes": 862,
+      "sha256": "7c089864357290503eafa7ad216d78a6d4118ae70d07683745e1db1c7893e4c2"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/gRE4wpq9hQmFGlfC94BFvplcyc.woff2",
+      "source": "https://framerusercontent.com/assets/gRE4wpq9hQmFGlfC94BFvplcyc.woff2",
+      "bytes": 44548,
+      "sha256": "f766c510d4080252689667480ea4fd837be4943ee5caa8d1d50f09e4fbc36d4e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/UsKXEzsmAAAmkqsOBPDB9DynRKU.woff2",
+      "source": "https://framerusercontent.com/assets/UsKXEzsmAAAmkqsOBPDB9DynRKU.woff2",
+      "bytes": 40332,
+      "sha256": "164d462a0490ad4225361002169d5f0e48630399f7a3194f4e4d3daa39c24f2a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/qmQsrqb33A0TjdJh0dG40gMEUQM.png",
+      "source": "https://framerusercontent.com/images/qmQsrqb33A0TjdJh0dG40gMEUQM.png",
+      "bytes": 18837,
+      "sha256": "b0d5ab696289323f5b2920e2b1f6f8a13185b66a74b6205335c0ed306fbe046e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/xPmm8fJxnAUtfkMV86nsqCv8w.png",
+      "source": "https://framerusercontent.com/assets/xPmm8fJxnAUtfkMV86nsqCv8w.png",
+      "bytes": 1541270,
+      "sha256": "53a4f48d18f18ffd0f13b227be6db9e38f153d195b152c6991829834ce86bdc4"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/5vvr9Vy74if2I6bQbJvbw7SY1pQ.woff2",
+      "source": "https://framerusercontent.com/assets/5vvr9Vy74if2I6bQbJvbw7SY1pQ.woff2",
+      "bytes": 8896,
+      "sha256": "68cf5b575705c54b915a806a6666344a65b010388b588311629a8009af66b87a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/OYrD2tBIBPvoJXiIHnLoOXnY9M.woff2",
+      "source": "https://framerusercontent.com/assets/OYrD2tBIBPvoJXiIHnLoOXnY9M.woff2",
+      "bytes": 6652,
+      "sha256": "3d9aaa88875ebe3c7140cc0a43dfd88f844008e24720bb5095157b66c3a15a52"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/JeYwfuaPfZHQhEG8U5gtPDZ7WQ.woff2",
+      "source": "https://framerusercontent.com/assets/JeYwfuaPfZHQhEG8U5gtPDZ7WQ.woff2",
+      "bytes": 25348,
+      "sha256": "88f8b52e9e88c8334d8a644d652c94df6bdf25c836729609e9a8f83d35189d11"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/EOr0mi4hNtlgWNn9if640EZzXCo.woff2",
+      "source": "https://framerusercontent.com/assets/EOr0mi4hNtlgWNn9if640EZzXCo.woff2",
+      "bytes": 7116,
+      "sha256": "af9fa49a46e2b4bb090462e8222f43b426593ce31aca150401aa8ebf5c5b5929"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/Y9k9QrlZAqio88Klkmbd8VoMQc.woff2",
+      "source": "https://framerusercontent.com/assets/Y9k9QrlZAqio88Klkmbd8VoMQc.woff2",
+      "bytes": 4504,
+      "sha256": "8d68edfec2489a4cf7478dfeb1bceae1d4661fe42d887ec5e01e5e3f0e12d2fd"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2",
+      "source": "https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2",
+      "bytes": 27380,
+      "sha256": "362b168da82d69bc67d2a358fa20c59151cb4ceac8a5506be6baef5e6827fa42"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/1K3W8DizY3v4emK8Mb08YHxTbs.woff2",
+      "source": "https://framerusercontent.com/assets/1K3W8DizY3v4emK8Mb08YHxTbs.woff2",
+      "bytes": 4628,
+      "sha256": "9bed92e963c634e32445ddc792d62180fb8498a10d3f7c20a1e8d1e7de17adc4"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/VgYFWiwsAC5OYxAycRXXvhze58.woff2",
+      "source": "https://framerusercontent.com/assets/VgYFWiwsAC5OYxAycRXXvhze58.woff2",
+      "bytes": 26076,
+      "sha256": "3f6cafab2760e6bd3f59cefde6e45b14e57b8d05d0e63dd30b2e5927e848dab0"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/tUSCtfYVM1I1IchuyCwz9gDdQ.woff2",
+      "source": "https://framerusercontent.com/assets/tUSCtfYVM1I1IchuyCwz9gDdQ.woff2",
+      "bytes": 6672,
+      "sha256": "43cf206edf89348171df529aac13738dd2155528d009cb72ef283390623058bd"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/b6Y37FthZeALduNqHicBT6FutY.woff2",
+      "source": "https://framerusercontent.com/assets/b6Y37FthZeALduNqHicBT6FutY.woff2",
+      "bytes": 4168,
+      "sha256": "f2207c07c5ac395d1d8c33f46655ded6aea7e66269431e3f943693c0318441dc"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/4RAEQdEOrcnDkhHiiCbJOw92Lk.woff2",
+      "source": "https://framerusercontent.com/assets/4RAEQdEOrcnDkhHiiCbJOw92Lk.woff2",
+      "bytes": 7080,
+      "sha256": "09d4eb010bb9140289383ee337ac5775b8caf7a830113cfbb071134bf2a354cb"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/DpPBYI0sL4fYLgAkX8KXOPVt7c.woff2",
+      "source": "https://framerusercontent.com/assets/DpPBYI0sL4fYLgAkX8KXOPVt7c.woff2",
+      "bytes": 8892,
+      "sha256": "305cc030ada673760c59e4f4ffac736ace0478598d957102c5574ab0b079f69e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/43sJ6MfOPh1LCJt46OvyDuSbA6o.woff2",
+      "source": "https://framerusercontent.com/assets/43sJ6MfOPh1LCJt46OvyDuSbA6o.woff2",
+      "bytes": 4960,
+      "sha256": "7f9d8e2207cc6b4bd89c20cef9742c05f04093aa8d2a92b1d0c4bf93663145af"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/WZ367JPwf9bRW6LdTHN8rXgSjw.woff2",
+      "source": "https://framerusercontent.com/assets/WZ367JPwf9bRW6LdTHN8rXgSjw.woff2",
+      "bytes": 27736,
+      "sha256": "e38dae845a9fcdd07cf1728744263315aa3226f0bbb9dc53b3bd533ca245b034"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/H89BbHkbHDzlxZzxi8uPzTsp90.woff2",
+      "source": "https://framerusercontent.com/assets/H89BbHkbHDzlxZzxi8uPzTsp90.woff2",
+      "bytes": 9564,
+      "sha256": "0648a0666c626b3afc7ebfd187e3704cfd4b1fa4d7f774a08af01236101daab9"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/GIryZETIX4IFypco5pYZONKhJIo.woff2",
+      "source": "https://framerusercontent.com/assets/GIryZETIX4IFypco5pYZONKhJIo.woff2",
+      "bytes": 4268,
+      "sha256": "c0d105ab64a098680ba890a66228a54c03533d907c2812be8f09740772b6d349"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/wccHG0r4gBDAIRhfHiOlq6oEkqw.woff2",
+      "source": "https://framerusercontent.com/assets/wccHG0r4gBDAIRhfHiOlq6oEkqw.woff2",
+      "bytes": 7360,
+      "sha256": "992c5fd3bac230fa179ce0d63f6c032bc08d28678771173cb057e91d0cdde997"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/u6gJwDuwB143kpNK1T1MDKDWkMc.woff2",
+      "source": "https://framerusercontent.com/assets/u6gJwDuwB143kpNK1T1MDKDWkMc.woff2",
+      "bytes": 7556,
+      "sha256": "a83d6869a7a608286201edcfdb78bcfbc0a673c6074d16b3e144bd63f42434a3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/Oyn2ZbENFdnW7mt2Lzjk1h9Zb9k.woff2",
+      "source": "https://framerusercontent.com/assets/Oyn2ZbENFdnW7mt2Lzjk1h9Zb9k.woff2",
+      "bytes": 4756,
+      "sha256": "e4c1617fc03c70ebd01de8794e138ffd118a0a1965c2bbd74eb85bfbac35cadb"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/ia3uin3hQWqDrVloC1zEtYHWw.woff2",
+      "source": "https://framerusercontent.com/assets/ia3uin3hQWqDrVloC1zEtYHWw.woff2",
+      "bytes": 30368,
+      "sha256": "f24b0a0d59c1e80a82529f28543ca51c305288570600e326f73cd98963d2afb8"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/2A4Xx7CngadFGlVV4xrO06OBHY.woff2",
+      "source": "https://framerusercontent.com/assets/2A4Xx7CngadFGlVV4xrO06OBHY.woff2",
+      "bytes": 4236,
+      "sha256": "95a9e62cbe6b9d4c96b95bced1594c619d2e9b99793cd948bdd0a607e7ebd4f1"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/CfMzU8w2e7tHgF4T4rATMPuWosA.woff2",
+      "source": "https://framerusercontent.com/assets/CfMzU8w2e7tHgF4T4rATMPuWosA.woff2",
+      "bytes": 9500,
+      "sha256": "c27061722a1d68ddf9ff8767d7f434058e56bbd2ff6a9188b1215a44a75fbda3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/cdAe8hgZ1cMyLu9g005pAW3xMo.woff2",
+      "source": "https://framerusercontent.com/assets/cdAe8hgZ1cMyLu9g005pAW3xMo.woff2",
+      "bytes": 7228,
+      "sha256": "b5fc8863a07b6cca6a5cb4961a749a8353ea1b910498c7d5a5713d34e0186167"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/867QObYax8ANsfX4TGEVU9YiCM.woff2",
+      "source": "https://framerusercontent.com/assets/867QObYax8ANsfX4TGEVU9YiCM.woff2",
+      "bytes": 7408,
+      "sha256": "35f2295aefa1828e2eb026527d9e946eac60c726f06f66a9b61d047a8183c30a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/6mJuEAguuIuMog10gGvH5d3cl8.woff2",
+      "source": "https://framerusercontent.com/assets/6mJuEAguuIuMog10gGvH5d3cl8.woff2",
+      "bytes": 4644,
+      "sha256": "7c03fe0fd6cc9d3a1a4e617b199560466301adac078846525211898f245028b4"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/tKtBcDnBMevsEEJKdNGhhkLzYo.woff2",
+      "source": "https://framerusercontent.com/assets/tKtBcDnBMevsEEJKdNGhhkLzYo.woff2",
+      "bytes": 4052,
+      "sha256": "21cdc19e523abd29a66a53b3f459fe741b855f8308d79964ed3638b6f9356dcc"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/Qx95Xyt0Ka3SGhinnbXIGpEIyP4.woff2",
+      "source": "https://framerusercontent.com/assets/Qx95Xyt0Ka3SGhinnbXIGpEIyP4.woff2",
+      "bytes": 7176,
+      "sha256": "335e2d5d8dd32e517ff32559e2aa78d1fef8cfabf8d95d4a83e1ef7bd6b98a76"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/pKRFNWFoZl77qYCAIp84lN1h944.woff2",
+      "source": "https://framerusercontent.com/assets/pKRFNWFoZl77qYCAIp84lN1h944.woff2",
+      "bytes": 29380,
+      "sha256": "54310e32e0595e3f6d7de1f723fedd662e71e8d2783bd6742b0a4b7458a22d7e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/5A3Ce6C9YYmCjpQx9M4inSaKU.woff2",
+      "source": "https://framerusercontent.com/assets/5A3Ce6C9YYmCjpQx9M4inSaKU.woff2",
+      "bytes": 8956,
+      "sha256": "5c1619dc61ac73f6beff6e0de9d88567b9cf875b0ba5dad61f4cc0965c217686"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/DOfvtmE1UplCq161m6Hj8CSQYg.woff2",
+      "source": "https://framerusercontent.com/assets/DOfvtmE1UplCq161m6Hj8CSQYg.woff2",
+      "bytes": 26696,
+      "sha256": "236c5e2c38b6d82dd2b4258d6bf24b179dabbcafcb16e845ad7e677332b72882"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/UjlFhCnUjxhNfep4oYBPqnEssyo.woff2",
+      "source": "https://framerusercontent.com/assets/UjlFhCnUjxhNfep4oYBPqnEssyo.woff2",
+      "bytes": 27996,
+      "sha256": "216fcca1239e2ce6a2cc6009eac87e7a90ae36e3e0bf1992fdf712f83f58ef06"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/otTaNuNpVK4RbdlT7zDDdKvQBA.woff2",
+      "source": "https://framerusercontent.com/assets/otTaNuNpVK4RbdlT7zDDdKvQBA.woff2",
+      "bytes": 26264,
+      "sha256": "6a45c62c6dcac1312a9af0c5662adb1d1806dcd0c30177a89cbb4a7a7680343f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/mkY5Sgyq51ik0AMrSBwhm9DJg.woff2",
+      "source": "https://framerusercontent.com/assets/mkY5Sgyq51ik0AMrSBwhm9DJg.woff2",
+      "bytes": 8716,
+      "sha256": "2d3bec40b65f99387f999ecfdde3e0332485d141f0690c529d7a050287f60a5d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/xYYWaj7wCU5zSQH0eXvSaS19wo.woff2",
+      "source": "https://framerusercontent.com/assets/xYYWaj7wCU5zSQH0eXvSaS19wo.woff2",
+      "bytes": 6676,
+      "sha256": "e207ee8db856b70ffdd9e3aeb2685f92177d10800c4c274ef27da9934c180761"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/X5hj6qzcHUYv7h1390c8Rhm6550.woff2",
+      "source": "https://framerusercontent.com/assets/X5hj6qzcHUYv7h1390c8Rhm6550.woff2",
+      "bytes": 6984,
+      "sha256": "9db34707de1cc86da27ad2a92d2279ccb515cb870ae3c1978a69c47e0bfd0dc0"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/DolVirEGb34pEXEp8t8FQBSK4.woff2",
+      "source": "https://framerusercontent.com/assets/DolVirEGb34pEXEp8t8FQBSK4.woff2",
+      "bytes": 4288,
+      "sha256": "bbd985c4dabfdca96b510aecc70cfd44371e0589a6f8522cbc119eeb6ee7aac2"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/gQhNpS3tN86g8RcVKYUUaKt2oMQ.woff2",
+      "source": "https://framerusercontent.com/assets/gQhNpS3tN86g8RcVKYUUaKt2oMQ.woff2",
+      "bytes": 4528,
+      "sha256": "1ffe4077cf4c481f787eee22edaff1ef2085cb36b87b586921cc2c910baf14db"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/5HcVoGak8k5agFJSaKa4floXVu0.woff2",
+      "source": "https://framerusercontent.com/assets/5HcVoGak8k5agFJSaKa4floXVu0.woff2",
+      "bytes": 25276,
+      "sha256": "52ff2ce7d1511770c47190716c455768641fc8a408f4cb480f7be227047ad651"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/rZ5DdENNqIdFTIyQQiP5isO7M.woff2",
+      "source": "https://framerusercontent.com/assets/rZ5DdENNqIdFTIyQQiP5isO7M.woff2",
+      "bytes": 27436,
+      "sha256": "4843c2624496e691521fe742dbd40db84ca4bf3fe98b0140d8670523fecec85b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/cugnVhSraaRyANCaUtI5FV17wk.woff2",
+      "source": "https://framerusercontent.com/assets/cugnVhSraaRyANCaUtI5FV17wk.woff2",
+      "bytes": 6572,
+      "sha256": "a81a33090e1786c391a37f4cc930d180c492f9e0e3d27b567b65a99a25bf2cf9"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/P2Bw01CtL0b9wqygO0sSVogWbo.woff2",
+      "source": "https://framerusercontent.com/assets/P2Bw01CtL0b9wqygO0sSVogWbo.woff2",
+      "bytes": 4168,
+      "sha256": "34ef391e3b2bb8cef583e01523e29bf13dd558cffb91368114087badcce116d6"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/05KsVHGDmqXSBXM4yRZ65P8i0s.woff2",
+      "source": "https://framerusercontent.com/assets/05KsVHGDmqXSBXM4yRZ65P8i0s.woff2",
+      "bytes": 9444,
+      "sha256": "be1a6fa7f51ee9e020bdac48d7bdf07f75233473827cf7a66a3d09b15bb5a49d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/3ZmXbBKToJifDV9gwcifVd1tEY.woff2",
+      "source": "https://framerusercontent.com/assets/3ZmXbBKToJifDV9gwcifVd1tEY.woff2",
+      "bytes": 7208,
+      "sha256": "606729efeb7c59b47470bf64ff71a8ba393ab0bed80f17482fd4ee995959fac6"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/efTfQcBJ53kM2pB1hezSZ3RDUFs.woff2",
+      "source": "https://framerusercontent.com/assets/efTfQcBJ53kM2pB1hezSZ3RDUFs.woff2",
+      "bytes": 4172,
+      "sha256": "45604c5c98fe3f13488e1d0ebfdd3cfe21d4222ed1426afa680ada83a5f8a4a7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/vvNSqIj42qeQ2bvCRBIWKHscrc.woff2",
+      "source": "https://framerusercontent.com/assets/vvNSqIj42qeQ2bvCRBIWKHscrc.woff2",
+      "bytes": 4828,
+      "sha256": "3b65ffb4188b763b66aa4300c9131de2b3d6c0d0fdbffea3e63a2ccc7f174a40"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/FNfhX3dt4ChuLJq2PwdlxHO7PU.woff2",
+      "source": "https://framerusercontent.com/assets/FNfhX3dt4ChuLJq2PwdlxHO7PU.woff2",
+      "bytes": 27036,
+      "sha256": "af94eb9a265c32652e76960d9fc2eb4697fca35addad53fdad82640b0c3de8ae"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/gcnfba68tfm7qAyrWRCf9r34jg.woff2",
+      "source": "https://framerusercontent.com/assets/gcnfba68tfm7qAyrWRCf9r34jg.woff2",
+      "bytes": 29692,
+      "sha256": "a181ef823dacd3cfcc0f08c2a50d4d7feba2166bb09392a8e4ce336c7c1b5fcc"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/ky8ovPukK4dJ1Pxq74qGhOqCYI.woff2",
+      "source": "https://framerusercontent.com/assets/ky8ovPukK4dJ1Pxq74qGhOqCYI.woff2",
+      "bytes": 7376,
+      "sha256": "806ba2d7921651e6d9b1da8aac8745cab75d932a65aaa81f04faebb1ea249595"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/oYaAX5himiTPYuN8vLWnqBbfD2s.woff2",
+      "source": "https://framerusercontent.com/assets/oYaAX5himiTPYuN8vLWnqBbfD2s.woff2",
+      "bytes": 4660,
+      "sha256": "32ee785f268b036ad1200d4a8c6ba94b5a542e97e4cb438ef54c6da731aeb399"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/lEJLP4R0yuCaMCjSXYHtJw72M.woff2",
+      "source": "https://framerusercontent.com/assets/lEJLP4R0yuCaMCjSXYHtJw72M.woff2",
+      "bytes": 6668,
+      "sha256": "c685cdd073fe381a7ce1e038e608746ef59ba8fead0b648dc3d04f2bc1862a8a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/hyOgCu0Xnghbimh0pE8QTvtt2AU.woff2",
+      "source": "https://framerusercontent.com/assets/hyOgCu0Xnghbimh0pE8QTvtt2AU.woff2",
+      "bytes": 8908,
+      "sha256": "006a424a150e913ff0b7d2c43c29cd3810628811bd686cf5cdd1391239cda123"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/cRJyLNuTJR5jbyKzGi33wU9cqIQ.woff2",
+      "source": "https://framerusercontent.com/assets/cRJyLNuTJR5jbyKzGi33wU9cqIQ.woff2",
+      "bytes": 26280,
+      "sha256": "67b2070d1aae1ab7129d7c7558a07a0dd850b99ba0ec4f938cb03d41698a9d93"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/yDtI2UI8XcEg1W2je9XPN3Noo.woff2",
+      "source": "https://framerusercontent.com/assets/yDtI2UI8XcEg1W2je9XPN3Noo.woff2",
+      "bytes": 28088,
+      "sha256": "236c9fe41df720209dd1a1f942b5c95e338831b29df381e8ce9f405b40a9209a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/NeGmSOXrPBfEFIy5YZeHq17LEDA.woff2",
+      "source": "https://framerusercontent.com/assets/NeGmSOXrPBfEFIy5YZeHq17LEDA.woff2",
+      "bytes": 7152,
+      "sha256": "3c00a1758c84c1133ebd5a00272c8a397e0db7120537d0342cd5aca878946e38"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/rhq1P9IxPqkHGMHRNNyhs9cIVA-d20bc02d48.svg",
+      "source": "https://framerusercontent.com/images/rhq1P9IxPqkHGMHRNNyhs9cIVA.svg?width=92&height=106",
+      "bytes": 4653,
+      "sha256": "5066b00b4ceeb9eb3a34c934b32e2c0d7fbbb1046c76ce702fef96a07b6548bf"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/ycVuL0m2xwx9R64VQ0ksSQiCFA-d20bc02d48.svg",
+      "source": "https://framerusercontent.com/images/ycVuL0m2xwx9R64VQ0ksSQiCFA.svg?width=92&height=106",
+      "bytes": 9644,
+      "sha256": "bb794748e34194fd427b3e696bb6e8a8b0ff43710e2584ba0a6c835f0efe533d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/vTWRSktmPcQkd2C3flvUBW2no-f2c7ed7a44.svg",
+      "source": "https://framerusercontent.com/images/vTWRSktmPcQkd2C3flvUBW2no.svg?scale-down-to=512&width=1691&height=358",
+      "bytes": 3043,
+      "sha256": "e32277acd8e50a22f85ec7dfc82d7c7ee985baad689fddb4e75e9ced7e14177b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/A0Wcc7NgXMjUuFdquHDrIZpzZw0.woff2",
+      "source": "https://framerusercontent.com/assets/A0Wcc7NgXMjUuFdquHDrIZpzZw0.woff2",
+      "bytes": 4316,
+      "sha256": "d216c9ebfd1b8bf2416a810afe222f88de9268944b6bbacad5e5f05f6734fd6b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/b8INF7LCi9aEa3UkHTBJq0ESWeM-518e61fdb7.svg",
+      "source": "https://framerusercontent.com/images/b8INF7LCi9aEa3UkHTBJq0ESWeM.svg?width=392&height=72",
+      "bytes": 921,
+      "sha256": "19fc2279648011d5d82903fab10e184e25887ab7eebe875ab2de5fa62527c2cf"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/77jD5h6IVkSHM6f7ECH43gE-d20bc02d48.svg",
+      "source": "https://framerusercontent.com/images/77jD5h6IVkSHM6f7ECH43gE.svg?width=92&height=106",
+      "bytes": 8723,
+      "sha256": "101304b175c0ece0880d92dfd0abc585b9c8afa8ffe3501c7734bb090331086c"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/vTWRSktmPcQkd2C3flvUBW2no-e258cf2066.svg",
+      "source": "https://framerusercontent.com/images/vTWRSktmPcQkd2C3flvUBW2no.svg?width=1691&height=358",
+      "bytes": 3043,
+      "sha256": "e32277acd8e50a22f85ec7dfc82d7c7ee985baad689fddb4e75e9ced7e14177b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U-f4748f5349.png",
+      "source": "https://framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U.png?scale-down-to=512&width=2190&height=1873",
+      "bytes": 63009,
+      "sha256": "47819b8dba8f6597758912bc95b109af70c0c5f611875c4e4ae23e1106287a28"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/vTWRSktmPcQkd2C3flvUBW2no-99f52889c1.svg",
+      "source": "https://framerusercontent.com/images/vTWRSktmPcQkd2C3flvUBW2no.svg?scale-down-to=1024&width=1691&height=358",
+      "bytes": 3043,
+      "sha256": "e32277acd8e50a22f85ec7dfc82d7c7ee985baad689fddb4e75e9ced7e14177b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U-7262d81dc9.png",
+      "source": "https://framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U.png?width=2190&height=1873",
+      "bytes": 158772,
+      "sha256": "b9ad3e03ef18de181ef235eeacb9372b7555c653d9144e80754d5b1fca481a7f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U-8e02bfad6a.png",
+      "source": "https://framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U.png?scale-down-to=1024&width=2190&height=1873",
+      "bytes": 152671,
+      "sha256": "d1d2ed136307a58be814bd06c5fd2ba51443b3a2504137902438e82a0776d349"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U-5e548afa46.png",
+      "source": "https://framerusercontent.com/images/KxCGvHrugQWXfjN6yztHZcQOz8U.png?scale-down-to=2048&width=2190&height=1873",
+      "bytes": 328992,
+      "sha256": "05d777ce4d8d4f9306160550629bd428844a74a35b9deb64953a36523da9997c"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI-656db1b3b1.png",
+      "source": "https://framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI.png?scale-down-to=512&width=2880&height=2880",
+      "bytes": 77012,
+      "sha256": "945cd3c9306cd24c91289dc65b64a6e5bc3132cc4685e2550903b2b81fdf3897"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/UqPVNcvW2j9jRPTlzKQISkTiMq4-a3f8891936.png",
+      "source": "https://framerusercontent.com/images/UqPVNcvW2j9jRPTlzKQISkTiMq4.png?scale-down-to=512&width=1050&height=600",
+      "bytes": 20600,
+      "sha256": "9c93c50e3fa5caa4c60b378b524a2a5a18c4de57a68c2d2d0df990c650a6b0de"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI-388a2f2138.png",
+      "source": "https://framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI.png?scale-down-to=1024&width=2880&height=2880",
+      "bytes": 244039,
+      "sha256": "9a34260500230a0bea0b5f76ef9fb5f7a481d636320e94fe3d6b63ceb870b522"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/UqPVNcvW2j9jRPTlzKQISkTiMq4-500f0cf71d.png",
+      "source": "https://framerusercontent.com/images/UqPVNcvW2j9jRPTlzKQISkTiMq4.png?scale-down-to=1024&width=1050&height=600",
+      "bytes": 79364,
+      "sha256": "da060dffbfefe63f127558fa06aad41bb7f69fc4068c5cc9ec5c2a5b7ff35d3d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI-e65ceee94d.png",
+      "source": "https://framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI.png?scale-down-to=2048&width=2880&height=2880",
+      "bytes": 796622,
+      "sha256": "820f673e8ebc5106a2481ff16a840c9509f10d2ba995b79e54e89fae8dbb832d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI-15b75ef43c.png",
+      "source": "https://framerusercontent.com/images/85YUGUkbfoxnNIxMWZEQIn6KkI.png?width=2880&height=2880",
+      "bytes": 1431544,
+      "sha256": "adc9b4d51834032898bc3830ba4e7d0917c0c48965d4a6323eec9a6e6211bc3a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/dxx1kybKiSZTlriXiPw13bS6VY8-d18c72be75.png",
+      "source": "https://framerusercontent.com/images/dxx1kybKiSZTlriXiPw13bS6VY8.png?width=1050&height=600",
+      "bytes": 67360,
+      "sha256": "614357cbc10c929a635745f44641384bce4f13582bff88e52dafb9be0a56712d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/UqPVNcvW2j9jRPTlzKQISkTiMq4-d18c72be75.png",
+      "source": "https://framerusercontent.com/images/UqPVNcvW2j9jRPTlzKQISkTiMq4.png?width=1050&height=600",
+      "bytes": 74539,
+      "sha256": "27c9b9d2d08391b52015653c8d22c684112ef7a0356e8150695cd22a2fe59a60"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/dxx1kybKiSZTlriXiPw13bS6VY8-a3f8891936.png",
+      "source": "https://framerusercontent.com/images/dxx1kybKiSZTlriXiPw13bS6VY8.png?scale-down-to=512&width=1050&height=600",
+      "bytes": 22188,
+      "sha256": "ab87aa483d9f433b171aa1dc642e98fc9ab3a129eb56a158a66197bcae603a09"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/L5HEhMxmQAINNk3q9JlM1SsXNio-500f0cf71d.png",
+      "source": "https://framerusercontent.com/images/L5HEhMxmQAINNk3q9JlM1SsXNio.png?scale-down-to=1024&width=1050&height=600",
+      "bytes": 51468,
+      "sha256": "ac4ec9164276400e1c60774010947611b0a2ae9b2e6cd2725e17be37553ce980"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/dxx1kybKiSZTlriXiPw13bS6VY8-500f0cf71d.png",
+      "source": "https://framerusercontent.com/images/dxx1kybKiSZTlriXiPw13bS6VY8.png?scale-down-to=1024&width=1050&height=600",
+      "bytes": 68776,
+      "sha256": "ed393518a391e1bf39d81eda5f8c7e174c803597f4d7768503a873c52f140774"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/L5HEhMxmQAINNk3q9JlM1SsXNio-a3f8891936.png",
+      "source": "https://framerusercontent.com/images/L5HEhMxmQAINNk3q9JlM1SsXNio.png?scale-down-to=512&width=1050&height=600",
+      "bytes": 15399,
+      "sha256": "779c6a5251ae7e1911b6a802af4b515c341255701f8715a60114104010050329"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/w9wtd2YlaGXOGJjoxHbY3G6SM-647711e6f1.svg",
+      "source": "https://framerusercontent.com/images/w9wtd2YlaGXOGJjoxHbY3G6SM.svg?width=530&height=381",
+      "bytes": 20562,
+      "sha256": "cf0a2620a4ce2626c6f4d6b08ff631104a404ec9f4ebee1d0fdba7657757f9e7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/L5HEhMxmQAINNk3q9JlM1SsXNio-d18c72be75.png",
+      "source": "https://framerusercontent.com/images/L5HEhMxmQAINNk3q9JlM1SsXNio.png?width=1050&height=600",
+      "bytes": 50903,
+      "sha256": "fcd84bd48babc4257a308d01fe3f622f3e8e558974c720dffec7c939a206af0e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/w9wtd2YlaGXOGJjoxHbY3G6SM-96338fdf8a.svg",
+      "source": "https://framerusercontent.com/images/w9wtd2YlaGXOGJjoxHbY3G6SM.svg?scale-down-to=512&width=530&height=381",
+      "bytes": 20562,
+      "sha256": "cf0a2620a4ce2626c6f4d6b08ff631104a404ec9f4ebee1d0fdba7657757f9e7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw-9e59ad3cc2.png",
+      "source": "https://framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw.png?scale-down-to=1024&width=2128&height=1524",
+      "bytes": 67081,
+      "sha256": "b4b2fdc2028bcf6c296398c38c8356885483556e1ca1b88cd1b6155e4c6839e9"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/TgqHPNGUSL5hxRZ63TBh09Rn4-58fcbe985e.png",
+      "source": "https://framerusercontent.com/images/TgqHPNGUSL5hxRZ63TBh09Rn4.png?width=512&height=512",
+      "bytes": 30662,
+      "sha256": "ab846867fbd2b2e8235acead5cf451dec70e7d9ebeb1112d87782c8fb6ee5f09"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw-e71938f461.png",
+      "source": "https://framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw.png?scale-down-to=512&width=2128&height=1524",
+      "bytes": 28985,
+      "sha256": "548630bedc6235d08207701ae0065bf8c568c1ea07aee95017b8585d92602094"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/d5zjMqKQwDQVozDVM7OZMOIfTCI-f623e97735.jpg",
+      "source": "https://framerusercontent.com/images/d5zjMqKQwDQVozDVM7OZMOIfTCI.jpg?width=200&height=200",
+      "bytes": 8870,
+      "sha256": "79edbb478ae31d1cc238632994a9c9e52f14ff1eba475c8f599d8710b369b3c5"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw-9cf7ae74fe.png",
+      "source": "https://framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw.png?scale-down-to=2048&width=2128&height=1524",
+      "bytes": 153845,
+      "sha256": "2596d54bd2c6f00ee7e1059b9e502f839e05aa965bb57468b6e3aefc44b542b7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/0BnFCTmKrPpaP0i5Gk6HUvYMI4g-6c0cd18094.png",
+      "source": "https://framerusercontent.com/images/0BnFCTmKrPpaP0i5Gk6HUvYMI4g.png?scale-down-to=1024&width=2400&height=3600",
+      "bytes": 155139,
+      "sha256": "d2fc19836c703caf2c887656447ec5e1d48ac6febef7c42b93079d5e80cdace9"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw-620f7dadd5.png",
+      "source": "https://framerusercontent.com/images/6nnhodxtnzYO8Yl0FQIFTVcw.png?width=2128&height=1524",
+      "bytes": 153319,
+      "sha256": "c978e967e5822c124d7f11a171b50077c25c7bc1a7bd7ca59074b8240805958e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/0BnFCTmKrPpaP0i5Gk6HUvYMI4g-901c78e919.png",
+      "source": "https://framerusercontent.com/images/0BnFCTmKrPpaP0i5Gk6HUvYMI4g.png?scale-down-to=2048&width=2400&height=3600",
+      "bytes": 641404,
+      "sha256": "36c781b22df73f7e7c1d8fe831a5bc40ed673b43dfeccc68b9644b02ddce8cc7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/0BnFCTmKrPpaP0i5Gk6HUvYMI4g-25e531fc36.png",
+      "source": "https://framerusercontent.com/images/0BnFCTmKrPpaP0i5Gk6HUvYMI4g.png?width=2400&height=3600",
+      "bytes": 1871457,
+      "sha256": "81cabeba7e45cb0015cd68c8523fd3797d8031e854496cdb80753dfac2f726d7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/WVYXddkzUgkxtEELmybq8xxNqx4-c9942b6097.jpeg",
+      "source": "https://framerusercontent.com/images/WVYXddkzUgkxtEELmybq8xxNqx4.jpeg?width=400&height=400",
+      "bytes": 32421,
+      "sha256": "bad94a69a85d6cda34a3f7c29555713a1a067a742424a5999f336be6e1faf17b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/fofLlNdIwmYfmqMGwncKxv3uqc-56df9cd9a9.jpeg",
+      "source": "https://framerusercontent.com/images/fofLlNdIwmYfmqMGwncKxv3uqc.jpeg?width=100&height=100",
+      "bytes": 4304,
+      "sha256": "3e6203e48b3727b1d7e27cc0d526d04c805c0f9625418fd35cf89454504504c8"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/GroZsDrzudgyaBwsSu0mjJcqeM-56df9cd9a9.webp",
+      "source": "https://framerusercontent.com/images/GroZsDrzudgyaBwsSu0mjJcqeM.webp?width=100&height=100",
+      "bytes": 1766,
+      "sha256": "1f5246b5283839c8ea00fef63e8e8dd850664a1b418188b93a7df1193b9d190c"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/CfmDNHsTOCPXuiB0wCsdOlCaA8Q-9ec37631fc.png",
+      "source": "https://framerusercontent.com/images/CfmDNHsTOCPXuiB0wCsdOlCaA8Q.png?width=448&height=488",
+      "bytes": 77431,
+      "sha256": "fcd8c40bf0d1e4526e8f92423208973d80cad9ed2eef6013cc0b2bb01591a50b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/lbXpajQWa5M98hRnd6tvdPowTx0-56df9cd9a9.jpeg",
+      "source": "https://framerusercontent.com/images/lbXpajQWa5M98hRnd6tvdPowTx0.jpeg?width=100&height=100",
+      "bytes": 3173,
+      "sha256": "ef70352488333eacdf6c99cf6a6aad740e8e053336117892c441a5dccd9deb93"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/t1eIF8AkIXCL6ATdK38HzmXi26w-16c1fdb453.jpg",
+      "source": "https://framerusercontent.com/images/t1eIF8AkIXCL6ATdK38HzmXi26w.jpg?width=96&height=96",
+      "bytes": 3515,
+      "sha256": "14bb3a89b4d14291597197d2a84b80a7bacbe941a57e9ca5632bb74d2a42f390"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s-cf820758ed.png",
+      "source": "https://framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s.png?width=3014&height=722",
+      "bytes": 48140,
+      "sha256": "230c2d715f00f2496f78352193bb429b034da2f3a07227f50b95291a6aa2c14d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s-f68d0510e4.png",
+      "source": "https://framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s.png?scale-down-to=2048&width=3014&height=722",
+      "bytes": 63295,
+      "sha256": "c03916527d64c601be3235d03ec4f90584062ae387391598edd1a9d7d4f3bc22"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s-609eab708b.png",
+      "source": "https://framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s.png?scale-down-to=1024&width=3014&height=722",
+      "bytes": 26649,
+      "sha256": "1c925dae6338a02a8da47c883dbf107f4e5984619f84d704045f3db8f813385d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s-d09ee36cc8.png",
+      "source": "https://framerusercontent.com/images/jiwVPIcnhttlpLNQ2ygCpTChT6s.png?scale-down-to=512&width=3014&height=722",
+      "bytes": 10195,
+      "sha256": "f66ccfe9458458f05018948ee431ed5c33bcec92a45d5f36f05dd9af52d55c17"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/inter.css",
+      "source": "https://static.gather.town/fonts/inter/inter.css",
+      "bytes": 10510,
+      "sha256": "868d674eb57814ea39415af15132b4077ccdc081b1c8e15cf31e652e12bf3cc9"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/main.55cf7344aeb57e5c.css",
+      "source": "https://app.v2.gather.town/main.55cf7344aeb57e5c.css",
+      "bytes": 92261,
+      "sha256": "7bfdc1a569face828e47c9be32a8e7268f3c5bb74d87f400fadd9b2c3337efb8"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterVariable.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterVariable.woff2",
+      "bytes": 352240,
+      "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/bundle.f75260cad8e3a13b.css",
+      "source": "https://app.v2.gather.town/bundle.f75260cad8e3a13b.css",
+      "bytes": 225,
+      "sha256": "4a5b94534cc6a53f39afe2499507c8e446bb1ace11d8b003afda7c79aa48b5bd"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/bundle.5df08dd41ad4c8cd.css",
+      "source": "https://app.v2.gather.town/bundle.5df08dd41ad4c8cd.css",
+      "bytes": 100775,
+      "sha256": "34e951a3ce8fc8f1946c7a504552d0ba56750a5c81d2a4d807745918cc8eeaa4"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/game/fx/smoke-appear.png",
+      "source": "https://app.v2.gather.town/images/game/fx/smoke-appear.png",
+      "bytes": 1366,
+      "sha256": "be88c75051a424a81c0a8daa21a2b5fd3651936156176b3c110ceb853c824121"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/nothing-found-2.png",
+      "source": "https://app.v2.gather.town/images/nothing-found-2.png",
+      "bytes": 1948,
+      "sha256": "5951d6725ae2e355343207d551843ce9ef953d8e271058cfb0ab16c871964eec"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/grapes.png",
+      "source": "https://app.v2.gather.town/images/grapes.png",
+      "bytes": 2518,
+      "sha256": "fc8afd7dfcd9e7243ddbc74a3dabd6c6334d6713b248e2d9d6fd91d9e9dcc1f1"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/icons/icons.ec52321eb3.svg",
+      "source": "https://app.v2.gather.town/icons/icons.ec52321eb3.svg",
+      "bytes": 140225,
+      "sha256": "ec52321eb37132d3231f898416ed86e03206976374e35534f89048e469b1d28d"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/space-card-loader.svg",
+      "source": "https://app.v2.gather.town/images/space-card-loader.svg",
+      "bytes": 479,
+      "sha256": "b120f94e4404fb59f12900982db96f985ad53331c1daccc548d2b388d3bfeee8"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/syRNPWzAMIrcJ3wIlPIP43KjQs.woff2",
+      "source": "https://framerusercontent.com/assets/syRNPWzAMIrcJ3wIlPIP43KjQs.woff2",
+      "bytes": 27900,
+      "sha256": "fad48f71e77d72b44122a1d978820a7e7215b84f9a9c0e3a31d97d5987a710e9"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/j6Z00WYsXlTf8osq8LoWOQXWml8-6f2af91442.png",
+      "source": "https://framerusercontent.com/images/j6Z00WYsXlTf8osq8LoWOQXWml8.png?width=1239&height=930",
+      "bytes": 16465,
+      "sha256": "34aa489ac1e082a276463447f3a347aaf279417e930f22b69522922a2ed50476"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/j6Z00WYsXlTf8osq8LoWOQXWml8-edd7a6befa.png",
+      "source": "https://framerusercontent.com/images/j6Z00WYsXlTf8osq8LoWOQXWml8.png?scale-down-to=1024&width=1239&height=930",
+      "bytes": 24306,
+      "sha256": "1bbb656383414868cc359bd3be732d3c165b5057aa7b4fea343b21288863dfbb"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/j6Z00WYsXlTf8osq8LoWOQXWml8-63cc60ebe6.png",
+      "source": "https://framerusercontent.com/images/j6Z00WYsXlTf8osq8LoWOQXWml8.png?scale-down-to=512&width=1239&height=930",
+      "bytes": 13199,
+      "sha256": "18b061ceebb14c566cb6f47a501cfdcfaadd6ec401481066a66ad30b15e66710"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Uo2I4ihz6LetVG9TTCvCEjR0cA-6f2af91442.png",
+      "source": "https://framerusercontent.com/images/Uo2I4ihz6LetVG9TTCvCEjR0cA.png?width=1239&height=930",
+      "bytes": 41895,
+      "sha256": "455164a8602246d164e370df4d9b5277e91246466130f2db7ce86ff9fca0365f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/ubmJqnaSmvdofJMt4Rm1N3CZyM-218559e3b6.png",
+      "source": "https://framerusercontent.com/images/ubmJqnaSmvdofJMt4Rm1N3CZyM.png?width=296&height=296",
+      "bytes": 1369,
+      "sha256": "6d83c515bbb78a13638ac7fb038a52b2b3b3daf6eff69a01de8ff2f86e0641b8"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/9RAi9peDD3cnbxYpbrHrMPxQVMg-63cc60ebe6.png",
+      "source": "https://framerusercontent.com/images/9RAi9peDD3cnbxYpbrHrMPxQVMg.png?scale-down-to=512&width=1239&height=930",
+      "bytes": 28061,
+      "sha256": "780f6e097985d4663dc6e27f19274b6e8bea8c3af882b797f0603d0046a88bf3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Uo2I4ihz6LetVG9TTCvCEjR0cA-63cc60ebe6.png",
+      "source": "https://framerusercontent.com/images/Uo2I4ihz6LetVG9TTCvCEjR0cA.png?scale-down-to=512&width=1239&height=930",
+      "bytes": 20722,
+      "sha256": "394e088eeb39b73d47a65892aa76b88e18d81b924c65b9929419118a8b6f4648"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/9RAi9peDD3cnbxYpbrHrMPxQVMg-6f2af91442.png",
+      "source": "https://framerusercontent.com/images/9RAi9peDD3cnbxYpbrHrMPxQVMg.png?width=1239&height=930",
+      "bytes": 33286,
+      "sha256": "5af737638a445eb63a5064f2b3664773e4b20bf8acd7678654cc707f76bca260"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Uo2I4ihz6LetVG9TTCvCEjR0cA-edd7a6befa.png",
+      "source": "https://framerusercontent.com/images/Uo2I4ihz6LetVG9TTCvCEjR0cA.png?scale-down-to=1024&width=1239&height=930",
+      "bytes": 46868,
+      "sha256": "da960285dc9cf700d3ac56741422a81e802077a537ba2226cde8fcdda8ff910d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/9RAi9peDD3cnbxYpbrHrMPxQVMg-edd7a6befa.png",
+      "source": "https://framerusercontent.com/images/9RAi9peDD3cnbxYpbrHrMPxQVMg.png?scale-down-to=1024&width=1239&height=930",
+      "bytes": 53651,
+      "sha256": "441be59f6e004d95567d7ccf6ae0153e5198868d27be6c85161952f7e792f2ad"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/dsled6SupgA52jLxuPiMWQnarY-2c4cd928a1.png",
+      "source": "https://framerusercontent.com/images/dsled6SupgA52jLxuPiMWQnarY.png?width=435&height=1287",
+      "bytes": 31623,
+      "sha256": "c3af8077b5045a6ed2bd47affcf80e73cfa0d100c936a968e869a88a2b66406f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/RQpHXAIL9WmWklmzHF1LeI9E-d109e05710.png",
+      "source": "https://framerusercontent.com/images/RQpHXAIL9WmWklmzHF1LeI9E.png?width=145&height=144",
+      "bytes": 12433,
+      "sha256": "836db29d66f3059e38bc50ce30e8e7e61b5bfe5de591953a00fa2b3374dfae1d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/5ILRvlYXf72kHSVHqpa3snGzjU.jpg",
+      "source": "https://framerusercontent.com/images/5ILRvlYXf72kHSVHqpa3snGzjU.jpg",
+      "bytes": 44557,
+      "sha256": "748229d517560e7994f291b843d0d432b8e8cee1c12a1e933b6d0a9a21281630"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/MLWPbW1dUQawJLhhun3dBwpgJak.mp4",
+      "source": "https://framerusercontent.com/assets/MLWPbW1dUQawJLhhun3dBwpgJak.mp4",
+      "bytes": 1741729,
+      "sha256": "cfe583bd2a3188964f78d9916482e626bf7d8e5c0a6925af0b3d271298ffedff"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/qkDSCvATZNqMZEjQTasgxJgic.mp4",
+      "source": "https://static.gather.town/marketing-site/qkDSCvATZNqMZEjQTasgxJgic.mp4",
+      "bytes": 4947100,
+      "sha256": "a61e3e1a0a1ce3c4bc83f4b5b52b76a9b13dc32d7cbdad8df4b8d7753b4b70ab"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/y34BL5CghowEdfsvHqcwXLn1rw.mp4",
+      "source": "https://framerusercontent.com/assets/y34BL5CghowEdfsvHqcwXLn1rw.mp4",
+      "bytes": 4278979,
+      "sha256": "3be07b67629dca1919419a20484ccab2607296984e49bccf75ea51832b576b88"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/RTfG4SUUlfH0MRVBe9ax7SenMQ-c32afac083.png",
+      "source": "https://framerusercontent.com/images/RTfG4SUUlfH0MRVBe9ax7SenMQ.png?width=68&height=80",
+      "bytes": 2642,
+      "sha256": "284bb785ab716eae3a0b1b71e088d7092adf3cbba8a61c3f3b09b70050a4da0f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/kPVWnB6jBkqBJfH8BgmhrrRT8s-c32afac083.png",
+      "source": "https://framerusercontent.com/images/kPVWnB6jBkqBJfH8BgmhrrRT8s.png?width=68&height=80",
+      "bytes": 3581,
+      "sha256": "c532e969650cb435f2cf078a772fc9cafde7679f3f7ef1b6d5307957f3939281"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/57AG2QmVX8lN7YmEwLjwg7vrK8-c32afac083.png",
+      "source": "https://framerusercontent.com/images/57AG2QmVX8lN7YmEwLjwg7vrK8.png?width=68&height=80",
+      "bytes": 3677,
+      "sha256": "936d91d88f54db1da062d401271c8d263780fc2f8f1cae1e6c2ee6bf1fa66bdf"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/y34BL5CghowEdfsvHqcwXLn1rw-optimized.mp4",
+      "source": "https://static.gather.town/marketing-site/y34BL5CghowEdfsvHqcwXLn1rw-optimized.mp4",
+      "bytes": 1143182,
+      "sha256": "03a99a31ec3099d30cf21246fc9808ff2ebe56d7bfadc322a33850de421ce1cf"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/qkDSCvATZNqMZEjQTasgxJgic-optimized.mp4",
+      "source": "https://static.gather.town/marketing-site/qkDSCvATZNqMZEjQTasgxJgic-optimized.mp4",
+      "bytes": 2894849,
+      "sha256": "34c198689a01cca45316be2b9a78d23b4f056fc2260b22030f642223b29ed56c"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/qkDSCvATZNqMZEjQTasgxJgic.mp4",
+      "source": "https://framerusercontent.com/assets/qkDSCvATZNqMZEjQTasgxJgic.mp4",
+      "bytes": 9636145,
+      "sha256": "29f39809977456b38aa74575670b55921f2b63cdf6eabb8b93f8e82827121343"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/qBgHkYDQSKOKQBp4REepfRlvzok-edca334304.png",
+      "source": "https://framerusercontent.com/images/qBgHkYDQSKOKQBp4REepfRlvzok.png?width=144&height=144",
+      "bytes": 10069,
+      "sha256": "8cb9d485babae7505b679ebaed16d2d66e407c4aaec0ddbbf6d9e8cac5d5a42c"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/d7e8ipUzr2WrzO7HVye5Xw9Hj0-c32afac083.png",
+      "source": "https://framerusercontent.com/images/d7e8ipUzr2WrzO7HVye5Xw9Hj0.png?width=68&height=80",
+      "bytes": 4074,
+      "sha256": "03172eb68ea060d3bc159d512b16908d0c97b2def337af6af946440555b30a2f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/wDS8xhz1Cjbznp2N3RQKjGf494-c32afac083.png",
+      "source": "https://framerusercontent.com/images/wDS8xhz1Cjbznp2N3RQKjGf494.png?width=68&height=80",
+      "bytes": 4017,
+      "sha256": "3c2807aa29ebb2e64f752d2c1ddd2c6fc169058058915657c99850888cb54617"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/snfFbHyhLpZl1EjsBy1ztVVtSYs-c32afac083.png",
+      "source": "https://framerusercontent.com/images/snfFbHyhLpZl1EjsBy1ztVVtSYs.png?width=68&height=80",
+      "bytes": 3908,
+      "sha256": "362c2a52fc2ac8a612bf86e0dd9b2dea49fec73d0465fdb78e0d31c088bbac74"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/l19Bio4cOeCsYmlkHZO9CCDhXA-67e66363ab.png",
+      "source": "https://framerusercontent.com/images/l19Bio4cOeCsYmlkHZO9CCDhXA.png?width=80&height=80",
+      "bytes": 5257,
+      "sha256": "58ef11e7c45ec198b8b0aaffeffed3841f0b03ad0f2283d474df1ba4eaf99945"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/b47rB770QtU1m0au8ncmftfoKgY-c9942b6097.png",
+      "source": "https://framerusercontent.com/images/b47rB770QtU1m0au8ncmftfoKgY.png?width=400&height=400",
+      "bytes": 16410,
+      "sha256": "6545045e9263f001ade4cb36c98f92552ad1a73b4f251007cf1586d57a61bc3a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/o4etbrjETBn5zLeYtrR9BZhTas-16c1fdb453.png",
+      "source": "https://framerusercontent.com/images/o4etbrjETBn5zLeYtrR9BZhTas.png?width=96&height=96",
+      "bytes": 5307,
+      "sha256": "88d50e1391a71593689ff5c233a4fb5cf118f8cb6c1ce2c93fa094c1ef4819d3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/gL2D6KUeTbaCzLLLshCd5cRzc-3d4f0a12b8.png",
+      "source": "https://framerusercontent.com/images/gL2D6KUeTbaCzLLLshCd5cRzc.png?width=84&height=96",
+      "bytes": 5431,
+      "sha256": "103cc1a4cd1827db5e3058678c9d5ae267f2bacb4667578b49a81ffcc57aa777"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Fj7q7vQEA94DYh6RW7jHpLOQ4-59be36e937.png",
+      "source": "https://framerusercontent.com/images/Fj7q7vQEA94DYh6RW7jHpLOQ4.png?width=894&height=894",
+      "bytes": 256266,
+      "sha256": "e61ba290f0c04b9935bc828b135c467cefecb38bcf058070f04ba2c1fae7ab62"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/dgqWZ7sPAEs7uckiivbCIxogLs8-83ab9aeac1.png",
+      "source": "https://framerusercontent.com/images/dgqWZ7sPAEs7uckiivbCIxogLs8.png?width=325&height=325",
+      "bytes": 47584,
+      "sha256": "d721b7136138ee3e1e23b03f0c1d127f744abbddc75b060f7844073d92208c54"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/mh71ElFj8c9uBjef6pJoJwW1k-3d4f0a12b8.png",
+      "source": "https://framerusercontent.com/images/mh71ElFj8c9uBjef6pJoJwW1k.png?width=84&height=96",
+      "bytes": 4641,
+      "sha256": "d141cf0b266d82afe854230ebcd9d9768ac303a09b483c9b35209893531b8465"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Fj7q7vQEA94DYh6RW7jHpLOQ4-7435756b34.png",
+      "source": "https://framerusercontent.com/images/Fj7q7vQEA94DYh6RW7jHpLOQ4.png?scale-down-to=512&width=894&height=894",
+      "bytes": 95158,
+      "sha256": "c35a35604b816a1255810763ede27631b1639f9cf28c2e1c53a810182a0a912c"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/oEx4kLMS10mLBj1htPNSMEuI5Ts-optimized.mp4",
+      "source": "https://static.gather.town/marketing-site/oEx4kLMS10mLBj1htPNSMEuI5Ts-optimized.mp4",
+      "bytes": 795396,
+      "sha256": "bf0210a2264e3bc4cd79540d29e3b54610f0926199eb9331b030d5871a742576"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/U5S0KLd88GCN2MVaLEXBQsL0qY-optimized.mp4",
+      "source": "https://static.gather.town/marketing-site/U5S0KLd88GCN2MVaLEXBQsL0qY-optimized.mp4",
+      "bytes": 555854,
+      "sha256": "006e0ae21aab0ad4a0104bf345479914f5574a02df1bcecee9d9efef99d2fc75"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/2hoEKZGX2bocP0FjpmOUaQzp90-optimized.mp4",
+      "source": "https://static.gather.town/marketing-site/2hoEKZGX2bocP0FjpmOUaQzp90-optimized.mp4",
+      "bytes": 1734510,
+      "sha256": "bcd4d84e2cdf859286033f929d5b79dc9c7d61f8df008bddac296be33564b41e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/U5S0KLd88GCN2MVaLEXBQsL0qY.mp4",
+      "source": "https://framerusercontent.com/assets/U5S0KLd88GCN2MVaLEXBQsL0qY.mp4",
+      "bytes": 2093343,
+      "sha256": "e97a34e5dcd2517b15c9f5480aae4d5876a14587680e9f9c8399b09531f76167"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/2hoEKZGX2bocP0FjpmOUaQzp90.mp4",
+      "source": "https://framerusercontent.com/assets/2hoEKZGX2bocP0FjpmOUaQzp90.mp4",
+      "bytes": 8436399,
+      "sha256": "8dd047c6ba62fbb185a562983a8cfbe329acac2a6745693a0d2781ffae90e4c9"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/oEx4kLMS10mLBj1htPNSMEuI5Ts.mp4",
+      "source": "https://framerusercontent.com/assets/oEx4kLMS10mLBj1htPNSMEuI5Ts.mp4",
+      "bytes": 3074348,
+      "sha256": "c688a09f0cd594ca44af30b23518845f5bb0704340252d617c0efa534544719e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM-e6d66bc5fe.png",
+      "source": "https://framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM.png?scale-down-to=512&width=3576&height=2348",
+      "bytes": 28905,
+      "sha256": "d8b2eb3efd8ed4f751eea43e822cb381a1bfcde14ce3f84a434271035317f03d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM-72497e8907.png",
+      "source": "https://framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM.png?scale-down-to=1024&width=3576&height=2348",
+      "bytes": 72758,
+      "sha256": "1d6aadbf096eb6e3f529eaaeb5949ee1b65c8fd8ab81d69acf0c2dc64d3cf338"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/marketing-site/hk6U3wZQealOU86OoBixcNasxVQ-optimized.mp4",
+      "source": "https://static.gather.town/marketing-site/hk6U3wZQealOU86OoBixcNasxVQ-optimized.mp4",
+      "bytes": 1296619,
+      "sha256": "f464f03b84555b5c2421db1d90804e95707a2d7b458e931cebfe238d29171346"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM-eccf954b6f.png",
+      "source": "https://framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM.png?scale-down-to=2048&width=3576&height=2348",
+      "bytes": 238546,
+      "sha256": "12d15575ad85801f0af6c7f59faff8528b44b60865a357c8199e001d924a54a5"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM-550acf4997.png",
+      "source": "https://framerusercontent.com/images/fJPylaKVqKZaPMpgqd35f1PSpM.png?width=3576&height=2348",
+      "bytes": 428710,
+      "sha256": "d0f6f52818a6c6a2fa065fc9daf70a93379d6bf23c33109ec85312a1bc1ad7d2"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/assets/hk6U3wZQealOU86OoBixcNasxVQ.mp4",
+      "source": "https://framerusercontent.com/assets/hk6U3wZQealOU86OoBixcNasxVQ.mp4",
+      "bytes": 7617405,
+      "sha256": "248b3d9253c650d60bffa7676d12d72fb55a0d93699c7b14f3c65ddaab76b0d7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Ww2IjXqF1KrvJmKMR4I2VFHbjcI-31d6dc2792.png",
+      "source": "https://framerusercontent.com/images/Ww2IjXqF1KrvJmKMR4I2VFHbjcI.png?scale-down-to=512&width=1024&height=1024",
+      "bytes": 30386,
+      "sha256": "18fe507b6bc26262379c385b53cb59da370fcf1964f93e1b62ea566b41a3e18b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Au6YgjjKqQhH5MMF5ZUsAm6tvKo-31d6dc2792.png",
+      "source": "https://framerusercontent.com/images/Au6YgjjKqQhH5MMF5ZUsAm6tvKo.png?scale-down-to=512&width=1024&height=1024",
+      "bytes": 9211,
+      "sha256": "efc5b3c7aaf679ef12c5ae04ea2515fd40a17f1b636dc92bef52b5fe116eba23"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/VE77gD77HSyml5nKB8L7kaYt08Y-31d6dc2792.png",
+      "source": "https://framerusercontent.com/images/VE77gD77HSyml5nKB8L7kaYt08Y.png?scale-down-to=512&width=1024&height=1024",
+      "bytes": 28017,
+      "sha256": "5b1e4119fd9f8b72876ed036cb3d1d420902ea4a4f93ac004234a8498870d845"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Au6YgjjKqQhH5MMF5ZUsAm6tvKo-2f3f6818bb.png",
+      "source": "https://framerusercontent.com/images/Au6YgjjKqQhH5MMF5ZUsAm6tvKo.png?width=1024&height=1024",
+      "bytes": 21666,
+      "sha256": "0f51ea23f4e0d3beaf0cf527fe0cad7783c6343e8d83a11a19e533819046b9b1"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Ww2IjXqF1KrvJmKMR4I2VFHbjcI-2f3f6818bb.png",
+      "source": "https://framerusercontent.com/images/Ww2IjXqF1KrvJmKMR4I2VFHbjcI.png?width=1024&height=1024",
+      "bytes": 123131,
+      "sha256": "ad93d4ccd2c9393bcc54fd8a959a6d5ef200e4aaeb830ad8467c3b01a3543458"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/VE77gD77HSyml5nKB8L7kaYt08Y-2f3f6818bb.png",
+      "source": "https://framerusercontent.com/images/VE77gD77HSyml5nKB8L7kaYt08Y.png?width=1024&height=1024",
+      "bytes": 91966,
+      "sha256": "336c1f5284890aa883131654f02c20e4a92c2a329a944e911d80aa715ae3c198"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/oVIQF8JI6NbBofwAnyZ2XCJVa4-d2c30cd270.webp",
+      "source": "https://framerusercontent.com/images/oVIQF8JI6NbBofwAnyZ2XCJVa4.webp?scale-down-to=512&width=1600&height=900",
+      "bytes": 11288,
+      "sha256": "e10a4c8e46367ec9a20d3af7010cbc9456adc2f68245c358e06da4a5089e9248"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/byLrs5HsXz2bxnj4p7yAvZ4nxSs-31d6dc2792.png",
+      "source": "https://framerusercontent.com/images/byLrs5HsXz2bxnj4p7yAvZ4nxSs.png?scale-down-to=512&width=1024&height=1024",
+      "bytes": 25072,
+      "sha256": "26673e9681d24d8be479b538cc68ab0bcaf18a382cef2b42f240d3b8b30666f3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/oVIQF8JI6NbBofwAnyZ2XCJVa4-94b4b4e6ba.webp",
+      "source": "https://framerusercontent.com/images/oVIQF8JI6NbBofwAnyZ2XCJVa4.webp?scale-down-to=1024&width=1600&height=900",
+      "bytes": 30122,
+      "sha256": "ac4fdf2dc36d10330f183af61a5f5af6c85be6528a9137372b3258785c1fc7fd"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/oVIQF8JI6NbBofwAnyZ2XCJVa4-3e1b7a5537.webp",
+      "source": "https://framerusercontent.com/images/oVIQF8JI6NbBofwAnyZ2XCJVa4.webp?width=1600&height=900",
+      "bytes": 36062,
+      "sha256": "8bda76cfa36fac2e0cabda73a1c758bf3483f22b005a3eacfe6d4b606c4e31b4"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/byLrs5HsXz2bxnj4p7yAvZ4nxSs-2f3f6818bb.png",
+      "source": "https://framerusercontent.com/images/byLrs5HsXz2bxnj4p7yAvZ4nxSs.png?width=1024&height=1024",
+      "bytes": 86107,
+      "sha256": "6bcf06dfde573be03e0b61f7f68fbf2d96e8e394ab798ceeb276d3065eca003e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/4rTQohNDaNVTpS2ZDHDN6rv458-3e1b7a5537.webp",
+      "source": "https://framerusercontent.com/images/4rTQohNDaNVTpS2ZDHDN6rv458.webp?width=1600&height=900",
+      "bytes": 103928,
+      "sha256": "cdc8f3db4acc1d8bd7365ba2a2c4a679d4456c6307d1d404740f507211108f52"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/4rTQohNDaNVTpS2ZDHDN6rv458-d2c30cd270.webp",
+      "source": "https://framerusercontent.com/images/4rTQohNDaNVTpS2ZDHDN6rv458.webp?scale-down-to=512&width=1600&height=900",
+      "bytes": 37020,
+      "sha256": "fd4061355a2bbf033cd569e66f5650d6e81bf6df5d18d8edcf1eff2e4660ad06"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/zt8y0yp3Kf6fx1zyjLhGOAfYufo-3e1b7a5537.webp",
+      "source": "https://framerusercontent.com/images/zt8y0yp3Kf6fx1zyjLhGOAfYufo.webp?width=1600&height=900",
+      "bytes": 75010,
+      "sha256": "e27c1ec632f526a81a652474fbb98181cfe7d2af4a871e03791288e9dfb9c0b0"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/4rTQohNDaNVTpS2ZDHDN6rv458-94b4b4e6ba.webp",
+      "source": "https://framerusercontent.com/images/4rTQohNDaNVTpS2ZDHDN6rv458.webp?scale-down-to=1024&width=1600&height=900",
+      "bytes": 94476,
+      "sha256": "dd9a07d8d30d3df5a6553c16fae6c3a8ca41c1d4dfa01aa7b3aa77d0077ad32f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/0uCnmfLU0fWZ80tFEBKH4P689U-94b4b4e6ba.webp",
+      "source": "https://framerusercontent.com/images/0uCnmfLU0fWZ80tFEBKH4P689U.webp?scale-down-to=1024&width=1600&height=900",
+      "bytes": 36650,
+      "sha256": "ad9b1d4736695eb3a3c870a3f99b405d475df9aeea6aef2f9d75427bbc62de41"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/0uCnmfLU0fWZ80tFEBKH4P689U-3e1b7a5537.webp",
+      "source": "https://framerusercontent.com/images/0uCnmfLU0fWZ80tFEBKH4P689U.webp?width=1600&height=900",
+      "bytes": 47540,
+      "sha256": "5330511cd92be6d32760db5ee7294f8bbe206eb68c9884e580a675221658ed0b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/0uCnmfLU0fWZ80tFEBKH4P689U-d2c30cd270.webp",
+      "source": "https://framerusercontent.com/images/0uCnmfLU0fWZ80tFEBKH4P689U.webp?scale-down-to=512&width=1600&height=900",
+      "bytes": 12998,
+      "sha256": "39b66c1f706cb1eff64529c54bd85c8cbaf08636d7b166cce77d009a88d49816"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/r5QOBfL5ewuZ2XqYvecoexRxp4-06ba07a7a8.png",
+      "source": "https://framerusercontent.com/images/r5QOBfL5ewuZ2XqYvecoexRxp4.png?width=14&height=22",
+      "bytes": 229,
+      "sha256": "e58e3bdef4eb400345a1d00d06cc3c387d8bf056db208173830bc0e82378dc56"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/bFfAviSUFSxU6GAZ3obIP59ObN8-2f3f6818bb.png",
+      "source": "https://framerusercontent.com/images/bFfAviSUFSxU6GAZ3obIP59ObN8.png?width=1024&height=1024",
+      "bytes": 326599,
+      "sha256": "e7f5a28858f5d5b4ba32f31933dacc903a445b8768485d148b03628f55d75fd1"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/zt8y0yp3Kf6fx1zyjLhGOAfYufo-d2c30cd270.webp",
+      "source": "https://framerusercontent.com/images/zt8y0yp3Kf6fx1zyjLhGOAfYufo.webp?scale-down-to=512&width=1600&height=900",
+      "bytes": 16654,
+      "sha256": "0c2208e72b1f18d53d6c3cc8aad2bda1de6e9521e6fdc43a2988074c746ed851"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/bFfAviSUFSxU6GAZ3obIP59ObN8-31d6dc2792.png",
+      "source": "https://framerusercontent.com/images/bFfAviSUFSxU6GAZ3obIP59ObN8.png?scale-down-to=512&width=1024&height=1024",
+      "bytes": 80473,
+      "sha256": "6cd310f7eba042d5ab510746937e6dcf7fe377ae9b2a969f28906ea7a4da7693"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/zt8y0yp3Kf6fx1zyjLhGOAfYufo-94b4b4e6ba.webp",
+      "source": "https://framerusercontent.com/images/zt8y0yp3Kf6fx1zyjLhGOAfYufo.webp?scale-down-to=1024&width=1600&height=900",
+      "bytes": 51312,
+      "sha256": "695c00439f2bbc67bb0d686489568d55782d8d5f0974003807bd13eb198a9c5a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/2aUzYlXIUtKLS1TeAsIrfHRKF1E-d8241d9c8d.png",
+      "source": "https://framerusercontent.com/images/2aUzYlXIUtKLS1TeAsIrfHRKF1E.png?width=13&height=12",
+      "bytes": 207,
+      "sha256": "18f849553ea23915cdc688124e1fc9aa1d6d2244c349dc2ba025edc893b90b8a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/K8E17estjrMoSSobCReCEdTFDI-626f8cc54e.png",
+      "source": "https://framerusercontent.com/images/K8E17estjrMoSSobCReCEdTFDI.png?width=13&height=10",
+      "bytes": 181,
+      "sha256": "93d2257ee14e24db7500178a30a53744b343ebfaea12386fefb13f9f13ca0ebc"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/dUVuJGHJepUCZ723EFjJeXDD6p0-79dabcf3ef.png",
+      "source": "https://framerusercontent.com/images/dUVuJGHJepUCZ723EFjJeXDD6p0.png?width=18&height=25",
+      "bytes": 227,
+      "sha256": "57c2a5207ff132f54006abf57fe54c2354963938f388a9ed60b0697701cbe8ae"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/tn6BqIYXMzCnXYfLKCVpcbP9ifk-3c7158c019.png",
+      "source": "https://framerusercontent.com/images/tn6BqIYXMzCnXYfLKCVpcbP9ifk.png?width=22&height=28",
+      "bytes": 236,
+      "sha256": "3ae0395f33a5bb0e7c19298ee253ad2423f58731fd509fcaace769b6c2fd63f1"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/i3TcFupjO40C0vfsr9AUHEB7qY-9cce6679ef.png",
+      "source": "https://framerusercontent.com/images/i3TcFupjO40C0vfsr9AUHEB7qY.png?width=26&height=24",
+      "bytes": 306,
+      "sha256": "cc8b679592c16413d115d47208e02b0e90cb4e0caff3f9b139dc10a38d84646b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/szEyZVhdKjFP0915X033SA3wg-47f53e7001.png",
+      "source": "https://framerusercontent.com/images/szEyZVhdKjFP0915X033SA3wg.png?width=17&height=25",
+      "bytes": 237,
+      "sha256": "e6c866e0c06430023a006d663f3bcd1d57265e2916a04603a4450900f995c47f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/5LRFrLQTyaOccEEu0R7c1DjHmI-a719776be8.png",
+      "source": "https://framerusercontent.com/images/5LRFrLQTyaOccEEu0R7c1DjHmI.png?width=15&height=17",
+      "bytes": 222,
+      "sha256": "5ced9c9f2b82a54a1d822c6bf20a6f9500bbf66c7ada2456bb65475f497f76e3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/9rCN5ajI4rB32vE2ijciTYILWFo-7ed29636ec.png",
+      "source": "https://framerusercontent.com/images/9rCN5ajI4rB32vE2ijciTYILWFo.png?width=21&height=21",
+      "bytes": 293,
+      "sha256": "1a0c820fb29d940c1d924cac4e71ca7c61d5d0d9bc53b01108873fee071b641a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/8tk3FH1jKkYkuNEh3dalVUkffI-eacc053f4d.png",
+      "source": "https://framerusercontent.com/images/8tk3FH1jKkYkuNEh3dalVUkffI.png?width=18&height=18",
+      "bytes": 241,
+      "sha256": "07dc10f2c09b0e971cffe3a4ffc0e6977867ad75945366a2154f4c52b7589f26"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/LmgnaQsZhtmL2cxcWosd3uvg4A-953e3cb26d.png",
+      "source": "https://framerusercontent.com/images/LmgnaQsZhtmL2cxcWosd3uvg4A.png?width=48&height=53",
+      "bytes": 585,
+      "sha256": "61e866d868c031c93d0c166a011be09cd9223b874f137790dddb97fc7fad8c6b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/WmfKxbZxwEPUDMVAZI3QiQO5L8U-f8bafbd6d7.png",
+      "source": "https://framerusercontent.com/images/WmfKxbZxwEPUDMVAZI3QiQO5L8U.png?width=44&height=55",
+      "bytes": 594,
+      "sha256": "955f03dff2ea1005a2c1735a76ab27a7d159d8bbc9684df6f799cd54420cc53f"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/vOHslUDqGo6LINBp3Awk1zJbYU-2516702328.png",
+      "source": "https://framerusercontent.com/images/vOHslUDqGo6LINBp3Awk1zJbYU.png?width=32&height=67",
+      "bytes": 545,
+      "sha256": "20cec2980075f0a968cdb3f816df0381698c36d41dea79105e797873eb6bdb68"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/qgfiiA3PWxPKCMnGg9lULWaqwxE-a206e1a543.png",
+      "source": "https://framerusercontent.com/images/qgfiiA3PWxPKCMnGg9lULWaqwxE.png?width=30&height=40",
+      "bytes": 264,
+      "sha256": "c532c5b6f5cd471697cfd3bd97650503920a9ddea8487369c015f77cb0823b55"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/61OROpQw6gyfmgWVr1S9ORypm0g-bfe4f530b4.png",
+      "source": "https://framerusercontent.com/images/61OROpQw6gyfmgWVr1S9ORypm0g.png?width=32&height=51",
+      "bytes": 476,
+      "sha256": "9ff32b871097184fc4571250e81e002254fe1b6def24e98e1676f0adbf1d4c1e"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/6T0mgfATiwmRFyA9g5B1nn54ZZo-5d98106b17.png",
+      "source": "https://framerusercontent.com/images/6T0mgfATiwmRFyA9g5B1nn54ZZo.png?width=25&height=51",
+      "bytes": 376,
+      "sha256": "f91999f33c02e90928a42ef09a50529acfb28d4b9eb56f09601cec2eb2384e61"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/ALzdIbTDF6liWOcTRAFoeFFDU0c-08a5b007a4.png",
+      "source": "https://framerusercontent.com/images/ALzdIbTDF6liWOcTRAFoeFFDU0c.png?width=22&height=41",
+      "bytes": 427,
+      "sha256": "02e368dc76e95669cbbc17d62f5f89a5ed30a8340c62e9662683bf66f2066bd3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/59oRqiJyAjv1Knr06QMo12Ck7g-7349f8f525.png",
+      "source": "https://framerusercontent.com/images/59oRqiJyAjv1Knr06QMo12Ck7g.png?width=23&height=51",
+      "bytes": 368,
+      "sha256": "f2ed00ea23e688fc60548bbbb2544c1cdc10495825269a58088a911105d1e7fb"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/Xdeb5LSy1WeZtZMPZuJMNaKZVY-bfccda2fea.png",
+      "source": "https://framerusercontent.com/images/Xdeb5LSy1WeZtZMPZuJMNaKZVY.png?width=26&height=43",
+      "bytes": 307,
+      "sha256": "b69913ac3e8e1454048265fad6e9b39a83d91e4035fe0e86b36891b5b21ef61b"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/PiNS0dXhPt6I9ZKx3M4Loyod8-afc357f71a.png",
+      "source": "https://framerusercontent.com/images/PiNS0dXhPt6I9ZKx3M4Loyod8.png?width=20&height=41",
+      "bytes": 322,
+      "sha256": "9df89cdbcb1217873f0c4e2e361cd58756207f2fe1aa53947962e621447a2794"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/DVzl2g8a9BgCRaRYXmTzwLxCz1I-33f7d1b50b.png",
+      "source": "https://framerusercontent.com/images/DVzl2g8a9BgCRaRYXmTzwLxCz1I.png?width=64&height=37",
+      "bytes": 466,
+      "sha256": "490ca4aaf2900bde6b36f41d30775d57a7d84f71cfc1ba2d4262dd10304e53d8"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/q2Q9TmUien96wDJHiMYGA9DCl8-5b9ec81faa.png",
+      "source": "https://framerusercontent.com/images/q2Q9TmUien96wDJHiMYGA9DCl8.png?width=72&height=54",
+      "bytes": 749,
+      "sha256": "dab48ac6b761e683efe104e422f4a300386992809da36278e18eb4699d8f233d"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/PFBGK5t55t0Q4nKzMmbZGmQ-7a7bbfea19.png",
+      "source": "https://framerusercontent.com/images/PFBGK5t55t0Q4nKzMmbZGmQ.png?width=66&height=62",
+      "bytes": 813,
+      "sha256": "22a0ac74fa0c1b650a900859a4d2c8e3b5eff1cb0656af3cd736ea5a38cbfd05"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/ixateZQF3SaCkH9RbLxMbJUjOA-4035cbe648.png",
+      "source": "https://framerusercontent.com/images/ixateZQF3SaCkH9RbLxMbJUjOA.png?width=43&height=59",
+      "bytes": 323,
+      "sha256": "4ae016d11bcd9d65de6a9fb565e2ae03118fb7c96ce15149ce85821308d6cbb3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/RjNpMkOLmBx1vJq3TA1aIno-c40aa4e0af.png",
+      "source": "https://framerusercontent.com/images/RjNpMkOLmBx1vJq3TA1aIno.png?width=78&height=72",
+      "bytes": 1175,
+      "sha256": "8782eeea1649f8c7fb54d34d3e274cbbe15c28c3fd31a471c9db54d60781f103"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/imga2fyQ4SrvbambzobgWICY1c-61fb193d4f.png",
+      "source": "https://framerusercontent.com/images/imga2fyQ4SrvbambzobgWICY1c.png?width=59&height=55",
+      "bytes": 702,
+      "sha256": "00a6ac1f061e2f621c094e550852fbc159c4fce5deb6a7fd9ae2233bc2fdb9a2"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/SHKsHkwjZW4Ik2lmPShIKoUfl70-78e1f33d18.png",
+      "source": "https://framerusercontent.com/images/SHKsHkwjZW4Ik2lmPShIKoUfl70.png?width=61&height=52",
+      "bytes": 946,
+      "sha256": "c64cc40bce0912df257453c72266ec0225a17b2d434c3191e20a3422ae95c9f7"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/zqmuLPJLgUaWYRE3YL5eS2XO5g8-dd38953bdc.png",
+      "source": "https://framerusercontent.com/images/zqmuLPJLgUaWYRE3YL5eS2XO5g8.png?width=62&height=51",
+      "bytes": 465,
+      "sha256": "91a1a02d44802c0d87f7a89299ea6591aec046a9352c7e49c438d5c405a97fbc"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/fetRIoF0fbheQuiTHbNTcINWE-92c72e710a.png",
+      "source": "https://framerusercontent.com/images/fetRIoF0fbheQuiTHbNTcINWE.png?width=56&height=48",
+      "bytes": 735,
+      "sha256": "2af59334d5dd50ee4cbe48605fae1c8476cc004f2ecfba7a20bf0b19b393c250"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE-7262d81dc9.png",
+      "source": "https://framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE.png?width=2190&height=1873",
+      "bytes": 178358,
+      "sha256": "338dd9a7197e27b4dabba0ac29ca163ae365ef22c66a704e1432ce5e1ea62ed8"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8-7262d81dc9.png",
+      "source": "https://framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8.png?width=2190&height=1873",
+      "bytes": 155088,
+      "sha256": "aa32e3d5529919304f1cfe505a0cb95eaf6313b9e74a2b9bc11efb118db499f3"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8-f4748f5349.png",
+      "source": "https://framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8.png?scale-down-to=512&width=2190&height=1873",
+      "bytes": 53381,
+      "sha256": "c170fa6760bf212749545e7b9f14f7c2b8ca23c5ff5351e7510a9f1d881d46d5"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE-f4748f5349.png",
+      "source": "https://framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE.png?scale-down-to=512&width=2190&height=1873",
+      "bytes": 61856,
+      "sha256": "782ce1faf17ffc756de32e08a0eae7c07b0c39d5b7fd88b49344436ee9bbeb86"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE-8e02bfad6a.png",
+      "source": "https://framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE.png?scale-down-to=1024&width=2190&height=1873",
+      "bytes": 150753,
+      "sha256": "d51f12b315251b9051bb1d7a57eeab78493f4a6bcfc9c89736ef3fb45e2bb275"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE-5e548afa46.png",
+      "source": "https://framerusercontent.com/images/FWiJDh9TsamRBBsgTlhUfefhUhE.png?scale-down-to=2048&width=2190&height=1873",
+      "bytes": 380728,
+      "sha256": "ee55984a41c5bbd54e3bf02b2e89784b1d462848a4ab4d9dceb9a7458a78eec6"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4-7262d81dc9.png",
+      "source": "https://framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4.png?width=2190&height=1873",
+      "bytes": 167436,
+      "sha256": "c0e6141c2a58f5ddb866908aba51e91804316978ff30eb30a090d322def00754"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4-f4748f5349.png",
+      "source": "https://framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4.png?scale-down-to=512&width=2190&height=1873",
+      "bytes": 64399,
+      "sha256": "8b3f666b06b331e4184fecbd1bb1336a2552983a166e617178b9d24071710a5a"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8-8e02bfad6a.png",
+      "source": "https://framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8.png?scale-down-to=1024&width=2190&height=1873",
+      "bytes": 137582,
+      "sha256": "99964b76c5f1b4cd20128dfabecaf270b73660cecb3ed3615877d627467b4239"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4-8e02bfad6a.png",
+      "source": "https://framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4.png?scale-down-to=1024&width=2190&height=1873",
+      "bytes": 151398,
+      "sha256": "796fcbc9c02efce314a19ef72e938a3e8a0a39d78ba399d1e29967d272b5fa86"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4-5e548afa46.png",
+      "source": "https://framerusercontent.com/images/2kO3jEqEQgM0opzgyFfjd9EoDr4.png?scale-down-to=2048&width=2190&height=1873",
+      "bytes": 352815,
+      "sha256": "7e29e2907d6264f6647c9df1ba61a01935790b599d4cae6893e97c062debf398"
+    },
+    {
+      "url": "/assets/gather/framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8-5e548afa46.png",
+      "source": "https://framerusercontent.com/images/BiVf6h3RDmS1FW7hXlz7bkA7P8.png?scale-down-to=2048&width=2190&height=1873",
+      "bytes": 288320,
+      "sha256": "72e427bc93103654674951cd5502d10ef8bc6655d235bd33fbddd41fb77c998c"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterVariable-Italic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterVariable-Italic.woff2",
+      "bytes": 387976,
+      "sha256": "e564f652916db6c139570fefb9524a77c4d48f30c92928de9db19b6b5c7a262a"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-ExtraLightItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-ExtraLightItalic.woff2",
+      "bytes": 119320,
+      "sha256": "38bad3a6a9ad1a7fcd8082e6423ba5e0baea16598f2cf304e527844f697e32b2"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-ThinItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-ThinItalic.woff2",
+      "bytes": 116880,
+      "sha256": "930d666b74e0dc0c26c2821f5643b701f8a41beaf3bb95ce146298104f29169c"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Thin.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Thin.woff2",
+      "bytes": 109548,
+      "sha256": "70ca998635d9fc627dede8108f04d0989e6e03346183f0ad0917723e790f6973"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-ExtraLight.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-ExtraLight.woff2",
+      "bytes": 112728,
+      "sha256": "ba4fc81dbb25871f1bcabc664b1e37703fca0a05f7248a923e7db497c6d211cc"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Light.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Light.woff2",
+      "bytes": 112592,
+      "sha256": "e111a1e2ad914ccda9179b95e83fb10234dd52a1932e0b93c480476227983fd9"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Regular.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Regular.woff2",
+      "bytes": 111268,
+      "sha256": "e06f6b1bc553aaea4e4668023ed0ab0a147129c3107f511bc7d03d361b0ae085"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-SemiBold.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-SemiBold.woff2",
+      "bytes": 114812,
+      "sha256": "5cb7103e4e605989afebc03d989c79201e54b21b5183db33981f70db9178a301"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-MediumItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-MediumItalic.woff2",
+      "bytes": 120784,
+      "sha256": "1b0df503de488a92082a8c5d72ddc4c0229183ceb645ae1c25c2d0d63778517c"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Medium.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Medium.woff2",
+      "bytes": 114348,
+      "sha256": "0ff3e94614e1493eb556314fd247ae6c4a85a7783b4cc86be539940cf83f2a48"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-LightItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-LightItalic.woff2",
+      "bytes": 119608,
+      "sha256": "050265b27d11860a26c66c054210852661abb5d229c4e0bb3525757a830f3790"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Italic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Italic.woff2",
+      "bytes": 117700,
+      "sha256": "2d078cb3bc8f934740d53b39dd23b0678f2f97477e49ec785dd9d8acd8b96bfc"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Bold.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Bold.woff2",
+      "bytes": 114840,
+      "sha256": "fa888127b6da015b65569f0351f3b5c391ad928904951f1c20e9f8462a8d95ea"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-SemiBoldItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-SemiBoldItalic.woff2",
+      "bytes": 121416,
+      "sha256": "5e2a2bc3b5b9af0644f005693b10499dab18065d6aedbf46c8b74ccede27daeb"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-Black.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-Black.woff2",
+      "bytes": 111668,
+      "sha256": "12ed0eed6749099b46c7b2e8198dc30c2d7e0f2a4e5fb1d12f0b6ae2c4f33cc4"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-ExtraBoldItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-ExtraBoldItalic.woff2",
+      "bytes": 121516,
+      "sha256": "53bb20ba292e2ac28a0777bf0f56f31b98be432a3cc04359e2eb608c758349c7"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-ExtraBold.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-ExtraBold.woff2",
+      "bytes": 114856,
+      "sha256": "6f75025856f8db1b2186e9cb89be9de9894932c8b7b20f4df5e65916ff714e34"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-BoldItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-BoldItalic.woff2",
+      "bytes": 121500,
+      "sha256": "4a10532d76c90c4597c0ad4bfc9284600e597d3012dd1ec16c1d44e0ad0058ab"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-ExtraLight.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-ExtraLight.woff2",
+      "bytes": 113108,
+      "sha256": "9031b6d2a1a559753d50b311ecb463ddf7acaaae1d992a7e9b009620d8ce6def"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-ExtraLightItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-ExtraLightItalic.woff2",
+      "bytes": 120124,
+      "sha256": "e8d7078160ef92b82c2123857c1b3aefaa4a795a44b56df5fe3edade60d81576"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-ThinItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-ThinItalic.woff2",
+      "bytes": 116040,
+      "sha256": "eff21589eacf1f6a596191038d7b47b4dd2455a096b175bb3572ecb6d026a611"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/Inter-BlackItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/Inter-BlackItalic.woff2",
+      "bytes": 118420,
+      "sha256": "308e101141e9dee3b6b121614da03969eb8179886975a9eeb5348021b04368fe"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Light.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Light.woff2",
+      "bytes": 112976,
+      "sha256": "01dd2d491ed863177e61f6e9458813baa85453ad97b32c5c1216927d4eebfe65"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Thin.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Thin.woff2",
+      "bytes": 108820,
+      "sha256": "21cfe42e7f1031b410e247ed199f43fc362415af81b3a8e442a97f63b4dbe327"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-MediumItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-MediumItalic.woff2",
+      "bytes": 120560,
+      "sha256": "6bf254c1a65c806c019f52818add66747da83595a314112917911bcf5fa2f5c5"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-LightItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-LightItalic.woff2",
+      "bytes": 119692,
+      "sha256": "59b5be56306fd353d067aa6995c2c92bc3feb3ace73684d94e3c6e73fe2beaac"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Italic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Italic.woff2",
+      "bytes": 116988,
+      "sha256": "dfd398d7372b61278e1505bfbdfc5ab0f6511ef887a47a2c90c13475eae585da"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Medium.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Medium.woff2",
+      "bytes": 113476,
+      "sha256": "f1227907684853882ad00d7f97ce9f64bc17b89a2a291a7d4ec84fccfa442934"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Regular.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Regular.woff2",
+      "bytes": 108948,
+      "sha256": "3a9463a58c3e7ba1e3cd65b5dbff91a35c508ff78a104cd1121feff83efeb787"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-SemiBold.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-SemiBold.woff2",
+      "bytes": 113772,
+      "sha256": "d9f63a82b826fb0117c92715c3a52a2d2247bc321bc39341420bf52d91e8277a"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-ExtraBoldItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-ExtraBoldItalic.woff2",
+      "bytes": 120712,
+      "sha256": "159b72ba47887032915420aa1445ae6768197e7ea732230182998f14d1cdb932"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-SemiBoldItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-SemiBoldItalic.woff2",
+      "bytes": 120468,
+      "sha256": "dd9d78314bdd5062302a73c7e2954008bab8158304fa7ac4f0ea8977b841dccb"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-ExtraBold.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-ExtraBold.woff2",
+      "bytes": 113636,
+      "sha256": "97eeee5a6f4f22fef1f607cf8836104d65968f03e59bc068a7586bf18364a8a7"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-BoldItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-BoldItalic.woff2",
+      "bytes": 120432,
+      "sha256": "5a0fe1f01b8777fab4a5f73c757743fa52579c7723b0291777625cb53c0a792a"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Bold.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Bold.woff2",
+      "bytes": 113556,
+      "sha256": "23bc37619593377e128f24660fedb2869d18277b4026cb46e5637be7643faf91"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-Black.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-Black.woff2",
+      "bytes": 110308,
+      "sha256": "05650cb83c70fda2a465eade0c0a1a6c25d37ec49df3cd74b7e564683f9729f1"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/icons/statusIcons.17fc0f2f08.svg",
+      "source": "https://app.v2.gather.town/icons/statusIcons.17fc0f2f08.svg",
+      "bytes": 4304,
+      "sha256": "17fc0f2f088c83df394b2927e59e402f3b4ffa90a8b324df2e288cf0c9f6c75c"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/game/stars.png",
+      "source": "https://app.v2.gather.town/images/game/stars.png",
+      "bytes": 32020,
+      "sha256": "d226f26c4a13e82bcdf42343342fee2558b73b0f58d361648f48718232eb1094"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/inter/InterDisplay-BlackItalic.woff2",
+      "source": "https://static.gather.town/fonts/inter/InterDisplay-BlackItalic.woff2",
+      "bytes": 116820,
+      "sha256": "9746bf2bd43fe158144b83ede747088e80396daad55b9e6ea7232e0e22ee6fce"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/fonts/routed-gothic/RoutedGothicNarrow-Regular.woff2",
+      "source": "https://static.gather.town/fonts/routed-gothic/RoutedGothicNarrow-Regular.woff2",
+      "bytes": 20020,
+      "sha256": "e9ce281ed085b6a18e578580010fcbe798b6e73cc6056bfc989fa1481b2a5385"
+    },
+    {
+      "url": "/assets/gather/static.gather.town/sounds/gong.mp3",
+      "source": "https://static.gather.town/sounds/gong.mp3",
+      "bytes": 57456,
+      "sha256": "4b3dcd968a0ecebd26cc0038ac18c25ca97a23dc64c1f4c64c4ee46989a2091a"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/experimental/GatherV2.png",
+      "source": "https://app.v2.gather.town/images/experimental/GatherV2.png",
+      "bytes": 70945,
+      "sha256": "c09d2a407c2eaf3b522fcf743d8725c9adce4e210d7dbeb1ba363346429876e3"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/select_outline_side.png",
+      "source": "https://app.v2.gather.town/images/studio/select_outline_side.png",
+      "bytes": 137,
+      "sha256": "6f84f976013814960b53a0db16d0e5f27d25d038e9267bac1a2d461af7199759"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/site/logo-name-white.png",
+      "source": "https://app.v2.gather.town/images/site/logo-name-white.png",
+      "bytes": 22502,
+      "sha256": "119c322f007dc2e42c4ea8c5a71fe9017551b7c4f8382bea3603ea8fe65420c9"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/hover_outline_corner.png",
+      "source": "https://app.v2.gather.town/images/studio/hover_outline_corner.png",
+      "bytes": 136,
+      "sha256": "92d05d0f83f2dabc9d18581f7bb26774db7ccd73fc59cb61265e8ff1af76509f"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/transparent_pixel.png",
+      "source": "https://app.v2.gather.town/images/studio/transparent_pixel.png",
+      "bytes": 129,
+      "sha256": "e8b1012f16a7c0a81edf99671c9b9070b5a43cd55eb64d4f9ab8ca6a025647c0"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/select_outline_corner.png",
+      "source": "https://app.v2.gather.town/images/studio/select_outline_corner.png",
+      "bytes": 137,
+      "sha256": "b81c787de07d2e10bf5a67bef0ce8d80a96c666831a7b88a3198440b17549372"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/thumbnail-placeholder.png",
+      "source": "https://app.v2.gather.town/images/thumbnail-placeholder.png",
+      "bytes": 70945,
+      "sha256": "c09d2a407c2eaf3b522fcf743d8725c9adce4e210d7dbeb1ba363346429876e3"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/drag_square.png",
+      "source": "https://app.v2.gather.town/images/studio/drag_square.png",
+      "bytes": 203,
+      "sha256": "c64fd5f6be53303f11f3d20ca4213f25095b1e51a2775b646f14a3441f526f14"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/logo-google-meet.png",
+      "source": "https://app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/logo-google-meet.png",
+      "bytes": 602,
+      "sha256": "aa000db85c8470c3e33c26141ea232a39bd2abdda7a9539e3875dcde85e3ca63"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/logo-ms-teams.png",
+      "source": "https://app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/logo-ms-teams.png",
+      "bytes": 672,
+      "sha256": "87b35f566480c3ee5fb6df2e7a813c8f2043c8a40de23dc74ee1c53cfd889566"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/hover_outline_side.png",
+      "source": "https://app.v2.gather.town/images/studio/hover_outline_side.png",
+      "bytes": 136,
+      "sha256": "77d7d025b025b4f55080412b3dedff67531b0107f79be6234ba3708d2ccb79ea"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/lock.png",
+      "source": "https://app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/lock.png",
+      "bytes": 441,
+      "sha256": "39555900aea10cf53a53317bf148aa852566d9d42ea62fa0679f684d2ace8731"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/white_circle.png",
+      "source": "https://app.v2.gather.town/images/officeView/white_circle.png",
+      "bytes": 415,
+      "sha256": "d24bcba467c920660dbca5a5b1ca43b736f2d7d50f9fa88ba0824ad2e53a4519"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fakeAreasPreviews/fake_public_room.png",
+      "source": "https://app.v2.gather.town/images/fakeAreasPreviews/fake_public_room.png",
+      "bytes": 1261,
+      "sha256": "f782de384582a1d115917c4ce14ec682aaf1a881ff6757be7f7f7f946a8d2cac"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fakeAreasPreviews/fake_meeting_room.png",
+      "source": "https://app.v2.gather.town/images/fakeAreasPreviews/fake_meeting_room.png",
+      "bytes": 4559,
+      "sha256": "58766495fd0680e25e6d0afc25797e0bb511db879e64c2845dc8b96b03c4c1b9"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fakeAreasPreviews/fake_private_desk.png",
+      "source": "https://app.v2.gather.town/images/fakeAreasPreviews/fake_private_desk.png",
+      "bytes": 2600,
+      "sha256": "68628b6277a68333946fefed153db0db3cd6c8ac87284293244f3442cd3fd77e"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fakeAreasPreviews/fake_common_area.png",
+      "source": "https://app.v2.gather.town/images/fakeAreasPreviews/fake_common_area.png",
+      "bytes": 2289,
+      "sha256": "13d6cbc0998231a440eed5500d1bed66aad5ce085d86856ce4023617d1b41cab"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fakeAreasPreviews/fake_team_area.png",
+      "source": "https://app.v2.gather.town/images/fakeAreasPreviews/fake_team_area.png",
+      "bytes": 2913,
+      "sha256": "a6d8400f4590e0933a21e72076052154c638bc4c306514f4bb49966ba7686966"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/logo-zoom.png",
+      "source": "https://app.v2.gather.town/images/studio/new-assets/walls-and-floors/doors/logo-zoom.png",
+      "bytes": 419,
+      "sha256": "bb6a5860b31be3cb92d90f345150b1ac302e64db6165efc781b934284da76ab5"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/pre-packed-texture/pre-packed-texture-v20.png",
+      "source": "https://app.v2.gather.town/images/pre-packed-texture/pre-packed-texture-v20.png",
+      "bytes": 39343,
+      "sha256": "95cbc4a5487458530fbe151d8693e17786f566693b6be8e60c0aec404ba88851"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fakeAreasPreviews/fake_open_desk.png",
+      "source": "https://app.v2.gather.town/images/fakeAreasPreviews/fake_open_desk.png",
+      "bytes": 1055,
+      "sha256": "9b4853d9d0feebd6157cd6b26061de283ecbc7c76b7fa8290f2a31d80b881dc3"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/desks/desk_outline_side.png",
+      "source": "https://app.v2.gather.town/images/desks/desk_outline_side.png",
+      "bytes": 86,
+      "sha256": "a01bfb4ad20bcc9ff504c6dba0cfb658b1ad910688662f4e46fee054f3128f00"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/desks/desk_fill_corner.png",
+      "source": "https://app.v2.gather.town/images/desks/desk_fill_corner.png",
+      "bytes": 113,
+      "sha256": "dd40f66623cb9991140f0cb938b0d25ad6e4b8d861ffdcfd2252dd11e3636292"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/desks/white_pixel.png",
+      "source": "https://app.v2.gather.town/images/desks/white_pixel.png",
+      "bytes": 81,
+      "sha256": "63cb99ad2b5ddbd6044f1df437cdb5be8eed70e85358b540750937f31cc01f87"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/desks/desk_fill_side.png",
+      "source": "https://app.v2.gather.town/images/desks/desk_fill_side.png",
+      "bytes": 90,
+      "sha256": "1ce6a6284b30658610e4ca56bfb49d97530548dabddf1d7ef0fb64c4427a2c3d"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/area_outline_corner.png",
+      "source": "https://app.v2.gather.town/images/officeView/area_outline_corner.png",
+      "bytes": 137,
+      "sha256": "b81c787de07d2e10bf5a67bef0ce8d80a96c666831a7b88a3198440b17549372"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/fpo/logos/gather.svg",
+      "source": "https://app.v2.gather.town/images/fpo/logos/gather.svg",
+      "bytes": 3197,
+      "sha256": "d1afff6d3df2364365e5a9885cd8b5c703ba51f99f76adc89a4971ebdfec0700"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/desks/desk_outline_corner.png",
+      "source": "https://app.v2.gather.town/images/desks/desk_outline_corner.png",
+      "bytes": 104,
+      "sha256": "d4c029df1bf1541204befc8f79eb84a21c73c2debb417a1e9fba527e7ccbae51"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/game/fx/gokart-dust.png",
+      "source": "https://app.v2.gather.town/images/game/fx/gokart-dust.png",
+      "bytes": 164,
+      "sha256": "85ca8f6fdc76b951d8074a694f2dbe943ec8997413ded9865c1bedc9439caf3e"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/area_outline_side.png",
+      "source": "https://app.v2.gather.town/images/officeView/area_outline_side.png",
+      "bytes": 137,
+      "sha256": "6f84f976013814960b53a0db16d0e5f27d25d038e9267bac1a2d461af7199759"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/appIcon.png",
+      "source": "https://app.v2.gather.town/images/appIcon.png",
+      "bytes": 88163,
+      "sha256": "b896d61753601a1bd9cd7f1f70ee36d5f683bfd958ac433434ade44a980d9334"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/workActivityStatus/github-pr-merge-icon-with-bg.png",
+      "source": "https://app.v2.gather.town/images/officeView/workActivityStatus/github-pr-merge-icon-with-bg.png",
+      "bytes": 1627,
+      "sha256": "a2d4a396a134ca1bd87b69aa4b0242bf8ca41079a97238c9fafe2c19017ab1ad"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/workActivityStatus/github-pr-open-icon-with-bg.png",
+      "source": "https://app.v2.gather.town/images/officeView/workActivityStatus/github-pr-open-icon-with-bg.png",
+      "bytes": 1659,
+      "sha256": "785696cf5c905ed9647f80faa278c32646980f4d29db2efd1cbf9ccee8af4b98"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/workActivityStatus/github-mark-outlined.png",
+      "source": "https://app.v2.gather.town/images/officeView/workActivityStatus/github-mark-outlined.png",
+      "bytes": 7421,
+      "sha256": "d96297167b66dac03997a61218a5cadaf8f89a8747c59aa1173a99fd283e6bc6"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/outfit-picker/Costume_cropped.png",
+      "source": "https://app.v2.gather.town/images/outfit-picker/Costume_cropped.png",
+      "bytes": 400,
+      "sha256": "08fce990ff88211375ec245c431f5de16caf8c8b0029db477a909f09cc89b0df"
+    },
+    {
+      "url": "/assets/gather/app.v2.gather.town/images/officeView/workActivityStatus/github-pr-closed-icon-with-bg.png",
+      "source": "https://app.v2.gather.town/images/officeView/workActivityStatus/github-pr-closed-icon-with-bg.png",
+      "bytes": 1516,
+      "sha256": "c0fff4287278050833f38c6a2dd0f56ebf097c1b91ec738abbacd0ee83ff7890"
+    }
+  ]
+}
