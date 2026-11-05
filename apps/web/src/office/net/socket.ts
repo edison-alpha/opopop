@@ -1,5 +1,6 @@
 "use client"
 import type { ClientMsg, ServerMsg } from "@/shared/protocol"
+import { getEnv } from "@/shared/env"
 
 type Handler = (msg: ServerMsg) => void
 
@@ -16,10 +17,7 @@ export class Socket {
   connect() {
     const proto = location.protocol === "https:" ? "wss" : "ws"
     const defaultUrl = `${proto}://${location.host}/ws`
-    const envWs =
-      (import.meta as unknown as { env?: { VITE_WS_URL?: string } }).env?.VITE_WS_URL ||
-      (typeof process !== "undefined" ? process.env?.NEXT_PUBLIC_WS_URL : undefined)
-    const url = envWs || defaultUrl
+    const url = getEnv("VITE_WS_URL") || getEnv("NEXT_PUBLIC_WS_URL") || defaultUrl
     const ws = new WebSocket(url)
     this.ws = ws
     ws.onopen = () => {
