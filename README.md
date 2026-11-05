@@ -4,6 +4,130 @@ Platform kantor virtual 2D interaktif berbasis web untuk kolaborasi tim jarak ja
 
 ---
 
+## 🏁 Panduan Memulai Cepat (Tutorial dari Awal)
+
+Panduan langkah demi langkah ini dibuat agar teman Anda atau kontributor baru dapat mengkloning dan langsung menjalankan proyek ini di komputernya dari nol.
+
+### 📋 1. Prasyarat yang Harus Di-install
+
+Pastikan perangkat Anda sudah terpasang alat-alat berikut sebelum memulai:
+
+| Alat | Versi Minimal | Link Download & Panduan |
+| :--- | :--- | :--- |
+| **Git** | Versi terbaru | [Download Git](https://git-scm.com/downloads) |
+| **Node.js** | `v24` (atau `v20+`) | [Download Node.js](https://nodejs.org/) |
+| **pnpm** | `v9+` | Install via terminal: `npm install -g pnpm` |
+| **Rust & Cargo** | `1.80+` | Install via `rustup` di [rustup.rs](https://rustup.rs/) *(Windows memerlukan C++ Build Tools)* |
+
+> [!TIP]
+> **Verifikasi Instalasi:** Buka terminal baru dan pastikan perintah-perintah berikut berjalan:
+> ```bash
+> git --version
+> node -v
+> pnpm -v
+> cargo --version
+> ```
+
+---
+
+### 📥 2. Clone Repositori & Pindah ke Branch
+
+Buka Terminal / Command Prompt / PowerShell, lalu jalankan:
+
+```bash
+# 1. Clone repositori dari GitHub
+git clone https://github.com/edison-alpha/opopop.git
+
+# 2. Masuk ke direktori proyek
+cd opopop
+
+# 3. Pindah ke branch fitur monorepo terbaru
+git checkout feat/rust-monorepo
+```
+
+---
+
+### 📦 3. Install Dependensi
+
+Jalankan perintah berikut di root folder proyek:
+
+```bash
+pnpm install
+```
+
+---
+
+### 🚀 4. Menjalankan Aplikasi
+
+Tersedia **2 metode** untuk menjalankan proyek ini:
+
+#### Metode A: Mode Pengembangan (Direkomendasikan saat Mengembangkan Fitur)
+Metode ini mengaktifkan *Hot Module Replacement* (HMR) dari Vite sehingga perubahan kode React langsung tampil instan tanpa refresh.
+
+Buka **2 tab terminal terpisah**:
+
+* **Terminal 1 — Jalankan Backend Realtime Rust:**
+  ```bash
+  pnpm dev:server
+  ```
+  *(Backend Rust Axum akan aktif di `http://127.0.0.1:3001` melayani WebSocket realtime & signaling)*.
+
+* **Terminal 2 — Jalankan Frontend React 19 (Vite):**
+  ```bash
+  pnpm dev:web
+  ```
+  *(Frontend Vite akan aktif di `http://localhost:3000`)*.
+
+👉 **Buka browser Anda di:** **[http://localhost:3000](http://localhost:3000)**
+
+---
+
+#### Metode B: Mode Single Binary (Hanya 1 Perintah / Mode Produksi)
+Server Rust Axum sudah dilengkapi static file server. Anda dapat mem-bundle React dan menjalankannya langsung dari binary Rust **tanpa membutuhkan runtime Node.js**:
+
+```bash
+# 1. Kompilasi bundle statis React 19
+pnpm build:web
+
+# 2. Kompilasi & jalankan binary Rust Axum
+cargo run --release --manifest-path apps/server/Cargo.toml
+```
+
+👉 **Buka browser Anda langsung di:** **[http://localhost:3001](http://localhost:3001)**
+
+---
+
+### 🎮 5. Panduan Masuk & Bermain di Kantor Virtual
+
+1. Buka URL **[http://localhost:3000/app](http://localhost:3000/app)** di browser (Chrome/Edge/Brave/Firefox).
+2. **Langkah 1 (Avatar Editor):** Masukkan nama Anda di kolom *Your name*, pilih model rambut, baju, dan warna avatar sesuai selera, lalu klik **Next**.
+3. **Langkah 2 (Media Check):** Anda dapat menguji mikrofon dan kamera (atau mematikannya dengan tombol bulat merah jika belum ingin menyalakan), lalu klik **Join the office**.
+4. **Kontrol Keyboard:**
+   - **Bergerak**: Gunakan tombol **W, A, S, D** atau **Tombol Panah**.
+   - **Klik untuk Jalan**: Klik sembarang lantai, avatar akan otomatis mencari jalan (*smart pathfinding*).
+   - **Emote Reaksi**: Tekan tombol angka **1 s/d 9** untuk memunculkan emoji di atas kepala avatar.
+   - **Interaksi Audio Spasial**: Dekati avatar rekan kerja Anda (jarak < 3 petak), audio & video WebRTC P2P akan otomatis terhubung!
+   - **Fitur Chat**: Klik ikon balon pesan di sisi kiri untuk membuka chat publik atau pesan privat (DM).
+   - **Command Palette**: Tekan **Ctrl + K** untuk mencari orang, ruangan, atau fungsi cepat.
+   - **Mode Bangun Kantor**: Klik tombol *Palu* di toolbar bawah untuk menambah meja, tanaman, partisi, atau ruangan baru.
+
+---
+
+### ⚠️ Troubleshooting (Solusi Masalah Umum)
+
+- **Port 3000 atau 3001 sudah terpakai (`EADDRINUSE`)**:
+  - Tutup aplikasi yang memakai port tersebut atau matikan prosesnya via terminal:
+    - Di Windows PowerShell: `Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess | Stop-Process`
+    - Di Mac/Linux: `npx kill-port 3000 3001`
+- **Error: `cargo` is not recognized**:
+  - Anda belum merestart terminal setelah menginstall Rustup. Tutup semua jendela terminal dan buka kembali.
+- **Izin Kamera & Mikrofon Diblokir**:
+  - Klik ikon gembok / pengaturan situs di baris URL browser Anda, pilih *Allow* untuk Camera dan Microphone, lalu refresh halaman. Anda tetap bisa masuk ke kantor meski tanpa kamera/mic.
+- **Masalah Dependency Lockfile**:
+  - Jalankan: `pnpm install --trust-lockfile`
+
+---
+
 ## 🏗️ Arsitektur Monorepo & Clean Architecture
 
 ```text
@@ -18,7 +142,7 @@ operra/
 │   │   │   ├── main.tsx         # React 19 DOM root & React Router DOM v7
 │   │   │   ├── app/             # Komponen halaman & rute SPA
 │   │   │   ├── office/          # Game Engine (Phaser 3), WebRTC mesh, state, audio
-│   │   │   └── shared/          # Tipe protokol TypeScript (protocol.ts)
+│   │   │   └── shared/          # Tipe protokol TypeScript (protocol.ts) & helper getEnv
 │   │   ├── package.json
 │   │   └── tsconfig.json
 │   │
@@ -51,74 +175,6 @@ operra/
 ├── package.json                 # Skrip orkestrasi monorepo
 └── README.md
 ```
-
----
-
-## 🚀 Fitur Utama
-
-- **Frontend React 19 + Vite 6**: Tanpa overhead SSR. Load instan, HMR kilat, rendering murni client-side untuk Phaser 3 canvas, WebRTC, dan Web Audio.
-- **Backend Realtime Rust (Ultra-low Latency)**: Penanganan WebSocket, pergerakan avatar, chat, dan WebRTC signaling menggunakan Rust + Axum + Tokio dengan memory footprint sangat kecil (< 20 MB RAM).
-- **Single-Binary Production Deployment**: Server Rust Axum dapat langsung menyajikan bundle static build frontend (`apps/web/dist`) via `tower-http/fs`. Tidak membutuhkan runtime Node.js di server produksi!
-- **Audio & Video Spasial (Mesh WebRTC)**: Berjalan mendekati rekan kerja akan otomatis menghubungkan mic & webcam via WebRTC P2P. Menjauh akan otomatis memutuskan/memudarkan koneksi.
-- **Ruang Rapat & Area Privat**: Ruangan dengan pintu dan batas area terisolasi, hanya orang di dalam ruangan yang dapat mendengar dan melihat satu sama lain.
-- **Avatar Pixel-Art Kustom Prosedural**: Renderer avatar chibi prosedural berbasis canvas HTML5 tanpa dependensi file spritesheet raster eksternal.
-- **Mode Bangun Kantor Kolaboratif**: Editor denah kantor real-time di browser dengan sinkronisasi instan ke server Rust dan penyimpanan persisten ke `data/map-state.json`.
-- **Perekam Rapat Lokal**: Perekaman audio & video langsung di browser via MediaRecorder tanpa perlu backend encoding.
-- **Audio Ambience Sintesis**: Musik latar dan *room tone* hangat yang disintesis secara prosedural menggunakan Web Audio API.
-
----
-
-## 🛠️ Persyaratan Sistem
-
-- **Node.js**: `v24+`
-- **Rust & Cargo**: `1.80+`
-- **Package Manager**: `pnpm` (disarankan)
-
----
-
-## 💻 Cara Menjalankan
-
-### 1. Instalasi Dependensi
-Jalankan dari root direktori proyek:
-```bash
-pnpm install
-```
-
-### 2. Mode Pengembangan (Development)
-Jalankan backend Rust dan frontend Vite secara berdampingan:
-
-**Terminal 1 (Backend Rust):**
-```bash
-pnpm dev:server
-# atau: cargo run --manifest-path apps/server/Cargo.toml
-```
-Server Rust akan aktif di `http://0.0.0.0:3001` dengan endpoint:
-- `/ws` : WebSocket hub realtime.
-- `/health` : Pemeriksaan status service JSON.
-
-**Terminal 2 (Frontend React 19 + Vite):**
-```bash
-pnpm dev:web
-# atau: pnpm dev
-```
-Buka browser di `http://localhost:3000`. Vite secara otomatis mem-proxy route `/ws` ke backend Rust pada port 3001.
-
----
-
-### 3. Mode Produksi (Single Binary Deployment)
-Anda dapat mem-bundle frontend ke `apps/web/dist` dan menyajikannya langsung melalui binary Rust:
-
-```bash
-# 1. Build bundle statis React 19
-pnpm build:web
-
-# 2. Build executable release Rust
-pnpm build:server
-
-# 3. Jalankan binary produksi
-./target/release/server
-```
-Buka browser langsung di `http://localhost:3001`. Seluruh aplikasi web dan WebSocket berjalan mandiri dari satu binary Rust!
 
 ---
 
