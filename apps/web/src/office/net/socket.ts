@@ -16,7 +16,10 @@ export class Socket {
   connect() {
     const proto = location.protocol === "https:" ? "wss" : "ws"
     const defaultUrl = `${proto}://${location.host}/ws`
-    const url = process.env.NEXT_PUBLIC_WS_URL || defaultUrl
+    const envWs =
+      (import.meta as unknown as { env?: { VITE_WS_URL?: string } }).env?.VITE_WS_URL ||
+      (typeof process !== "undefined" ? process.env?.NEXT_PUBLIC_WS_URL : undefined)
+    const url = envWs || defaultUrl
     const ws = new WebSocket(url)
     this.ws = ws
     ws.onopen = () => {
