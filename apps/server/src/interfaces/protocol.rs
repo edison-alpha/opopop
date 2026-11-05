@@ -4,12 +4,34 @@ use serde_json::Value;
 use crate::application::OutgoingMessage;
 use crate::domain::*;
 
+#[cfg(test)]
+mod tests {
+    use super::ClientWireMessage;
+
+    #[test]
+    fn join_accepts_new_and_legacy_profiles() {
+        let mut message = serde_json::json!({
+            "t": "join", "name": "Ana", "x": 1, "y": 2,
+            "look": { "skin": "#ffe3d1", "hair": "#111111", "hairStyle": 0,
+                "shirt": "#ffffff", "pants": "#000000" }
+        });
+        let legacy: ClientWireMessage = serde_json::from_value(message.clone()).unwrap();
+        assert!(matches!(legacy, ClientWireMessage::Join { role, .. } if role.is_empty()));
+
+        message["role"] = serde_json::json!("Designer");
+        let profile: ClientWireMessage = serde_json::from_value(message).unwrap();
+        assert!(matches!(profile, ClientWireMessage::Join { role, .. } if role == "Designer"));
+    }
+}
+
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "t")]
 pub enum ClientWireMessage {
     #[serde(rename = "join")]
     Join {
         name: String,
+        #[serde(default)]
+        role: String,
         look: AvatarLook,
         x: f64,
         y: f64,

@@ -3,16 +3,19 @@
 import type { AvatarLook } from "@/shared/protocol"
 import { Pencil, X } from "./icons"
 import { useMemo, useState } from "react"
-import { setLook, setName } from "../session"
+import { createPortal } from "react-dom"
+import { setLook, setName, setRole } from "../session"
 import { useOffice } from "../store"
 import { AvatarEditor } from "./AvatarEditor"
 import { AvatarPreview } from "./AvatarPreview"
 import { LetterAvatar } from "./LetterAvatar"
+import { Dropdown } from "./Dropdown"
 
 const PROFILE_KEY = "oppera.profile"
 
 interface StoredProfile {
   name?: string
+  role?: string
   look?: AvatarLook
   timeZone?: string
 }
@@ -57,7 +60,7 @@ export function EditAvatarModal({
   onDone: (look: AvatarLook) => void
 }) {
   const [look, setDraft] = useState<AvatarLook>(initial)
-  return (
+  return createPortal(
     <div className="modal-backdrop ae-backdrop" onClick={onCancel}>
       <div className="modal ae-modal" role="dialog" aria-label="Edit avatar" onClick={(e) => e.stopPropagation()}>
         <header className="ae-modal-head">
@@ -72,7 +75,7 @@ export function EditAvatarModal({
           <button className="btn btn-blue" onClick={() => onDone(look)}>Done</button>
         </footer>
       </div>
-    </div>
+    </div>, document.body
   )
 }
 
@@ -99,6 +102,7 @@ export function EditProfileModal({ onClose }: { onClose: () => void }) {
   const office = useOffice()
   const me = office.me!
   const [name, setNameDraft] = useState(me.name)
+  const [role, setRoleDraft] = useState(me.role ?? "")
   const [look, setLookDraft] = useState<AvatarLook>(me.look)
   const [timeZone, setTimeZone] = useState(() => readProfile().timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)
   const [editingAvatar, setEditingAvatar] = useState(false)
@@ -111,8 +115,9 @@ export function EditProfileModal({ onClose }: { onClose: () => void }) {
   const save = () => {
     if (!trimmed) return
     if (trimmed !== me.name) setName(trimmed)
+    if (role.trim() !== (me.role ?? "")) setRole(role)
     if (JSON.stringify(look) !== JSON.stringify(me.look)) setLook(look)
-    saveProfile({ name: trimmed, look, timeZone })
+    saveProfile({ name: trimmed, role: role.trim(), look, timeZone })
     office.toast("Profile saved")
     onClose()
   }
@@ -153,12 +158,12 @@ export function EditProfileModal({ onClose }: { onClose: () => void }) {
                 onKeyDown={(e) => e.key === "Enter" && save()} />
             </label>
             <label className="field">
+              <span className="field-label">Role</span>
+              <input className="input" value={role} maxLength={48} placeholder="e.g. Designer, Developer" onChange={(e) => setRoleDraft(e.target.value)} />
+            </label>
+            <label className="field">
               <span className="field-label">Time zone</span>
-              <select className="input" value={timeZone} onChange={(e) => setTimeZone(e.target.value)}>
-                {zones.map(({ z, label }) => (
-                  <option key={z} value={z}>{label}</option>
-                ))}
-              </select>
+              <Dropdown className="input" label="Time zone" value={timeZone} onChange={setTimeZone} options={zones.map(({ z, label }) => ({ value: z, label }))} />
             </label>
           </div>
           <footer className="ae-modal-foot">

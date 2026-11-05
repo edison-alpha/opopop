@@ -11,7 +11,7 @@ import { Globe, LayoutGrid, Link2, Map as MapIcon, Music, PictureInPicture2, Plu
 let pipVideo: HTMLVideoElement | null = null
 
 /** Mini mode: the live map in a floating picture-in-picture window. */
-async function toggleMiniMode(): Promise<string | null> {
+export async function toggleMiniMode(): Promise<string | null> {
   if (document.pictureInPictureElement) {
     await document.exitPictureInPicture()
     return null
@@ -61,14 +61,6 @@ export function StageActions({ inMeeting = false }: { inMeeting?: boolean }) {
           <Globe size={16} />
           <Plus size={13} />
         </button>
-        {sharing && (
-          <form className="popover sa-pop dark" onSubmit={(e) => { e.preventDefault(); shareSite() }}>
-            <div className="sa-pop-title">Share a website</div>
-            <p className="sa-pop-hint">Opens it for you and posts the link to people nearby.</p>
-            <input className="input" autoFocus placeholder="https://…" value={url} onChange={(e) => setUrl(e.target.value)} />
-            <button className="btn btn-blue" disabled={!url.trim()}>Share</button>
-          </form>
-        )}
       </div>
       <div className="sa-group">
         <button
@@ -128,6 +120,14 @@ export function StageActions({ inMeeting = false }: { inMeeting?: boolean }) {
           <LayoutGrid size={16} />
         </button>
       </div>
+      {sharing && (
+        <form className="popover sa-pop dark" onSubmit={(e) => { e.preventDefault(); shareSite() }}>
+          <div className="sa-pop-title">Share a website</div>
+          <p className="sa-pop-hint">Opens it for you and posts the link to people nearby.</p>
+          <input className="input" autoFocus placeholder="https://…" value={url} onChange={(e) => setUrl(e.target.value)} />
+          <button className="btn btn-blue" disabled={!url.trim()}>Share</button>
+        </form>
+      )}
     </div>
   )
 }

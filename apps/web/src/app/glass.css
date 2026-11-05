@@ -1,0 +1,172 @@
+:root {
+  --glass-opacity: 94%;
+  --glass-blur: 10px;
+  --glass-radius: 18px;
+}
+
+.modal,
+.modal.settings,
+.modal.ae-modal,
+.modal.profile-modal,
+.sidebar,
+.popover,
+.popover.dark,
+.sa-pop.dark,
+.dropdown-panel {
+  --glass-base: var(--panel, #fff);
+  background: var(--glass-base);
+  background: color-mix(in srgb, var(--glass-base) var(--glass-opacity), transparent);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid color-mix(in srgb, var(--border, #ddd) 75%, transparent);
+  box-shadow: 0 10px 32px #00000014, inset 0 1px 0 #ffffff18;
+}
+.modal,
+.modal.settings,
+.modal.ae-modal,
+.modal.profile-modal {
+  border-radius: 24px;
+}
+.sidebar,
+.popover,
+.popover.dark {
+  border-radius: var(--glass-radius);
+}
+.popover.dark,
+.sa-pop.dark {
+  --glass-base: #292929;
+}
+.modal.settings .settings-nav {
+  background: color-mix(in srgb, var(--panel-2) 88%, transparent);
+}
+.modal.settings .settings-body {
+  background: transparent;
+}
+
+.invite-card { --card-glass-base: var(--lavender); }
+.meeting-card { --card-glass-base: var(--panel); }
+.meeting-card.is-live { --card-glass-base: #f2fbf6; }
+.welcome-card.pink { --card-glass-base: #f6e3e3; }
+.welcome-card.green { --card-glass-base: #dff3e7; }
+.rec-card { --card-glass-base: #343438; }
+.mtg .rec-card { --card-glass-base: #3b3b3b; }
+.convo-card { --card-glass-base: var(--lavender); }
+.invite-card,
+.meeting-card,
+.meeting-card.is-live,
+.welcome-card.pink,
+.welcome-card.green,
+.rec-card,
+.mtg .rec-card,
+.convo-card {
+  background: color-mix(in srgb, var(--card-glass-base) 94%, transparent);
+  box-shadow: inset 0 1px 0 #ffffff24;
+}
+.input,
+.settings .input,
+.settings-select {
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+}
+
+.dropdown {
+  display: inline-flex;
+  flex: none;
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: middle;
+}
+.field > .dropdown {
+  display: flex;
+  width: 100%;
+}
+.dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  color: var(--text-2);
+  font: inherit;
+  line-height: 18px;
+  text-align: left;
+}
+.dropdown-trigger:hover {
+  border-color: color-mix(in srgb, var(--text-2) 45%, var(--border));
+}
+.dropdown-trigger[aria-expanded="true"] {
+  border-color: #6567ee;
+  box-shadow: 0 0 0 3px #4142ed12;
+}
+.dropdown-value,
+.dropdown-option-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dropdown-trigger > .ico {
+  flex: none;
+  color: var(--muted);
+}
+.dropdown-panel {
+  z-index: 200;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 5px;
+  border-radius: 14px;
+  color: var(--text);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+}
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.dropdown-option.is-highlighted {
+  background: var(--hover);
+}
+.dropdown-option[aria-selected="true"] {
+  font-weight: 700;
+}
+.dropdown-option[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.dropdown-check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 16px;
+  color: #686bf0;
+}
+.dropdown-group {
+  padding: 8px 9px 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.settings-mobile-nav > .dropdown {
+  flex: 1;
+  min-width: 0;
+}
+.settings-mobile-nav .dropdown-trigger {
+  font-size: 13px;
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-opacity: 100%;
+    --glass-blur: 0px;
+  }
+}

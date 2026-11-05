@@ -133,7 +133,7 @@ function checkReminders() {
   }
 }
 
-export function joinOffice(name: string, look: AvatarLook, spawn: { x: number; y: number }) {
+export function joinOffice(name: string, look: AvatarLook, spawn: { x: number; y: number }, role = "") {
   store.reset()
   socket = new Socket(onServer, (open) => {
     store.connected = open
@@ -154,7 +154,7 @@ export function joinOffice(name: string, look: AvatarLook, spawn: { x: number; y
       break
     }
   }
-  socket.send({ t: "join", name, look, x: sx, y: sy })
+  socket.send({ t: "join", name, role, look, x: sx, y: sy })
   reminded.clear()
   reminderTimer = setInterval(checkReminders, 5000)
 }
@@ -518,6 +518,10 @@ export function setStatusText(statusText: string) {
 }
 export function setName(name: string) {
   pushPatch({ name })
+}
+
+export function setRole(role: string) {
+  pushPatch({ role: role.trim().slice(0, 48) })
 }
 export function setLook(look: AvatarLook) {
   pushPatch({ look })

@@ -47,7 +47,7 @@ const MAP = {
   MicOff: ["mic-off-01"],
   Minus: ["minus-sign"],
   Monitor: ["computer"],
-  MonitorUp: ["square-arrow-up-02", "screen-share"],
+  MonitorUp: ["monitor-up", "computer-arrow-up"],
   MonitorX: ["screen-share-off", "computer-remove"],
   MoreVertical: ["more-vertical"],
   PanelLeftClose: ["sidebar-left-01", "sidebar-left"],
@@ -62,6 +62,11 @@ const MAP = {
   Search: ["search-01"],
   Send: ["sent", "sent-02"],
   Settings: ["settings-01", "settings-02"],
+  Puzzle: ["puzzle"],
+  Zap: ["flash"],
+  CreditCard: ["credit-card"],
+  Plug: ["plug"],
+  Keyboard: ["keyboard"],
   Shuffle: ["shuffle"],
   Smile: ["smile"],
   Sofa: ["sofa-01", "sofa-02"],
@@ -78,6 +83,7 @@ const MAP = {
   Globe: ["globe-02", "globe"],
   Music: ["music-note-01", "music-note-03"],
   Record: ["record"],
+  StopRecording: ["stop-circle"],
   // Composer
   AtSign: ["at", "mail-at-sign-01"],
   Bold: ["text-bold"],
@@ -103,6 +109,19 @@ for (const [name, candidates] of Object.entries(MAP)) {
 if (missing.length) {
   console.error("No match for:\n  " + missing.join("\n  "))
   process.exitCode = 1
+}
+const recordSet = JSON.parse(readFileSync(new URL("./record-icon.json", import.meta.url), "utf8").replace(/^\uFEFF/, ""))
+out.icons.Record = {
+  ...recordSet.icons["record-20-regular"],
+  width: recordSet.icons["record-20-regular"].width ?? recordSet.width,
+  height: recordSet.icons["record-20-regular"].height ?? recordSet.height,
+  source: "fluent:record-20-regular",
+}
+out.icons.StopRecording = {
+  ...recordSet.icons["record-stop-12-filled"],
+  width: recordSet.icons["record-stop-12-filled"].width ?? recordSet.width,
+  height: recordSet.icons["record-stop-12-filled"].height ?? recordSet.height,
+  source: "fluent:record-stop-12-filled",
 }
 writeFileSync(new URL("../src/office/ui/icon-data.json", import.meta.url), JSON.stringify(out, null, 1))
 console.log(`wrote ${Object.keys(out.icons).length} icons`)

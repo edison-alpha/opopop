@@ -55,6 +55,8 @@ pub struct AvatarLook {
 pub struct PlayerState {
     pub id: String,
     pub name: String,
+    #[serde(default)]
+    pub role: String,
     pub look: AvatarLook,
     pub x: i32,
     pub y: i32,
@@ -82,6 +84,7 @@ impl PlayerState {
         Self {
             id,
             name: final_name,
+            role: String::new(),
             look,
             x: x.floor() as i32,
             y: y.floor() as i32,
@@ -103,6 +106,11 @@ impl PlayerState {
     }
 
     pub fn apply_patch(&mut self, mut patch: PlayerPatch) -> PlayerPatch {
+        if let Some(ref role) = patch.role {
+            let cleaned = role.chars().take(48).collect::<String>().trim().to_string();
+            self.role = cleaned.clone();
+            patch.role = Some(cleaned);
+        }
         if let Some(ref n) = patch.name {
             let cleaned = n.chars().take(32).collect::<String>().trim().to_string();
             patch.name = Some(if cleaned.is_empty() { self.name.clone() } else { cleaned });
@@ -142,6 +150,8 @@ impl PlayerState {
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PlayerPatch {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub role: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

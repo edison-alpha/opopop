@@ -53,10 +53,10 @@ async fn handle_socket<R: MapRepository>(socket: WebSocket, hub: Arc<OfficeHub<R
             Message::Text(text) => {
                 if let Ok(client_msg) = serde_json::from_str::<ClientWireMessage>(&text) {
                     match client_msg {
-                        ClientWireMessage::Join { name, look, x, y } => {
+                        ClientWireMessage::Join { name, role, look, x, y } => {
                             if !joined {
                                 joined = true;
-                                hub.handle_join(&player_id, name, look, x, y).await;
+                                hub.handle_join(&player_id, name, role, look, x, y).await;
                             }
                         }
                         ClientWireMessage::Move { x, y, dir } => {

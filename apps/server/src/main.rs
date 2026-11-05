@@ -43,8 +43,20 @@ async fn main() {
         .unwrap_or(3001);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
+    let listener = match tokio::net::TcpListener::bind(addr).await {
+        Ok(listener) => listener,
+        Err(error) => {
+            if error.kind() == std::io::ErrorKind::AddrInUse {
+                eprintln!("Port {port} is already in use. Run pnpm dev to reuse the existing OPPERA server, or stop the process using that port.");
+            } else {
+                eprintln!("Could not bind OPPERA to {addr}: {error}");
+            }
+            std::process::exit(1);
+        }
+    };
     info!("OPPERA Realtime Hub running on http://{}", addr);
-
-    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    if let Err(error) = axum::serve(listener, app).await {
+        eprintln!("OPPERA server stopped: {error}");
+        std::process::exit(1);
+    }
 }

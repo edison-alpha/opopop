@@ -86,5 +86,25 @@ mod tests {
         assert_eq!(player.status_text, "Busy coding");
         assert_eq!(player.status, Status::Busy);
         assert!(player.mic);
+        assert!(player.role.is_empty());
+
+        let patch = player.apply_patch(PlayerPatch {
+            role: Some("  Designer  ".to_string()),
+            ..Default::default()
+        });
+        assert_eq!(player.role, "Designer");
+        assert_eq!(patch.role.as_deref(), Some("Designer"));
+
+        player.apply_patch(PlayerPatch {
+            role: Some("x".repeat(80)),
+            ..Default::default()
+        });
+        assert_eq!(player.role.len(), 48);
+
+        player.apply_patch(PlayerPatch {
+            role: Some(String::new()),
+            ..Default::default()
+        });
+        assert!(player.role.is_empty());
     }
 }

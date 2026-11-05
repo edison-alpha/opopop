@@ -19,6 +19,12 @@ export type SidebarView = "people" | "chat" | "calendar" | "notifications"
 /** "#channel" | "nearby" | a player id for direct messages */
 export type Conversation = string
 
+interface Preferences {
+  speechBubbles: boolean
+  nameLabels: boolean
+  unreadBadges: boolean
+}
+
 export interface Toast {
   id: number
   text: string
@@ -67,6 +73,7 @@ class OfficeStore {
   selected: string | null = null
   paletteOpen = false
   settingsOpen = false
+  preferences: Preferences = { speechBubbles: true, nameLabels: true, unreadBadges: true }
   minimap = true
   /** Stage layout: the map, or a grid of the people you're talking to. */
   stageView: "map" | "grid" = "map"
@@ -124,6 +131,10 @@ class OfficeStore {
     return this.meId ? this.players.get(this.meId) ?? null : null
   }
 
+  get meetingViewOpen() {
+    return this.sidebar !== "chat" && ((this.inMeeting && !this.meetingMinimized) || this.stageView === "grid")
+  }
+
   get unreadTotal() {
     return Object.values(this.unread).reduce((a, b) => a + b, 0)
   }
@@ -167,6 +178,23 @@ class OfficeStore {
 
   setZoom(z: number) {
     this.zoom = Math.min(3, Math.max(0.75, Math.round(z * 4) / 4))
+    this.emit()
+  }
+
+  loadPreferences() {
+    try {
+      const saved = JSON.parse(localStorage.getItem("oppera-preferences") ?? "{}")
+      if (!saved || typeof saved !== "object") return
+      for (const key of Object.keys(this.preferences) as (keyof Preferences)[]) {
+        if (typeof saved[key] === "boolean") this.preferences[key] = saved[key]
+      }
+      this.emit()
+    } catch { /* Keep defaults if local preferences cannot be read. */ }
+  }
+
+  setPreference(key: keyof Preferences, value: boolean) {
+    this.preferences = { ...this.preferences, [key]: value }
+    try { localStorage.setItem("oppera-preferences", JSON.stringify(this.preferences)) } catch { /* Apply in this session even when storage is unavailable. */ }
     this.emit()
   }
 

@@ -57,18 +57,21 @@ export function Rail() {
       </span>
       <div className="rail-group">
         <RailButton view="people" label="Map & people" icon={<MapIcon size={20} />} />
-        <RailButton view="chat" label="Chat" icon={<MessageCircle size={20} />} badge={office.unreadTotal} />
+        <RailButton view="chat" label="Chat" icon={<MessageCircle size={20} />} badge={office.preferences.unreadBadges ? office.unreadTotal : 0} />
         <RailButton view="calendar" label="Calendar" icon={<CalendarDays size={20} />} />
-        <RailButton view="notifications" label="Notifications" icon={<Bell size={20} />} badge={office.unreadNotices} />
+        <RailButton view="notifications" label="Notifications" icon={<Bell size={20} />} badge={office.preferences.unreadBadges ? office.unreadNotices : 0} />
       </div>
-      {office.inMeeting && (
+      {(office.inMeeting || office.stageView === "grid") && (
         <div className="rail-group">
           <button
-            className={`rail-meeting ${office.meetingMinimized ? "" : "is-open"}`}
+            className={`rail-meeting ${office.meetingViewOpen ? "is-open" : ""}`}
             aria-label="Open meeting"
             title={office.areaName ?? "Meeting"}
             onClick={() => {
-              office.meetingMinimized = !office.meetingMinimized
+              const close = office.meetingViewOpen
+              office.meetingMinimized = close
+              office.stageView = close ? "map" : "grid"
+              if (!close) office.sidebar = "people"
               office.emit()
             }}
           >
@@ -83,7 +86,10 @@ export function Rail() {
         </button>
         <button
           className="rail-btn"
+          type="button"
           aria-label="Settings"
+          aria-haspopup="dialog"
+          aria-expanded={office.settingsOpen}
           title="Settings"
           onClick={() => {
             office.settingsOpen = true

@@ -64,7 +64,19 @@ Tersedia **2 metode** untuk menjalankan proyek ini:
 #### Metode A: Mode Pengembangan (Direkomendasikan saat Mengembangkan Fitur)
 Metode ini mengaktifkan *Hot Module Replacement* (HMR) dari Vite sehingga perubahan kode React langsung tampil instan tanpa refresh.
 
-Buka **2 tab terminal terpisah**:
+Jalankan frontend dan backend bersama dari root project:
+
+```bash
+pnpm dev
+```
+
+Frontend tersedia di `http://localhost:3000/app`, backend di `http://localhost:3001`.
+Jika OPPERA sudah aktif, `pnpm dev` menggunakan server yang ada tanpa membuat duplikat.
+Jika baru frontend atau backend yang aktif, hanya proses yang belum aktif yang dijalankan.
+Proses yang dimulai dalam satu sesi ikut dihentikan ketika salah satunya berhenti. Port frontend dikunci
+ke 3000 agar aplikasi tidak berpindah alamat tanpa diketahui.
+
+Untuk menjalankan keduanya secara terpisah, gunakan **2 tab terminal**:
 
 * **Terminal 1 — Jalankan Backend Realtime Rust:**
   ```bash

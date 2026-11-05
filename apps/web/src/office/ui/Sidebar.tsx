@@ -8,6 +8,7 @@ import { PeopleView } from "./PeopleView"
 
 export function Sidebar({ onLeave }: { onLeave: () => void }) {
   const office = useOffice()
+  if (office.meetingViewOpen && office.sidebar === "people") return null
   // The chat view always shows its sidebar so the map dock stays reachable.
   if (!office.sidebarOpen && office.sidebar !== "chat") return null
   return (

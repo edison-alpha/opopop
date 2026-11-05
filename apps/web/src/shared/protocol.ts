@@ -27,6 +27,8 @@ export interface AvatarLook {
 export interface PlayerState {
   id: string
   name: string
+  /** Displayed job title, independent of access permissions. */
+  role?: string
   look: AvatarLook
   x: number
   y: number
@@ -42,7 +44,7 @@ export interface PlayerState {
 }
 
 export type PlayerPatch = Partial<
-  Pick<PlayerState, "name" | "look" | "status" | "statusText" | "mic" | "cam" | "screen" | "hand" | "lockedWith">
+  Pick<PlayerState, "name" | "role" | "look" | "status" | "statusText" | "mic" | "cam" | "screen" | "hand" | "lockedWith">
 >
 
 export type ChatScope = "channel" | "nearby" | "dm"
@@ -105,7 +107,7 @@ export type MapOp =
   | { k: "reset" }
 
 export type ClientMsg =
-  | { t: "join"; name: string; look: AvatarLook; x: number; y: number }
+  | { t: "join"; name: string; role?: string; look: AvatarLook; x: number; y: number }
   | { t: "move"; x: number; y: number; dir: Dir }
   | {
       t: "chat"

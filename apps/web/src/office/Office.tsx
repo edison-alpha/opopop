@@ -1,6 +1,7 @@
+"use client"
 import type { AvatarLook } from "@/shared/protocol"
-import { useEffect, useState } from "react"
 import { PhaserGame } from "./game/PhaserGame"
+import { useEffect, useState } from "react"
 import { SPAWN } from "./game/map"
 import { joinOffice, leaveOffice } from "./session"
 import { store, useOffice } from "./store"
@@ -14,7 +15,7 @@ import { Rail } from "./ui/Rail"
 import { SettingsModal } from "./ui/SettingsModal"
 import { Sidebar } from "./ui/Sidebar"
 import { Toolbar } from "./ui/Toolbar"
-import { ConversationGrid, Spotlight, VideoBar } from "./ui/VideoBar"
+import { Spotlight, VideoBar } from "./ui/VideoBar"
 
 function Stage({ onLeave }: { onLeave: () => void }) {
   const office = useOffice()
@@ -29,13 +30,12 @@ function Stage({ onLeave }: { onLeave: () => void }) {
         <>
           <StageHeader />
           <VideoBar />
-          <ConversationGrid />
-          <MeetingView />
+          <MeetingView onLeave={onLeave} />
           <MeetingRestore />
           <Minimap />
           <MapControls />
           <BuildPanel />
-          <Toolbar onLeave={onLeave} />
+          {!office.meetingViewOpen && <Toolbar onLeave={onLeave} />}
         </>
       )}
       <ToastBar />
@@ -46,13 +46,14 @@ function Stage({ onLeave }: { onLeave: () => void }) {
 
 export default function Office() {
   const [joined, setJoined] = useState(false)
+  const office = useOffice()
 
   useEffect(() => () => leaveOffice(), [])
 
-  const onJoin = ({ name, look, stream }: { name: string; look: AvatarLook; stream: MediaStream | null }) => {
+  const onJoin = ({ name, role, look, stream }: { name: string; role: string; look: AvatarLook; stream: MediaStream | null }) => {
     leaveOffice()
     store.localStream = stream
-    joinOffice(name, look, SPAWN)
+    joinOffice(name, look, SPAWN, role)
     setJoined(true)
   }
   const onLeave = () => {
@@ -63,7 +64,7 @@ export default function Office() {
   if (!joined) return <JoinScreen onJoin={onJoin} />
 
   return (
-    <div className="office">
+    <div className={`office ${office.meetingViewOpen ? "is-meeting" : ""}`}>
       <Rail />
       <Sidebar onLeave={onLeave} />
       <Stage onLeave={onLeave} />

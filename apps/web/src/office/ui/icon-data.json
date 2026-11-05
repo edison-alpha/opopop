@@ -226,10 +226,10 @@
    "source": "hugeicons:computer"
   },
   "MonitorUp": {
-   "body": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M2.5 12c0-4.478 0-6.718 1.391-8.109S7.521 2.5 12 2.5c4.478 0 6.718 0 8.109 1.391S21.5 7.521 21.5 12c0 4.478 0 6.718-1.391 8.109S16.479 21.5 12 21.5c-4.478 0-6.718 0-8.109-1.391S2.5 16.479 2.5 12Z\"/><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 9v7m3.5-4.5S12.922 8 12 8s-3.5 3.5-3.5 3.5\"/></g>",
+   "body": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M15.992 21h-8\"/><path d=\"M10.492 21v-4m3 0v4\"/><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M15.992 3h-8c-2.828 0-4.242 0-5.121.879c-.879.878-.879 2.293-.879 5.121v2c0 2.828 0 4.243.879 5.121S5.164 17 7.992 17h8c2.829 0 4.243 0 5.121-.879c.88-.878.88-2.293.88-5.121V9c0-2.828 0-4.243-.88-5.121C20.236 3 18.822 3 15.993 3\"/><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M14.992 10s-2.21-3-3-3s-3 3-3 3m3-2.5V13\"/></g>",
    "width": 24,
    "height": 24,
-   "source": "hugeicons:square-arrow-up-02"
+   "source": "hugeicons:monitor-up"
   },
   "MonitorX": {
    "body": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-width=\"1.5\"><path stroke-linejoin=\"round\" d=\"M13.992 21h2m-6 0a1.5 1.5 0 0 0 1.5-1.5V17h1v2.5a1.5 1.5 0 0 0 1.5 1.5m0 0h-4m0 0h-2m4-4v4m-9-17.234a2 2 0 0 0-.121.112c-.879.88-.879 2.293-.879 5.122v2c0 2.828 0 4.242.879 5.121S5.164 17 7.992 17h8q.532 0 1-.002m4.122-.877c.878-.878.878-2.293.878-5.121V9c0-2.828 0-4.243-.879-5.121C20.236 3 18.822 3 15.993 3h-8\"/><path stroke-linejoin=\"round\" d=\"M14.739 11c.626-.543 1.253-1.17 1.253-1.5c0-.659-2.5-2.5-2.5-2.5m2 2.5h-2.001m-3.708.407a2 2 0 0 0-.454.482c-.337.505-.337 1.207-.337 2.611\"/><path d=\"m1.992 2l20 20\"/></g>",
@@ -314,6 +314,36 @@
    "width": 24,
    "height": 24,
    "source": "hugeicons:settings-01"
+  },
+  "Puzzle": {
+   "body": "<path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M12.828 6.001a3 3 0 1 0-5.658 0c-2.285.008-3.504.09-4.292.878S2.008 8.886 2 11.17a3 3 0 1 1 0 5.66c.008 2.284.09 3.503.878 4.291s2.007.87 4.291.878a3 3 0 1 1 5.66 0c2.284-.008 3.503-.09 4.291-.878s.87-2.007.878-4.292a3 3 0 1 0 0-5.658c-.008-2.285-.09-3.504-.878-4.292c-.788-.789-2.007-.87-4.292-.878Z\"/>",
+   "width": 24,
+   "height": 24,
+   "source": "hugeicons:puzzle"
+  },
+  "Zap": {
+   "body": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"m5.226 11.33l6.998-8.983c.547-.703 1.573-.266 1.573.67V9.97c0 .56.402 1.015.899 1.015H18.1c.773 0 1.185 1.03.674 1.686l-6.998 8.983c-.547.702-1.573.265-1.573-.671V14.03c0-.56-.403-1.015-.899-1.015H5.9c-.773 0-1.185-1.03-.674-1.686\"/>",
+   "width": 24,
+   "height": 24,
+   "source": "hugeicons:flash"
+  },
+  "CreditCard": {
+   "body": "<g fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" d=\"M2 12c0-3.537 0-5.306 1.053-6.487q.253-.284.554-.522C4.862 4 6.741 4 10.5 4h3c3.759 0 5.638 0 6.892.99q.302.24.555.523C22 6.693 22 8.463 22 12s0 5.306-1.053 6.487a4.4 4.4 0 0 1-.555.522C19.138 20 17.26 20 13.5 20h-3c-3.759 0-5.638 0-6.893-.99a4.4 4.4 0 0 1-.554-.523C2 17.307 2 15.537 2 12\"/><path stroke-linecap=\"round\" stroke-miterlimit=\"10\" d=\"M10 16h1.5m3 0H18\"/><path d=\"M2 9h20\"/></g>",
+   "width": 24,
+   "height": 24,
+   "source": "hugeicons:credit-card"
+  },
+  "Plug": {
+   "body": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M8.992 2v5m6-5v5m-3 11v4m-7-15h14m-13 0v3c0 1.591.375 2.875 1.5 4c.16.16.274.386.353.655c.461 1.558.692 2.337.985 2.67c.223.252.348.345.654.488c.401.187.89.187 1.868.187h1.28c1.018 0 1.527 0 1.944-.206a1.7 1.7 0 0 0 .668-.532c.294-.36.467-1.112.812-2.616c.043-.184.1-.325.179-.403A6 6 0 0 0 17.992 10V7z\"/>",
+   "width": 24,
+   "height": 24,
+   "source": "hugeicons:plug"
+  },
+  "Keyboard": {
+   "body": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-width=\"1.5\"><path d=\"M14.5 7h-5c-3.287 0-4.931 0-6.038.908a4 4 0 0 0-.554.554C2 9.57 2 11.212 2 14.5s0 4.931.908 6.038a4 4 0 0 0 .554.554C4.57 22 6.212 22 9.5 22h5c3.288 0 4.931 0 6.038-.908q.304-.25.554-.554C22 19.43 22 17.788 22 14.5c0-3.287 0-4.931-.908-6.038a4 4 0 0 0-.554-.554C19.43 7 17.788 7 14.5 7Z\"/><path stroke-linejoin=\"round\" d=\"M12 7V5a1 1 0 0 1 1-1a1 1 0 0 0 1-1V2M7 12h1m3.5 0h1m3.5 0h1M7 17h10\"/></g>",
+   "width": 24,
+   "height": 24,
+   "source": "hugeicons:keyboard"
   },
   "Shuffle": {
    "body": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"m19.558 4l.897.976c.401.436.602.654.531.839S20.632 6 20.065 6c-1.27 0-2.788-.205-3.954.473c-.72.42-1.223 1.152-2.072 2.527M3 18h1.58c1.929 0 2.893 0 3.706-.473c.721-.42 1.223-1.152 2.072-2.527m9.2 5l.897-.976c.401-.436.602-.654.531-.839S20.632 18 20.065 18c-1.27 0-2.788.205-3.954-.473c-.813-.474-1.348-1.346-2.418-3.09l-2.99-4.875C9.635 7.82 9.1 6.947 8.287 6.473S6.51 6 4.581 6H3\"/>",
@@ -400,10 +430,16 @@
    "source": "hugeicons:music-note-01"
   },
   "Record": {
-   "body": "<circle cx=\"12\" cy=\"12\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"1.5\"/>",
-   "width": 24,
-   "height": 24,
-   "source": "hugeicons:record"
+   "body": "<path fill=\"currentColor\" d=\"M10 14.5a4.5 4.5 0 1 0 0-9a4.5 4.5 0 0 0 0 9M10 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16m-7 8a7 7 0 1 1 14 0a7 7 0 0 1-14 0\"/>",
+   "width": 20,
+   "height": 20,
+   "source": "fluent:record-20-regular"
+  },
+  "StopRecording": {
+   "body": "<path fill=\"currentColor\" d=\"M6 11A5 5 0 1 0 6 1a5 5 0 0 0 0 10M5 4h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1\"/>",
+   "width": 12,
+   "height": 12,
+   "source": "fluent:record-stop-12-filled"
   },
   "AtSign": {
    "body": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-width=\"1.5\" d=\"M15.6 8.4v4.5a2.7 2.7 0 1 0 5.4 0V12a9 9 0 1 0-3.6 7.2M15.6 12a3.6 3.6 0 1 1-7.2 0a3.6 3.6 0 0 1 7.2 0Z\"/>",

@@ -6,6 +6,7 @@ import type { AvatarLook, Dir } from "@/shared/protocol"
 import { eraseOps, floorOps, placeError, placeOps, roomOps, rotateObj } from "../build"
 import { advancePath, cancelPath, editMap, react, redoEdit, tryStep, undoEdit, updateProximity, walkTo } from "../session"
 import { STEP_MS, store, type Avatar } from "../store"
+import { VoiceActivity } from "../voiceActivity"
 import { drawAvatar, redrawTiles, renderObjectThumb, renderSeatFrontRow, renderStaticMap } from "./art"
 import { REACTION_KEYS, REACTION_MS, STATUS_COLOR } from "./constants"
 import {
@@ -40,11 +41,13 @@ interface Sprite {
   tagBg: Phaser.GameObjects.Graphics
   tagText: Phaser.GameObjects.Text
   emoji: Phaser.GameObjects.Text
+  speech: Phaser.GameObjects.Graphics
   key: string
   tagSig: string
 }
 
 class OfficeScene extends Phaser.Scene {
+  private voice!: VoiceActivity
   private sprites = new Map<string, Sprite>()
   private held: Dir[] = []
   private lastProx = 0
@@ -71,6 +74,14 @@ class OfficeScene extends Phaser.Scene {
   }
 
   create() {
+    this.voice = new VoiceActivity()
+    window.addEventListener("pointerdown", this.voice.resume)
+    window.addEventListener("keydown", this.voice.resume)
+    this.cleanup.push(() => {
+      window.removeEventListener("pointerdown", this.voice.resume)
+      window.removeEventListener("keydown", this.voice.resume)
+      this.voice.dispose()
+    })
     const mapW = MAP_W * TILE
     const mapH = MAP_H * TILE
     this.mapCanvas = renderStaticMap()
@@ -359,8 +370,15 @@ class OfficeScene extends Phaser.Scene {
       .setResolution(3)
     const tag = this.add.container(0, -HEAD_H - 4, [tagBg, tagText])
     const emoji = this.add.text(0, -HEAD_H - 20, "", { fontSize: "20px" }).setOrigin(0.5, 1).setResolution(3)
-    const root = this.add.container(0, 0, [body, tag, emoji])
-    return { root, body, tag, tagBg, tagText, emoji, key, tagSig: "" }
+    const speech = this.add.graphics().setPosition(-28, -HEAD_H + 12).setVisible(false)
+    speech.fillStyle(0xffffff).fillRoundedRect(-13, -9, 26, 18, 8)
+    speech.lineStyle(1.5, 0x171717).strokeRoundedRect(-13, -9, 26, 18, 8)
+    speech.fillStyle(0xffffff).fillTriangle(6, 7, 13, 12, 11, 3)
+    speech.lineBetween(6, 8, 13, 12).lineBetween(13, 12, 11, 5)
+    speech.fillStyle(0x171717)
+    for (const x of [-6, 0, 6]) speech.fillCircle(x, 0, 1.8)
+    const root = this.add.container(0, 0, [body, tag, emoji, speech])
+    return { root, body, tag, tagBg, tagText, emoji, speech, key, tagSig: "" }
   }
 
   private drawTag(s: Sprite, a: Avatar) {
@@ -400,6 +418,7 @@ class OfficeScene extends Phaser.Scene {
 
   update(time: number) {
     const now = performance.now()
+    this.voice.update(now)
     const me = store.me
 
     if (me && this.held.length) tryStep(this.held[this.held.length - 1])
@@ -433,6 +452,8 @@ class OfficeScene extends Phaser.Scene {
       const walking = t < 1
       // Standing still on a chair/sofa/bench/stool = sitting on it, facing the seat's way.
       const seat = walking ? null : seatAt(a.x, a.y)
+      s.speech.setY(-HEAD_H + 12 - (seat?.lift ?? 0)).setVisible(store.preferences.speechBubbles && this.voice.isSpeaking(a.id, now))
+      s.tag.setVisible(store.preferences.nameLabels)
       if (seat) {
         s.body.setFrame(`sit${seat.dir === "any" ? a.dir : seat.dir}`)
         s.body.setY(2 - seat.lift)

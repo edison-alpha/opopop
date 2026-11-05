@@ -2,7 +2,7 @@
 import type { Status } from "@/shared/protocol"
 import { isRecording, startRecording, stopRecording } from "../recorder"
 import {
-  CalendarDays, Check, ChevronUp, CircleDashed, DoorOpen, Hand, Mic, MicOff, MonitorUp, MonitorX, Record, Smile, Video, VideoOff,
+  CalendarDays, Check, ChevronUp, CircleDashed, DoorOpen, Hand, Mic, MicOff, MonitorUp, MonitorX, Record, Smile, StopRecording, Video, VideoOff,
 } from "./icons"
 import { useEffect, useRef, useState } from "react"
 import { REACTION_KEYS } from "../game/constants"
@@ -113,23 +113,23 @@ function DeviceMenu({ kind }: { kind: "audio" | "video" }) {
   const label = (d: MediaDeviceInfo, i: number) => d.label || `${kind === "audio" ? "Microphone" : "Camera"} ${i + 1}`
   return (
     <div className="popover device-menu dark" role="menu">
-      <div className="menu-title">{kind === "audio" ? "Microphone" : "Camera"}</div>
+      <div className="menu-title">{kind === "audio" ? "Select microphone" : "Select camera"}</div>
       {lists.inputs.length === 0 && <div className="menu-empty">No devices found. Allow access first.</div>}
       {lists.inputs.map((d, i) => (
         <button key={d.deviceId || i} role="menuitemradio" aria-checked={current === d.deviceId} className="menu-row"
           onClick={() => void setDevice(kind === "audio" ? "audioIn" : "videoIn", d.deviceId)}>
           <span className="check">{(current === d.deviceId || (!current && i === 0)) && <Check size={14} />}</span>
-          {label(d, i)}
+          <span className="device-label">{label(d, i)}</span>
         </button>
       ))}
       {lists.outputs.length > 0 && (
         <>
-          <div className="menu-title">Speaker</div>
+          <div className="menu-title">Select speaker</div>
           {lists.outputs.map((d, i) => (
             <button key={d.deviceId || i} role="menuitemradio" aria-checked={office.devices.audioOut === d.deviceId} className="menu-row"
               onClick={() => void setDevice("audioOut", d.deviceId)}>
               <span className="check">{(office.devices.audioOut === d.deviceId || (!office.devices.audioOut && i === 0)) && <Check size={14} />}</span>
-              {d.label || `Speaker ${i + 1}`}
+              <span className="device-label">{d.label || `Speaker ${i + 1}`}</span>
             </button>
           ))}
         </>
@@ -170,7 +170,7 @@ function RecordMenu({ onClose }: { onClose: () => void }) {
       </div>
       {recording ? (
         <button className="btn btn-danger full" onClick={() => { stopRecording(); onClose() }}>
-          <Record size={15} /> Stop &amp; save
+          <StopRecording size={18} /> Stop &amp; save
         </button>
       ) : (
         <button
@@ -226,7 +226,7 @@ export function Toolbar({ onLeave, compact = false }: { onLeave: () => void; com
       <div className={`toolbar ${compact ? "is-compact" : ""}`} ref={ref} role="toolbar" aria-label="Office controls">
         <div className="tb-anchor">
           <button className="tb-avatar" aria-label="Your status" onClick={() => toggle("profile")}>
-            <LetterAvatar name={me.name} size={30} status={me.status} />
+            <LetterAvatar name={me.name} size={compact ? 30 : 40} status={me.status} />
           </button>
           {menu === "profile" && (
             <ProfileMenu
@@ -240,24 +240,24 @@ export function Toolbar({ onLeave, compact = false }: { onLeave: () => void; com
         <div className="tb-split tb-anchor">
           <button className={`tb-btn ${me.mic ? "" : "is-off"}`} onClick={() => void toggleMic()}
             title={`${me.mic ? "Mute" : "Unmute"} (Ctrl+Shift+A)`} aria-label={me.mic ? "Mute microphone" : "Unmute microphone"}>
-            {me.mic ? <Mic size={19} /> : <MicOff size={19} />}
+            {me.mic ? <Mic size={22} /> : <MicOff size={22} />}
           </button>
-          <button className="tb-caret" aria-label="Microphone settings" onClick={() => toggle("mic")}><ChevronUp size={14} /></button>
+          <button className="tb-caret" aria-label="Microphone settings" aria-haspopup="menu" aria-expanded={menu === "mic"} onClick={() => toggle("mic")}><ChevronUp size={12} /></button>
           {menu === "mic" && <DeviceMenu kind="audio" />}
         </div>
 
         <div className="tb-split tb-anchor">
           <button className={`tb-btn ${me.cam ? "" : "is-off"}`} onClick={() => void toggleCam()}
             title={`${me.cam ? "Stop video" : "Start video"} (Ctrl+Shift+V)`} aria-label={me.cam ? "Turn camera off" : "Turn camera on"}>
-            {me.cam ? <Video size={19} /> : <VideoOff size={19} />}
+            {me.cam ? <Video size={22} /> : <VideoOff size={22} />}
           </button>
-          <button className="tb-caret" aria-label="Camera settings" onClick={() => toggle("cam")}><ChevronUp size={14} /></button>
+          <button className="tb-caret" aria-label="Camera settings" aria-haspopup="menu" aria-expanded={menu === "cam"} onClick={() => toggle("cam")}><ChevronUp size={12} /></button>
           {menu === "cam" && <DeviceMenu kind="video" />}
         </div>
 
         <div className="tb-anchor">
           <button className={`tb-btn ${menu === "react" ? "is-active" : ""}`} onClick={() => toggle("react")} title="React (1–6)" aria-label="Reactions">
-            <Smile size={19} />
+            <Smile size={22} />
           </button>
           {menu === "react" && (
             <div className="popover react-menu dark" role="menu">
@@ -273,13 +273,13 @@ export function Toolbar({ onLeave, compact = false }: { onLeave: () => void; com
 
         <button className={`tb-btn ${me.screen ? "is-share" : ""}`} onClick={() => (me.screen ? stopScreenShare() : void startScreenShare())}
           title={me.screen ? "Stop sharing" : "Share screen"} aria-label={me.screen ? "Stop sharing" : "Share screen"}>
-          {me.screen ? <MonitorX size={19} /> : <MonitorUp size={19} />}
+          {me.screen ? <MonitorX size={22} /> : <MonitorUp size={22} />}
         </button>
 
         {!compact && (
           <button className={`tb-btn ${me.hand ? "is-hand" : ""}`} onClick={toggleHand}
             title={me.hand ? "Lower hand" : "Raise hand"} aria-label={me.hand ? "Lower hand" : "Raise hand"} aria-pressed={me.hand}>
-            <Hand size={19} />
+            <Hand size={22} />
           </button>
         )}
 
@@ -291,22 +291,22 @@ export function Toolbar({ onLeave, compact = false }: { onLeave: () => void; com
               aria-label={isRecording() ? "Stop recording" : "Record this meeting"}
               onClick={() => (isRecording() ? stopRecording() : toggle("record"))}
             >
-              <Record size={19} />
+              {isRecording() ? <StopRecording size={22} /> : <Record size={22} />}
             </button>
-            <button className="tb-caret" aria-label="Recording options" onClick={() => toggle("record")}><ChevronUp size={14} /></button>
+            <button className="tb-caret" aria-label="Recording options" aria-haspopup="dialog" aria-expanded={menu === "record"} onClick={() => toggle("record")}><ChevronUp size={12} /></button>
             {menu === "record" && <RecordMenu onClose={() => setMenu(null)} />}
           </div>
         )}
 
-        <button className={`tb-btn ${me.status === "away" ? "is-active" : ""}`} onClick={toggleAway}
+        {!office.meetingViewOpen && <button className={`tb-btn ${me.status === "away" ? "is-active" : ""}`} onClick={toggleAway}
           title={me.status === "away" ? "I'm back" : "Step away"} aria-label={me.status === "away" ? "Set as active" : "Set as away"} aria-pressed={me.status === "away"}>
-          <CircleDashed size={19} />
-        </button>
+          <CircleDashed size={22} />
+        </button>}
 
         <span className="tb-divider" />
 
         <button className="tb-btn tb-leave" onClick={onLeave} title="Leave office" aria-label="Leave office">
-          <DoorOpen size={19} />
+          <DoorOpen size={22} />
         </button>
       </div>
       {modal === "avatar" && <MyAvatarModal onClose={() => setModal(null)} />}

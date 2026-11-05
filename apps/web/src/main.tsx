@@ -6,6 +6,8 @@ import "./app/globals.css"
 import "./app/office.css"
 import "./app/build.css"
 import "./app/meeting.css"
+import "./app/appearance.css"
+import "./app/glass.css"
 
 import Home from "./app/page"
 import Office from "./office/Office"

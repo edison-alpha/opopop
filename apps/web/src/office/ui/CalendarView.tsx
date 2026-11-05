@@ -7,6 +7,7 @@ import { createMeeting, deleteMeeting, joinMeeting } from "../session"
 import { useOffice } from "../store"
 import { LetterAvatar } from "./LetterAvatar"
 import { SidebarHeader } from "./PeopleView"
+import { Dropdown } from "./Dropdown"
 
 const fmtTime = (ts: number) => new Date(ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 const fmtDay = (ts: number) => {
@@ -64,21 +65,11 @@ function NewMeetingForm({ onClose }: { onClose: () => void }) {
           </label>
           <label className="field">
             <span className="field-label">Duration</span>
-            <select className="input" value={duration} onChange={(e) => setDuration(Number(e.target.value))}>
-              {[15, 30, 45, 60, 90, 120].map((d) => (
-                <option key={d} value={d}>
-                  {d < 60 ? `${d} min` : `${d / 60} hr`}
-                </option>
-              ))}
-            </select>
+            <Dropdown className="input" label="Duration" value={String(duration)} onChange={(value) => setDuration(Number(value))} options={[15, 30, 45, 60, 90, 120].map((d) => ({ value: String(d), label: d < 60 ? `${d} min` : `${d / 60} hr` }))} />
           </label>
           <label className="field">
             <span className="field-label">Room</span>
-            <select className="input" value={room} onChange={(e) => setRoom(e.target.value)}>
-              {rooms.map((r) => (
-                <option key={r.name}>{r.name}</option>
-              ))}
-            </select>
+            <Dropdown className="input" label="Meeting room" value={room} onChange={setRoom} options={rooms.map((r) => ({ value: r.name, label: r.name }))} />
           </label>
           <label className="field span-2">
             <span className="field-label">Agenda (optional)</span>

@@ -9,6 +9,7 @@ const PROFILE_KEY = "oppera.profile"
 
 interface Profile {
   name: string
+  role?: string
   look: AvatarLook
 }
 
@@ -24,9 +25,10 @@ function loadProfile(): Profile | null {
 export function JoinScreen({
   onJoin,
 }: {
-  onJoin: (p: { name: string; look: AvatarLook; stream: MediaStream | null }) => void
+  onJoin: (p: { name: string; role: string; look: AvatarLook; stream: MediaStream | null }) => void
 }) {
   const [name, setName] = useState("")
+  const [role, setRole] = useState("")
   const [look, setLook] = useState<AvatarLook | null>(null)
   const [step, setStep] = useState<"avatar" | "media">("avatar")
   const [stream, setStream] = useState<MediaStream | null>(null)
@@ -38,6 +40,7 @@ export function JoinScreen({
   useEffect(() => {
     const p = loadProfile()
     setName(p?.name ?? "")
+    setRole(typeof p?.role === "string" ? p.role : "")
     setLook(p?.look ?? randomLook())
   }, [])
 
@@ -73,7 +76,7 @@ export function JoinScreen({
 
   const finish = () => {
     try {
-      localStorage.setItem(PROFILE_KEY, JSON.stringify({ name: trimmed, look }))
+      localStorage.setItem(PROFILE_KEY, JSON.stringify({ ...loadProfile(), name: trimmed, role: role.trim(), look }))
     } catch {
       // storage unavailable; profile just won't be remembered
     }
@@ -84,7 +87,7 @@ export function JoinScreen({
         stream.removeTrack(t)
       }
     }
-    onJoin({ name: trimmed, look, stream })
+    onJoin({ name: trimmed, role: role.trim(), look, stream })
   }
 
   return (
@@ -106,14 +109,14 @@ export function JoinScreen({
             <h1 className="join-title">Welcome! Let&apos;s set up your character</h1>
             <AvatarEditor look={look} onChange={setLook} name={trimmed || "You"} />
             <form
-              className="join-footer"
+              className="join-footer join-identity"
               onSubmit={(e) => {
                 e.preventDefault()
                 if (trimmed) setStep("media")
               }}
             >
               <label className="field grow">
-                <span className="field-label">Your name</span>
+                <span className="field-label">Name</span>
                 <input
                   className="input"
                   value={name}
@@ -122,6 +125,10 @@ export function JoinScreen({
                   placeholder="What should people call you?"
                   onChange={(e) => setName(e.target.value)}
                 />
+              </label>
+              <label className="field grow">
+                <span className="field-label">Role <span className="join-optional">(optional)</span></span>
+                <input className="input" value={role} maxLength={48} placeholder="e.g. Designer, Developer" onChange={(e) => setRole(e.target.value)} />
               </label>
               <button className="btn btn-primary" disabled={!trimmed}>
                 Next

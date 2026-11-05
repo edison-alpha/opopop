@@ -127,11 +127,13 @@ impl<R: MapRepository> OfficeHub<R> {
         &self,
         player_id: &str,
         name: String,
+        role: String,
         look: AvatarLook,
         x: f64,
         y: f64,
     ) {
-        let player = PlayerState::new(player_id.to_string(), name, look, x, y);
+        let mut player = PlayerState::new(player_id.to_string(), name, look, x, y);
+        player.apply_patch(PlayerPatch { role: Some(role), ..Default::default() });
         let join_msg = ChatMsg {
             id: Uuid::new_v4().to_string(),
             from: player_id.to_string(),

@@ -160,7 +160,7 @@
   height: 205px;
   border: 4px solid var(--panel);
   outline: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-card);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -181,7 +181,7 @@
   width: 110px;
   height: 70px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 10px;
   image-rendering: pixelated;
 }
 .welcome-card .corner {
@@ -542,13 +542,16 @@
   box-shadow: none;
 }
 .toolbar.is-compact {
+  --tb-size: 34px;
+  --tb-icon-size: 18px;
+  --tb-radius: 12px;
   position: static;
   transform: none;
   box-shadow: none;
   padding: 2px;
   justify-content: space-between;
   background: #222226;
-  border-radius: 10px;
+  border-radius: 16px;
 }
 .toolbar.is-compact .tb-btn,
 .toolbar.is-compact .tb-avatar {
@@ -557,6 +560,9 @@
 }
 .toolbar.is-compact .tb-caret {
   display: none;
+}
+.toolbar.is-compact .tb-split > .tb-btn {
+  border-radius: 12px;
 }
 
 /* Conversation chip + view toggle */
@@ -697,7 +703,7 @@
   width: 82px;
   height: 58px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 14px;
   background: var(--lavender);
   outline: 1px solid var(--lavender-border);
   display: grid;

@@ -1,12 +1,13 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-import { messagesFor } from "../session"
+import { copyInviteLink, messagesFor } from "../session"
 import { useOffice } from "../store"
 import { Composer } from "./Composer"
-import { Info, Maximize2, MessageCircle, MicOff, Users, X } from "./icons"
+import { Clock, Info, Link2, Lock, MapPin, Maximize2, MessageCircle, MicOff, UserPlus, Users, X } from "./icons"
 import { LetterAvatar } from "./LetterAvatar"
 import { StageActions } from "./StageActions"
 import { Tile } from "./VideoBar"
+import { Toolbar } from "./Toolbar"
 
 function useElapsed(since: number) {
   const [now, setNow] = useState(Date.now())
@@ -15,7 +16,7 @@ function useElapsed(since: number) {
     return () => clearInterval(t)
   }, [])
   const s = Math.max(0, Math.floor((now - since) / 1000))
-  const mm = String(Math.floor(s / 60)).padStart(2, "0")
+  const mm = String(Math.floor(s / 60) % 60).padStart(2, "0")
   const ss = String(s % 60).padStart(2, "0")
   return s >= 3600 ? `${Math.floor(s / 3600)}:${mm.padStart(2, "0")}:${ss}` : `${mm}:${ss}`
 }
@@ -63,16 +64,17 @@ function MeetingChat({ room }: { room: string }) {
 }
 
 /** Full-screen meeting layout shown while inside a meeting room. */
-export function MeetingView() {
+export function MeetingView({ onLeave }: { onLeave: () => void }) {
   const office = useOffice()
-  const elapsed = useElapsed(office.meetingSince)
-  const [panel, setPanel] = useState<Panel>("chat")
+  const [openedAt] = useState(Date.now)
+  const elapsed = useElapsed(office.meetingSince || openedAt)
+  const [panel, setPanel] = useState<Panel>(null)
   const me = office.me
 
-  if (!me || !office.inMeeting || office.meetingMinimized) return null
+  if (!me || !office.meetingViewOpen) return null
 
-  const room = office.areaName ?? "Meeting"
-  const ids = [me.id, ...office.nearby]
+  const room = office.areaName ?? "Conversation"
+  const ids = [...new Set([me.id, ...office.nearby])]
   const participants = ids.map((id) => office.players.get(id)).filter((p) => !!p)
   const presenter = participants.find((p) => p.screen)
   const streamOf = (id: string) =>
@@ -86,9 +88,7 @@ export function MeetingView() {
           <Users size={15} />
           <strong>{room}</strong>
         </div>
-        <span className="mtg-time" title="Time in this meeting">
-          <span className="live-dot" aria-hidden /> {elapsed}
-        </span>
+        {office.inMeeting && <span className="mtg-lock" title="Only people in this room join the meeting"><Lock size={16} /></span>}
         <span className="grow" />
         <StageActions inMeeting />
       </header>
@@ -111,7 +111,7 @@ export function MeetingView() {
           ) : (
             <div className="meeting-grid" style={{ ["--cols" as string]: columnsFor(participants.length) }}>
               {participants.map((p) => (
-                <Tile key={p.id} player={p} stream={streamOf(p.id)} isMe={p.id === me.id} className="is-grid" avatarSize={40} />
+                <Tile key={p.id} player={p} stream={streamOf(p.id)} isMe={p.id === me.id} className="is-grid" avatarSize={48} />
               ))}
             </div>
           )}
@@ -120,13 +120,19 @@ export function MeetingView() {
         {panel && (
           <aside className="mtg-panel" aria-label={panel === "chat" ? "Meeting chat" : panel === "people" ? "Participants" : "Meeting info"}>
             <header className="mtg-panel-head">
-              <h3>{panel === "chat" ? "Meeting Chat" : panel === "people" ? `Participants (${participants.length})` : "Meeting info"}</h3>
+              <h3>{panel === "chat" ? "Meeting Chat" : panel === "people" ? "People" : "Meeting Details"}</h3>
               <button className="mtg-icon" aria-label="Close panel" onClick={() => setPanel(null)}>
                 <X size={16} />
               </button>
             </header>
             {panel === "chat" && <MeetingChat room={room} />}
             {panel === "people" && (
+              <>
+              <div className="mtg-panel-actions">
+                <button className="mtg-panel-btn primary" onClick={() => void copyInviteLink()}><UserPlus size={18} /> Add people</button>
+                <button className="mtg-panel-btn" onClick={() => void copyInviteLink()}><Link2 size={18} /> Meeting link</button>
+              </div>
+              <h4 className="mtg-people-title">Here now <span>{participants.length}</span></h4>
               <ul className="mtg-people">
                 {participants.map((p) => (
                   <li key={p.id}>
@@ -136,13 +142,16 @@ export function MeetingView() {
                   </li>
                 ))}
               </ul>
+              </>
             )}
             {panel === "info" && (
               <div className="mtg-info">
-                <div><span>Room</span><strong>{room}</strong></div>
-                <div><span>Duration</span><strong>{elapsed}</strong></div>
-                <div><span>People</span><strong>{participants.length}</strong></div>
-                <p className="mtg-empty">Anyone who walks into {room} joins this meeting automatically. Leave the room to leave the meeting.</p>
+                <button className="mtg-panel-btn" onClick={() => void copyInviteLink()}><Link2 size={18} /> Meeting link</button>
+                <div className="mtg-info-rows">
+                  <p><Clock size={18} /> In this meeting {elapsed}</p>
+                  <p><MapPin size={18} /> {room}</p>
+                  <p><Users size={18} /> {participants.length} here</p>
+                </div>
               </div>
             )}
           </aside>
@@ -150,17 +159,19 @@ export function MeetingView() {
       </div>
 
       <footer className="mtg-foot">
-        <span className="grow" />
-        <button className={`mtg-icon ${panel === "info" ? "is-active" : ""}`} title="Meeting info" aria-label="Meeting info" onClick={() => toggle("info")}>
+        <Toolbar onLeave={onLeave} />
+        <div className="mtg-foot-actions">
+        <button className={`mtg-icon ${panel === "info" ? "is-active" : ""}`} title="Meeting details" aria-label="Meeting details" aria-pressed={panel === "info"} onClick={() => toggle("info")}>
           <Info size={18} />
         </button>
-        <button className={`mtg-icon ${panel === "people" ? "is-active" : ""}`} title="Participants" aria-label="Participants" onClick={() => toggle("people")}>
+        <button className={`mtg-icon ${panel === "people" ? "is-active" : ""}`} title="People" aria-label="Participants" aria-pressed={panel === "people"} onClick={() => toggle("people")}>
           <Users size={18} />
           <span className="mtg-badge">{participants.length}</span>
         </button>
-        <button className={`mtg-icon ${panel === "chat" ? "is-active" : ""}`} title="Meeting chat" aria-label="Meeting chat" onClick={() => toggle("chat")}>
+        <button className={`mtg-icon ${panel === "chat" ? "is-active" : ""}`} title="Meeting chat" aria-label="Meeting chat" aria-pressed={panel === "chat"} onClick={() => toggle("chat")}>
           <MessageCircle size={18} />
         </button>
+        </div>
       </footer>
     </section>
   )
