@@ -11,3 +11,5 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 .vercel/
+target/
+server-rust/target/

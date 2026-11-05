@@ -15,7 +15,9 @@ export class Socket {
 
   connect() {
     const proto = location.protocol === "https:" ? "wss" : "ws"
-    const ws = new WebSocket(`${proto}://${location.host}/ws`)
+    const defaultUrl = `${proto}://${location.host}/ws`
+    const url = process.env.NEXT_PUBLIC_WS_URL || defaultUrl
+    const ws = new WebSocket(url)
     this.ws = ws
     ws.onopen = () => {
       this.onStatus(true)

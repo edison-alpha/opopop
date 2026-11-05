@@ -20,10 +20,13 @@ OPPERA adalah platform kantor virtual 2D interaktif berbasis web untuk kolaboras
 ## 🛠️ Tech Stack & Kebutuhan Sistem
 
 - **Node.js**: `v24+`
+- **Rust**: `1.80+` (untuk backend Rust berkinerja tinggi)
 - **Package Manager**: `pnpm` (disarankan)
-- **Framework**: Next.js 15, React 18 / 19, TypeScript
+- **Frontend Framework**: Next.js 15, React 18 / 19, TypeScript
 - **Game Engine**: Phaser 3 (Canvas 2D renderer)
-- **Realtime Server**: Node.js HTTP + WebSocket (`ws`)
+- **Backend Hub**:
+  - **Node.js Server**: HTTP + WebSocket (`ws`) via `server.ts`
+  - **Rust Server (Opsional)**: Axum + Tokio WebSocket Hub di `server-rust/`
 - **P2P Networking**: WebRTC Mesh dengan Google STUN (`stun:stun.l.google.com:19302`)
 
 ---
@@ -34,7 +37,14 @@ OPPERA adalah platform kantor virtual 2D interaktif berbasis web untuk kolaboras
 ├── data/                  # Penyimpanan persisten (map-state.json)
 ├── public/                # Asset publik, font, dan icon
 ├── scripts/               # Helper script build (misal: build-icons.mjs)
-├── server.ts              # Custom server: HTTP + WebSocket (/ws) dalam 1 proses
+├── server.ts              # Server Node.js bawaan: HTTP + WebSocket (/ws)
+├── server-rust/           # Backend realtime performa tinggi berbasis Rust (Axum + Tokio)
+│   ├── Cargo.toml
+│   └── src/
+│       ├── main.rs        # Axum HTTP & WebSocket upgrade router
+│       ├── protocol.rs    # Wire protocol tipe ClientMsg & ServerMsg (Serde)
+│       ├── realtime.rs    # State hub, chat, dan WebRTC signaling
+│       └── map_state.rs   # Validasi op peta & disk persistence
 └── src/
     ├── app/               # Next.js App Router (halaman landing, app, dev tools)
     ├── office/            # Logika klien kantor virtual
@@ -44,7 +54,7 @@ OPPERA adalah platform kantor virtual 2D interaktif berbasis web untuk kolaboras
     │   ├── ambient.ts     # Synthesizer Web Audio API
     │   ├── recorder.ts    # Perekam rapat lokal
     │   └── store.ts       # Global state management
-    ├── server/            # Logika WebSocket server & state persistence
+    ├── server/            # Server TypeScript asli
     └── shared/            # Tipe data & wire protocol bersama
 ```
 
@@ -52,28 +62,46 @@ OPPERA adalah platform kantor virtual 2D interaktif berbasis web untuk kolaboras
 
 ## 💻 Cara Menjalankan
 
-### 1. Instalasi Dependensi
-Pastikan menggunakan Node.js 24:
+### 1. Instalasi Dependensi Frontend
 ```bash
 pnpm install
 ```
 
-### 2. Menjalankan Server Development
-Menjalankan Next.js bersamaan dengan WebSocket Hub pada port 3000:
+### 2. Opsi A: Menjalankan Server Bawaan (Node.js)
+Menjalankan Next.js dan WebSocket Hub TypeScript dalam satu proses:
 ```bash
 pnpm dev
 ```
 Buka browser di `http://localhost:3000`.
 
-### 3. Build & Production
+### 3. Opsi B: Menjalankan Server Rust (High Performance)
+Buka 2 terminal:
+
+**Terminal 1 (Backend Rust di Port 3001):**
 ```bash
-pnpm build
-pnpm start
+pnpm dev:rust
+# atau: cd server-rust && cargo run
 ```
 
-### 4. Pengecekan Tipe TypeScript
+**Terminal 2 (Frontend Next.js di Port 3000):**
 ```bash
+pnpm dev:next
+```
+> Next.js secara otomatis mem-proxy route `/ws` ke backend Rust (`http://127.0.0.1:3001/ws`). Atau Anda dapat mengatur `NEXT_PUBLIC_WS_URL=ws://localhost:3001/ws`.
+
+---
+
+### Pengecekan & Build
+
+```bash
+# Typecheck TypeScript
 pnpm typecheck
+
+# Build frontend Next.js
+pnpm build
+
+# Build binary release Rust server
+pnpm build:rust
 ```
 
 ---
