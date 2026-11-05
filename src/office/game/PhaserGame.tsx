@@ -1,6 +1,6 @@
 "use client"
 // Phaser renderer for the office: map texture, avatar sprites, name tags, camera.
-import Phaser from "phaser"
+import * as Phaser from "phaser"
 import { useEffect, useRef } from "react"
 import type { AvatarLook, Dir } from "@/shared/protocol"
 import { eraseOps, floorOps, placeError, placeOps, roomOps, rotateObj } from "../build"

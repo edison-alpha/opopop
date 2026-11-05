@@ -2,6 +2,9 @@
   "name": "oppera-web",
   "private": true,
   "version": "0.1.0",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "tsx watch --ignore ./.next --ignore ./src server.ts",
     "build": "next build",
@@ -11,7 +14,7 @@
   },
   "dependencies": {
     "@iconify/react": "5.2.1",
-    "next": "14.2.18",
+    "next": "15.5.29",
     "phaser": "3.87.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -21,7 +24,7 @@
   "devDependencies": {
     "@iconify-json/hugeicons": "1.2.35",
     "@iconify/utils": "3.1.7",
-    "@types/node": "22.9.0",
+    "@types/node": "24.19.2",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
     "@types/ws": "8.5.13",
