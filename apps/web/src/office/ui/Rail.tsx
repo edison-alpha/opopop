@@ -1,6 +1,6 @@
 "use client"
 import { Bell, CalendarDays, Map as MapIcon, MessageCircle, Search, Settings, UserPlus, Video } from "./icons"
-import Link from "next/link"
+import { Link } from "react-router-dom"
 import { copyInviteLink } from "../session"
 import { useOffice, type SidebarView } from "../store"
 
@@ -35,7 +35,7 @@ export function Rail() {
   const office = useOffice()
   return (
     <nav className="rail" aria-label="Main">
-      <Link href="/" className="rail-logo" aria-label="OPPERA home">
+      <Link to="/" className="rail-logo" aria-label="OPPERA home">
         <svg viewBox="0 0 64 64" width="22" height="22" aria-hidden>
           <circle cx="32" cy="32" r="14" fill="none" stroke="#fff" strokeWidth="8" />
         </svg>

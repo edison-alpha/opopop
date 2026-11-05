@@ -1,6 +1,6 @@
-# OPPERA Monorepo (Next.js 15 + Rust Realtime Hub)
+# OPPERA Monorepo (React 19 + Rust Realtime Hub)
 
-Platform kantor virtual 2D interaktif berbasis web untuk kolaborasi tim jarak jauh (*remote team*). Arsitektur proyek menggunakan struktur **Monorepo** dengan pemisahan tegas antara antarmuka pengguna (Frontend Next.js 15) dan backend realtime performa tinggi (Backend Rust Axum) yang menerapkan prinsip **Clean Architecture**.
+Platform kantor virtual 2D interaktif berbasis web untuk kolaborasi tim jarak jauh (*remote team*). Arsitektur proyek menggunakan struktur **Monorepo** dengan pemisahan tegas antara antarmuka pengguna SPA ultra-cepat (**Frontend React 19 + Vite 6**) dan backend realtime performa tinggi (**Backend Rust Axum + Tokio**) yang menerapkan prinsip **Clean Architecture**.
 
 ---
 
@@ -9,14 +9,16 @@ Platform kantor virtual 2D interaktif berbasis web untuk kolaborasi tim jarak ja
 ```text
 operra/
 ├── apps/
-│   ├── web/                     # Frontend Next.js 15 (Pure Client & UI)
+│   ├── web/                     # Frontend Pure React 19 + Vite 6 (SPA)
+│   │   ├── index.html           # HTML Entry point
+│   │   ├── vite.config.ts       # Vite configuration & WebSocket proxy (/ws -> :3001)
 │   │   ├── public/              # Aset statis, font, icon
 │   │   ├── scripts/             # Script build pembantu (build-icons.mjs)
 │   │   ├── src/
-│   │   │   ├── app/             # Next.js App Router (Halaman & Rute)
+│   │   │   ├── main.tsx         # React 19 DOM root & React Router DOM v7
+│   │   │   ├── app/             # Komponen halaman & rute SPA
 │   │   │   ├── office/          # Game Engine (Phaser 3), WebRTC mesh, state, audio
 │   │   │   └── shared/          # Tipe protokol TypeScript (protocol.ts)
-│   │   ├── next.config.mjs      # Proxy rewrites /ws -> port 3001
 │   │   ├── package.json
 │   │   └── tsconfig.json
 │   │
@@ -40,7 +42,7 @@ operra/
 │           │   ├── protocol.rs  # Serialisasi / deserialisasi pesan WebSocket (Serde)
 │           │   ├── websocket.rs # Axum WebSocket connection handler & message loop
 │           │   ├── http.rs      # Health check endpoint (/health)
-│           │   └── mod.rs       # Axum Router assembly
+│           │   └── mod.rs       # Axum Router assembly & Static File Server (ServeDir)
 │           └── main.rs          # Composition Root & Dependency Injection
 │
 ├── data/                        # File penyimpanan persisten denah kantor (map-state.json)
@@ -54,8 +56,10 @@ operra/
 
 ## 🚀 Fitur Utama
 
-- **Audio & Video Spasial (Mesh WebRTC)**: Berjalan mendekati rekan kerja akan otomatis menghubungkan mic & webcam via WebRTC P2P. Menjauh akan otomatis memutuskan/memudarkan koneksi.
+- **Frontend React 19 + Vite 6**: Tanpa overhead SSR. Load instan, HMR kilat, rendering murni client-side untuk Phaser 3 canvas, WebRTC, dan Web Audio.
 - **Backend Realtime Rust (Ultra-low Latency)**: Penanganan WebSocket, pergerakan avatar, chat, dan WebRTC signaling menggunakan Rust + Axum + Tokio dengan memory footprint sangat kecil (< 20 MB RAM).
+- **Single-Binary Production Deployment**: Server Rust Axum dapat langsung menyajikan bundle static build frontend (`apps/web/dist`) via `tower-http/fs`. Tidak membutuhkan runtime Node.js di server produksi!
+- **Audio & Video Spasial (Mesh WebRTC)**: Berjalan mendekati rekan kerja akan otomatis menghubungkan mic & webcam via WebRTC P2P. Menjauh akan otomatis memutuskan/memudarkan koneksi.
 - **Ruang Rapat & Area Privat**: Ruangan dengan pintu dan batas area terisolasi, hanya orang di dalam ruangan yang dapat mendengar dan melihat satu sama lain.
 - **Avatar Pixel-Art Kustom Prosedural**: Renderer avatar chibi prosedural berbasis canvas HTML5 tanpa dependensi file spritesheet raster eksternal.
 - **Mode Bangun Kantor Kolaboratif**: Editor denah kantor real-time di browser dengan sinkronisasi instan ke server Rust dan penyimpanan persisten ke `data/map-state.json`.
@@ -80,8 +84,10 @@ Jalankan dari root direktori proyek:
 pnpm install
 ```
 
-### 2. Menjalankan Server Rust (Backend)
-Buka terminal 1:
+### 2. Mode Pengembangan (Development)
+Jalankan backend Rust dan frontend Vite secara berdampingan:
+
+**Terminal 1 (Backend Rust):**
 ```bash
 pnpm dev:server
 # atau: cargo run --manifest-path apps/server/Cargo.toml
@@ -90,26 +96,42 @@ Server Rust akan aktif di `http://0.0.0.0:3001` dengan endpoint:
 - `/ws` : WebSocket hub realtime.
 - `/health` : Pemeriksaan status service JSON.
 
-### 3. Menjalankan Frontend Next.js
-Buka terminal 2:
+**Terminal 2 (Frontend React 19 + Vite):**
 ```bash
 pnpm dev:web
 # atau: pnpm dev
 ```
-Buka browser di `http://localhost:3000`. Next.js secara otomatis mem-proxy route `/ws` ke backend Rust pada port 3001.
+Buka browser di `http://localhost:3000`. Vite secara otomatis mem-proxy route `/ws` ke backend Rust pada port 3001.
+
+---
+
+### 3. Mode Produksi (Single Binary Deployment)
+Anda dapat mem-bundle frontend ke `apps/web/dist` dan menyajikannya langsung melalui binary Rust:
+
+```bash
+# 1. Build bundle statis React 19
+pnpm build:web
+
+# 2. Build executable release Rust
+pnpm build:server
+
+# 3. Jalankan binary produksi
+./target/release/server
+```
+Buka browser langsung di `http://localhost:3001`. Seluruh aplikasi web dan WebSocket berjalan mandiri dari satu binary Rust!
 
 ---
 
 ## 🧪 Pengujian & Kompilasi
 
 ```bash
-# Menjalankan unit tests domain Rust
+# Menjalankan unit tests domain Rust (Clean Architecture)
 cargo test
 
-# Pengecekan tipe TypeScript pada frontend
+# Pengecekan tipe TypeScript pada frontend React
 pnpm typecheck
 
-# Build frontend Next.js
+# Build bundle frontend Vite
 pnpm build:web
 
 # Build binary rilis backend Rust

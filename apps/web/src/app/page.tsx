@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "react-router-dom"
 
 const FEATURES = [
   {
@@ -23,13 +23,13 @@ export default function Home() {
   return (
     <main className="landing">
       <header className="landing-nav">
-        <Link href="/" className="landing-brand">
+        <Link to="/" className="landing-brand">
           <span className="brand-mark" aria-hidden>
             O
           </span>
           OPPERA
         </Link>
-        <Link href="/app" className="btn btn-primary">
+        <Link to="/app" className="btn btn-primary">
           Open office
         </Link>
       </header>
@@ -42,7 +42,7 @@ export default function Home() {
             who is around without scheduling a call.
           </p>
           <div className="hero-actions">
-            <Link href="/app" className="btn btn-primary btn-lg">
+            <Link to="/app" className="btn btn-primary btn-lg">
               Enter the office
             </Link>
             <span className="hint">Free, runs in your browser. No account needed.</span>

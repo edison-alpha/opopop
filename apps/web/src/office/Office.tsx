@@ -1,7 +1,6 @@
-"use client"
 import type { AvatarLook } from "@/shared/protocol"
-import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
+import { PhaserGame } from "./game/PhaserGame"
 import { SPAWN } from "./game/map"
 import { joinOffice, leaveOffice } from "./session"
 import { store, useOffice } from "./store"
@@ -16,9 +15,6 @@ import { SettingsModal } from "./ui/SettingsModal"
 import { Sidebar } from "./ui/Sidebar"
 import { Toolbar } from "./ui/Toolbar"
 import { ConversationGrid, Spotlight, VideoBar } from "./ui/VideoBar"
-
-// Phaser touches window at import time, so load it on the client only.
-const PhaserGame = dynamic(() => import("./game/PhaserGame").then((m) => m.PhaserGame), { ssr: false })
 
 function Stage({ onLeave }: { onLeave: () => void }) {
   const office = useOffice()
