@@ -1,107 +1,119 @@
-# OPPERA (oppera-web)
+# OPPERA Monorepo (Next.js 15 + Rust Realtime Hub)
 
-OPPERA adalah platform kantor virtual 2D interaktif berbasis web untuk kolaborasi tim jarak jauh (*remote team*). Pengguna dapat berinteraksi secara spasial menggunakan avatar pixel-art, mengobrol secara otomatis saat mendekat (proximity audio/video), masuk ke ruang rapat privat, serta mengubah denah kantor secara real-time (*collaborative build mode*).
+Platform kantor virtual 2D interaktif berbasis web untuk kolaborasi tim jarak jauh (*remote team*). Arsitektur proyek menggunakan struktur **Monorepo** dengan pemisahan tegas antara antarmuka pengguna (Frontend Next.js 15) dan backend realtime performa tinggi (Backend Rust Axum) yang menerapkan prinsip **Clean Architecture**.
+
+---
+
+## 🏗️ Arsitektur Monorepo & Clean Architecture
+
+```text
+operra/
+├── apps/
+│   ├── web/                     # Frontend Next.js 15 (Pure Client & UI)
+│   │   ├── public/              # Aset statis, font, icon
+│   │   ├── scripts/             # Script build pembantu (build-icons.mjs)
+│   │   ├── src/
+│   │   │   ├── app/             # Next.js App Router (Halaman & Rute)
+│   │   │   ├── office/          # Game Engine (Phaser 3), WebRTC mesh, state, audio
+│   │   │   └── shared/          # Tipe protokol TypeScript (protocol.ts)
+│   │   ├── next.config.mjs      # Proxy rewrites /ws -> port 3001
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   └── server/                  # Backend Realtime Rust (Clean Architecture)
+│       ├── Cargo.toml
+│       └── src/
+│           ├── domain/          # Enterprise Business Rules & Entities
+│           │   ├── player.rs    # Entity PlayerState, AvatarLook, status, validasi patch
+│           │   ├── map.rs       # Entity MapOp, AreaDef, validasi koordinat & sanitasi
+│           │   ├── chat.rs      # Entity ChatMsg, Channel, pembatasan ukuran pesan
+│           │   ├── meeting.rs   # Entity Meeting, NewMeeting, aturan prune 24 jam
+│           │   └── mod.rs       # Re-export & unit tests domain
+│           ├── application/     # Application Business Rules (Use Cases & Ports)
+│           │   ├── repository.rs# Interface / Port trait `MapRepository`
+│           │   ├── hub.rs       # Core application service `OfficeHub`
+│           │   └── mod.rs
+│           ├── infrastructure/  # Frameworks & Drivers / Adapters
+│           │   ├── file_map_repository.rs # Implementasi disk persistence JSON (debounced)
+│           │   └── mod.rs
+│           ├── interfaces/      # Interface Adapters (Transport & Delivery)
+│           │   ├── protocol.rs  # Serialisasi / deserialisasi pesan WebSocket (Serde)
+│           │   ├── websocket.rs # Axum WebSocket connection handler & message loop
+│           │   ├── http.rs      # Health check endpoint (/health)
+│           │   └── mod.rs       # Axum Router assembly
+│           └── main.rs          # Composition Root & Dependency Injection
+│
+├── data/                        # File penyimpanan persisten denah kantor (map-state.json)
+├── Cargo.toml                   # Root Cargo Workspace
+├── pnpm-workspace.yaml          # Root pnpm Workspace
+├── package.json                 # Skrip orkestrasi monorepo
+└── README.md
+```
 
 ---
 
 ## 🚀 Fitur Utama
 
 - **Audio & Video Spasial (Mesh WebRTC)**: Berjalan mendekati rekan kerja akan otomatis menghubungkan mic & webcam via WebRTC P2P. Menjauh akan otomatis memutuskan/memudarkan koneksi.
+- **Backend Realtime Rust (Ultra-low Latency)**: Penanganan WebSocket, pergerakan avatar, chat, dan WebRTC signaling menggunakan Rust + Axum + Tokio dengan memory footprint sangat kecil (< 20 MB RAM).
 - **Ruang Rapat & Area Privat**: Ruangan dengan pintu dan batas area terisolasi, hanya orang di dalam ruangan yang dapat mendengar dan melihat satu sama lain.
-- **Avatar Pixel-Art Kustom**: Renderer avatar chibi prosedural berbasis canvas HTML5 tanpa dependensi file spritesheet eksternal (warna kulit, rambut, pakaian, topi, kacamata, dan aksesoris).
-- **Mode Bangun Kantor (Build Mode)**: Editor peta kolaboratif langsung di browser untuk menaruh lantai, furnitur, tanaman, dan membuat ruangan baru. Perubahan tersinkronisasi secara real-time dan disimpan ke disk (`data/map-state.json`).
-- **Perekam Rapat Lokal**: Perekaman audio & video langsung di browser via MediaRecorder tanpa perlu backend rendering, menghasilkan file `.webm`.
-- **Audio Ambience Ter-sintesis**: Musik latar dan *room tone* hangat yang disintesis secara prosedural menggunakan Web Audio API tanpa file audio statis.
-- **Chat & Saluran Komunikasi**: Dukungan multi-channel (`#general`, `#social`), chat jarak dekat (*nearby*), dan *direct message* (DM) dengan dukungan preview gambar & markdown.
-- **Command Palette (`Ctrl+K` / `Cmd+K`)**: Akses cepat pencarian rekan, toggle media (mic/kamera/layar), ganti status, dan navigasi ruangan.
+- **Avatar Pixel-Art Kustom Prosedural**: Renderer avatar chibi prosedural berbasis canvas HTML5 tanpa dependensi file spritesheet raster eksternal.
+- **Mode Bangun Kantor Kolaboratif**: Editor denah kantor real-time di browser dengan sinkronisasi instan ke server Rust dan penyimpanan persisten ke `data/map-state.json`.
+- **Perekam Rapat Lokal**: Perekaman audio & video langsung di browser via MediaRecorder tanpa perlu backend encoding.
+- **Audio Ambience Sintesis**: Musik latar dan *room tone* hangat yang disintesis secara prosedural menggunakan Web Audio API.
 
 ---
 
-## 🛠️ Tech Stack & Kebutuhan Sistem
+## 🛠️ Persyaratan Sistem
 
 - **Node.js**: `v24+`
-- **Rust**: `1.80+` (untuk backend Rust berkinerja tinggi)
+- **Rust & Cargo**: `1.80+`
 - **Package Manager**: `pnpm` (disarankan)
-- **Frontend Framework**: Next.js 15, React 18 / 19, TypeScript
-- **Game Engine**: Phaser 3 (Canvas 2D renderer)
-- **Backend Hub**:
-  - **Node.js Server**: HTTP + WebSocket (`ws`) via `server.ts`
-  - **Rust Server (Opsional)**: Axum + Tokio WebSocket Hub di `server-rust/`
-- **P2P Networking**: WebRTC Mesh dengan Google STUN (`stun:stun.l.google.com:19302`)
-
----
-
-## 📦 Struktur Direktori
-
-```text
-├── data/                  # Penyimpanan persisten (map-state.json)
-├── public/                # Asset publik, font, dan icon
-├── scripts/               # Helper script build (misal: build-icons.mjs)
-├── server.ts              # Server Node.js bawaan: HTTP + WebSocket (/ws)
-├── server-rust/           # Backend realtime performa tinggi berbasis Rust (Axum + Tokio)
-│   ├── Cargo.toml
-│   └── src/
-│       ├── main.rs        # Axum HTTP & WebSocket upgrade router
-│       ├── protocol.rs    # Wire protocol tipe ClientMsg & ServerMsg (Serde)
-│       ├── realtime.rs    # State hub, chat, dan WebRTC signaling
-│       └── map_state.rs   # Validasi op peta & disk persistence
-└── src/
-    ├── app/               # Next.js App Router (halaman landing, app, dev tools)
-    ├── office/            # Logika klien kantor virtual
-    │   ├── game/          # Engine Phaser, peta, avatar, dan pixel primitives
-    │   ├── net/           # WebRTC mesh (rtc.ts) & WebSocket client (socket.ts)
-    │   ├── ui/            # Komponen UI React (modal, chat, dock, build panel)
-    │   ├── ambient.ts     # Synthesizer Web Audio API
-    │   ├── recorder.ts    # Perekam rapat lokal
-    │   └── store.ts       # Global state management
-    ├── server/            # Server TypeScript asli
-    └── shared/            # Tipe data & wire protocol bersama
-```
 
 ---
 
 ## 💻 Cara Menjalankan
 
-### 1. Instalasi Dependensi Frontend
+### 1. Instalasi Dependensi
+Jalankan dari root direktori proyek:
 ```bash
 pnpm install
 ```
 
-### 2. Opsi A: Menjalankan Server Bawaan (Node.js)
-Menjalankan Next.js dan WebSocket Hub TypeScript dalam satu proses:
+### 2. Menjalankan Server Rust (Backend)
+Buka terminal 1:
 ```bash
-pnpm dev
+pnpm dev:server
+# atau: cargo run --manifest-path apps/server/Cargo.toml
 ```
-Buka browser di `http://localhost:3000`.
+Server Rust akan aktif di `http://0.0.0.0:3001` dengan endpoint:
+- `/ws` : WebSocket hub realtime.
+- `/health` : Pemeriksaan status service JSON.
 
-### 3. Opsi B: Menjalankan Server Rust (High Performance)
-Buka 2 terminal:
-
-**Terminal 1 (Backend Rust di Port 3001):**
+### 3. Menjalankan Frontend Next.js
+Buka terminal 2:
 ```bash
-pnpm dev:rust
-# atau: cd server-rust && cargo run
+pnpm dev:web
+# atau: pnpm dev
 ```
-
-**Terminal 2 (Frontend Next.js di Port 3000):**
-```bash
-pnpm dev:next
-```
-> Next.js secara otomatis mem-proxy route `/ws` ke backend Rust (`http://127.0.0.1:3001/ws`). Atau Anda dapat mengatur `NEXT_PUBLIC_WS_URL=ws://localhost:3001/ws`.
+Buka browser di `http://localhost:3000`. Next.js secara otomatis mem-proxy route `/ws` ke backend Rust pada port 3001.
 
 ---
 
-### Pengecekan & Build
+## 🧪 Pengujian & Kompilasi
 
 ```bash
-# Typecheck TypeScript
+# Menjalankan unit tests domain Rust
+cargo test
+
+# Pengecekan tipe TypeScript pada frontend
 pnpm typecheck
 
 # Build frontend Next.js
-pnpm build
+pnpm build:web
 
-# Build binary release Rust server
-pnpm build:rust
+# Build binary rilis backend Rust
+pnpm build:server
 ```
 
 ---

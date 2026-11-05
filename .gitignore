@@ -12,4 +12,3 @@ next-env.d.ts
 Thumbs.db
 .vercel/
 target/
-server-rust/target/

@@ -1,38 +1,18 @@
 {
-  "name": "oppera-web",
+  "name": "oppera-monorepo",
   "private": true,
   "version": "0.1.0",
   "engines": {
     "node": ">=24"
   },
   "scripts": {
-    "dev": "tsx watch --ignore ./.next --ignore ./src server.ts",
-    "dev:next": "next dev",
-    "dev:rust": "cargo run --manifest-path ./server-rust/Cargo.toml",
-    "build": "next build",
-    "build:rust": "cargo build --release --manifest-path ./server-rust/Cargo.toml",
-    "start": "cross-env NODE_ENV=production tsx server.ts",
-    "typecheck": "tsc --noEmit",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@iconify/react": "5.2.1",
-    "next": "15.5.29",
-    "phaser": "3.87.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "webgl": "^0.0.7",
-    "ws": "8.18.0"
-  },
-  "devDependencies": {
-    "@iconify-json/hugeicons": "1.2.35",
-    "@iconify/utils": "3.1.7",
-    "@types/node": "24.19.2",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
-    "@types/ws": "8.5.13",
-    "cross-env": "7.0.3",
-    "tsx": "4.19.2",
-    "typescript": "5.6.3"
+    "dev": "pnpm --filter web dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:server": "cargo run --manifest-path apps/server/Cargo.toml",
+    "build": "pnpm --filter web build && cargo build --release --manifest-path apps/server/Cargo.toml",
+    "build:web": "pnpm --filter web build",
+    "build:server": "cargo build --release --manifest-path apps/server/Cargo.toml",
+    "typecheck": "pnpm --filter web typecheck",
+    "check:server": "cargo check --manifest-path apps/server/Cargo.toml"
   }
 }
