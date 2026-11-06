@@ -2,23 +2,23 @@
 
 /* Stage shell in calendar mode */
 .stage.is-calendar {
-  background: #f4f5f7;
-  padding: 8px;
+  background: #ffffff;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Main floating white card */
+/* Calendar fills the stage without exposing the office map around its edges. */
 .calendar-main {
   position: absolute;
-  inset: 8px;
+  inset: 0;
   z-index: 20;
   display: flex;
   flex-direction: column;
   background: #ffffff;
   color: #111827;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
   overflow: hidden;
   font-family: inherit;
 }

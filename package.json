@@ -6,7 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "pnpm --filter web dev",
+    "dev": "node scripts/dev.mjs",
     "dev:web": "pnpm --filter web dev",
     "dev:server": "cargo run --manifest-path apps/server/Cargo.toml",
     "build": "pnpm --filter web build && cargo build --release --manifest-path apps/server/Cargo.toml",
@@ -14,6 +14,10 @@
     "build:server": "cargo build --release --manifest-path apps/server/Cargo.toml",
     "typecheck": "pnpm --filter web typecheck",
     "test:map": "node scripts/check-map.mjs",
+    "test:desks": "node scripts/check-desks.mjs",
+    "test:walkthrough": "node scripts/check-walkthrough.mjs",
+    "test:motion": "node scripts/check-motion.mjs",
+    "test:focus": "node scripts/check-focus.mjs",
     "assets:office": "node scripts/build-office-sprites.mjs",
     "check:server": "cargo check --manifest-path apps/server/Cargo.toml"
   }

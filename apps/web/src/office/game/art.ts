@@ -4,8 +4,10 @@
 import { INK, SHADOW, blob, box, disc, ell, hash, line, obox, rect, tri, type Ctx } from "./pixel"
 export { drawAvatar, randomLook, SKIN_TONES, HAIR_COLORS, SHIRT_COLORS, PANTS_COLORS, PALETTE } from "./avatar"
 import { FOOTPRINT, MAP_H, MAP_W, OX, OY, TILE, floor, objects, type Floor, type Obj } from "./map"
-import { MEDIA_ROOM } from "./layout"
+import { doorFrame } from "./doorGeometry"
+import { COURTYARD, MEDIA_ROOM, LAYOUT_DOORS } from "./layout"
 import { drawDetailedObject } from "./sprites"
+import { HORIZONTAL_WALL_RISE } from "./wallGeometry"
 
 const T = TILE
 
@@ -74,13 +76,12 @@ function floorTile(f: Exclude<Floor, "wall">, tx: number, ty: number): HTMLCanva
       return patternTile(`grass${v}`, (x, y) => {
         const h = hash(x + v * 97, y + v * 31)
         // little "v" tufts
-        const tuft = hash(Math.floor(x / 8) + v * 7, Math.floor(y / 8) + v * 3) > 0.72
+        const tuft = hash(Math.floor(x / 8) + v * 7, Math.floor(y / 8) + v * 3) > 0.985
         const lx = x % 8, ly = y % 8
         if (tuft && ly === 5 && (lx === 2 || lx === 4)) return "#b3daa5"
         if (tuft && ly === 4 && (lx === 1 || lx === 5)) return "#b3daa5"
-        if (h > 0.985) return "#c2e3b5"
-        if (h < 0.012) return "#e1f3d9"
-        return "#d2ecc7"
+        if (h > 0.998) return "#c6e5cb"
+        return "#d7eedb"
       })
     }
     case "path":
@@ -100,8 +101,9 @@ function floorTile(f: Exclude<Floor, "wall">, tx: number, ty: number): HTMLCanva
       })
     case "lavender":
       return patternTile("lavender", (x, y) => {
-        const chevron = (y + Math.abs(x - 16)) % 16
-        return chevron < 7 ? "#a7a5df" : chevron < 9 ? "#9c9ad5" : "#b6b3e8"
+        const step = Math.abs(Math.floor(y / 8) - 2) * 8
+        const band = (x + step) % 32
+        return band < 16 ? "#a7addd" : "#939bce"
       })
     case "slate":
       return patternTile("slate", (x, y) => {
@@ -253,12 +255,23 @@ function drawWall(ctx: Ctx, x: number, y: number) {
   const face = !isWall(x, y + 1)
 
   // A continuous muted green back wall, with a thin rim rather than dark blocks.
-  rect(ctx, px, py, T, T, "#6d7f80")
-  rect(ctx, px, py, T, 2, "#9aaca5")
-  rect(ctx, px, py + 2, T, 1, "#586e6d")
+  const start = !isWall(x - 1, y) ? T / 2 - 3 : 0
+  const end = !isWall(x + 1, y) ? T / 2 + 3 : T
+  for (const [dx, offset, width] of [[-1, 0, start], [1, end, T - end]] as const) {
+    const surface = floor[y]?.[x + dx]
+    if (width > 0 && surface && surface !== "wall") ctx.drawImage(floorTile(surface, x + dx, y), offset, 0, width, T, px + offset, py, width, T)
+  }
+  const wallX = px + start, wallW = end - start
+  const topEdge = !isWall(x, y - 1)
+  const rise = topEdge ? HORIZONTAL_WALL_RISE : 0
+  rect(ctx, wallX, py - rise, wallW, T + rise, "#6d7f80")
+  if (topEdge) {
+    rect(ctx, wallX, py - rise, wallW, 2, "#9aaca5")
+    rect(ctx, wallX, py - rise + 2, wallW, 1, "#586e6d")
+  }
   if (face) {
-    rect(ctx, px, py + T - 3, T, 1, "#8fa19a")
-    rect(ctx, px, py + T - 2, T, 2, "#506967")
+    rect(ctx, wallX, py + T - 3, wallW, 1, "#8fa19a")
+    rect(ctx, wallX, py + T - 2, wallW, 2, "#506967")
   }
 }
 
@@ -1114,6 +1127,18 @@ function drawRegion(ctx: Ctx, x0: number, y0: number, x1: number, y1: number) {
   ctx.clearRect(x0 * T, y0 * T, (x1 - x0 + 1) * T, (y1 - y0 + 1) * T)
   for (let y = ey0; y <= ey1; y++) for (let x = ex0; x <= ex1; x++) drawFloor(ctx, floor[y][x], x, y)
   for (let y = ey0; y <= ey1; y++) for (let x = ex0; x <= ex1; x++) if (floor[y][x] === "water") waterEdge(ctx, x, y)
+  const gardenX = (OX + COURTYARD.x) * T + 2, gardenY = (OY + COURTYARD.y) * T + 2
+  const gardenW = COURTYARD.w * T - 4, gardenH = COURTYARD.h * T - 4
+  rect(ctx, gardenX, gardenY, gardenW, 2, "#a4d8b0")
+  rect(ctx, gardenX, gardenY + gardenH - 2, gardenW, 2, "#a4d8b0")
+  rect(ctx, gardenX, gardenY, 2, gardenH, "#a4d8b0")
+  rect(ctx, gardenX + gardenW - 2, gardenY, 2, gardenH, "#a4d8b0")
+  for (const door of LAYOUT_DOORS) {
+    const tiles: [number,number][] = [[OX+door.x,OY+door.y],[OX+door.x+(door.orientation==='horizontal'?1:0),OY+door.y+(door.orientation==='vertical'?1:0)]]
+    for (const p of doorFrame(tiles,door.orientation,door.id.startsWith('focus-')).posts) {
+      rect(ctx,p.x,p.y,p.w,p.h,'#966b4c'); rect(ctx,p.x+1,p.y+1,Math.max(1,p.w-2),p.h-2,'#e7b989')
+    }
+  }
   // Objects row by row so taller sprites overlap the row above correctly.
   for (let y = ey0; y <= ey1; y++) {
     let sx = ex0

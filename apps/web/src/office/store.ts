@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react"
 import type { Channel, ChatMsg, Dir, Meeting, PlayerState } from "@/shared/protocol"
 import type { Floor, Obj } from "./game/map"
+import { positionAt } from "./game/motion"
 
 export interface Avatar extends PlayerState {
   /** Rendered position in tiles (interpolated). */
@@ -167,9 +168,11 @@ class OfficeStore {
 
   /** Starts a one-tile step animation toward (x,y). */
   stepTo(a: Avatar, x: number, y: number, dir: Dir, now: number) {
+    if (a.x === x && a.y === y) { a.dir = dir; return }
+    const current = positionAt(a, now, STEP_MS)
     const far = Math.abs(a.x - x) + Math.abs(a.y - y) > 1
-    a.fromX = far ? x : a.rx
-    a.fromY = far ? y : a.ry
+    a.fromX = far ? x : current.x
+    a.fromY = far ? y : current.y
     a.x = x
     a.y = y
     a.dir = dir

@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+let s=fs.readFileSync('scratch/render-office.mjs','utf8');
+s=s.replace('from "(\\.\\.?\\/[^"\\n]+)"','from "((?:\\.\\.?\\/|@/)[^"\\n]+)"');
+s=s.replace("moduleUrl(new URL(s.endsWith('.json')?s:s+'.ts',url))", "moduleUrl(s.startsWith('@/')?new URL('apps/web/src/'+s.slice(2)+'.ts',root):new URL(s.endsWith('.json')?s:s+'.ts',url))");
+s=s.replace('const canvas=art.renderStaticMap();', `Canvas.prototype.focus=function(){};
+Canvas.prototype.setAttribute=function(){};
+Canvas.prototype.addEventListener=function(){};
+Canvas.prototype.removeEventListener=function(){};
+Canvas.prototype.getBoundingClientRect=function(){return {width:this.width,height:this.height}};
+Context.prototype.measureText=function(t){return {width:t.length*7}};
+Context.prototype.fillText=function(t,x,y){this.canvas.parts.push('<text x="'+x+'" y="'+y+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="white">'+esc(t)+'</text>')};
+globalThis.window={setInterval:()=>0,clearInterval:()=>{}};
+globalThis.localStorage={getItem:()=>null};
+const preview=await import(moduleUrl(new URL('apps/web/src/app/dev/map/preview.ts',root)));
+let canvas;
+preview.mountMapPreview({replaceChildren:c=>canvas=c,clientHeight:900,clientWidth:1200},'Lobby',false);`);
+s=s.slice(0,s.indexOf('await sharp(Buffer.from(svg),{limitInputPixels:false}).png()'))+`await sharp(Buffer.from(svg),{limitInputPixels:false}).resize({width:1000,kernel:'nearest'}).png().toFile(fileURLToPath(new URL('scratch/avatar-wall-preview.png',root)));\nconsole.log('Rendered real walk-through with player and new walls.');\n`;
+fs.writeFileSync('scratch/render-walkthrough.mjs',s);

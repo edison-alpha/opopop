@@ -17,6 +17,7 @@ export const FLOORS = [
 export type Floor = (typeof FLOORS)[number]
 
 export const OBJS = [
+  "flowerPink", "flowerBlue", "trailingShelf", "snakePlant", "monstera", "oakSideTable", "recycleStation", "snackVending", "landscapePoster", "airConditioner", "coatRack", "firstAid", "magazineRack",
   "furnishedDesk", "chartEasel", "studyShelf", "filingLaptop", "pantryUnit", "meetingRound",
   "desk", "deskMonitor", "chair", "chairUp", "plant", "plantBig", "sofa", "sofaUp", "table", "roundTable",
   "whiteboard", "counter", "fridge", "coffee", "bookshelf", "tv", "arcade", "beanbag", "beanbagPink", "lamp",
@@ -48,6 +49,7 @@ export interface Area {
 
 // Seats are walkable; standing still on one makes the avatar sit.
 const BLOCKING: ReadonlySet<Obj> = new Set<Obj>([
+  "flowerPink", "flowerBlue", "trailingShelf", "snakePlant", "monstera", "oakSideTable", "recycleStation", "snackVending", "landscapePoster", "airConditioner", "coatRack", "firstAid", "magazineRack",
   "furnishedDesk", "chartEasel", "studyShelf", "filingLaptop", "pantryUnit", "meetingRound",
   "desk", "deskMonitor", "plant", "plantBig", "table", "roundTable", "whiteboard",
   "counter", "fridge", "coffee", "bookshelf", "tv", "arcade", "lamp", "pine", "tree", "bush", "window", "printer",
@@ -96,9 +98,9 @@ export function seatAt(x: number, y: number): Seat | null {
 }
 
 /** Objects that cover more than one tile, as [width, height] from the top-left tile. */
-export const FOOTPRINT: Partial<Record<Obj, [number, number]>> = { furnishedDesk: [3, 1], studyShelf: [2, 1], pantryUnit: [3, 1], roundTable: [2, 2], pingpong: [2, 1], workDesk: [3, 1], reception: [4, 2], displayShelf: [3, 2], fishTank: [2, 2], roundSmall: [1, 1], loungeTable: [2, 1] }
+export const FOOTPRINT: Partial<Record<Obj, [number, number]>> = { flowerPink:[2,1],flowerBlue:[2,1],trailingShelf:[2,1],recycleStation:[2,1],airConditioner:[2,1], koiPond: [4, 4], furnishedDesk: [3, 1], studyShelf: [2, 1], pantryUnit: [3, 1], roundTable: [2, 2], pingpong: [2, 1], workDesk: [3, 1], reception: [4, 2], displayShelf: [3, 2], fishTank: [2, 2], roundSmall: [1, 1], loungeTable: [2, 1] }
 /** Objects that hang on a wall tile instead of standing on the floor. */
-export const WALL_DECOR: ReadonlySet<Obj> = new Set<Obj>(["painting", "poster", "clock", "wallWindow"])
+export const WALL_DECOR: ReadonlySet<Obj> = new Set<Obj>(["painting", "poster", "clock", "wallWindow", "landscapePoster", "airConditioner", "firstAid"])
 /** Objects that only go on water. */
 export const WATER_ONLY: ReadonlySet<Obj> = new Set<Obj>(["lily"])
 export const floor: Floor[][] = Array.from({ length: MAP_H }, () =>

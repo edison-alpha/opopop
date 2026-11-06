@@ -1,0 +1,1 @@
+import fs from 'node:fs';const p='scripts/check-focus.mjs';let s=fs.readFileSync(p,'utf8');s=s.replace("assert(bright((left+right)/2,map.OY*32+1),'Top wall must be illuminated');", "assert(bright((left+right)/2,map.OY*32+1),'Top wall must be illuminated');\n assert(bright((left+right)/2,(map.OY-1)*32+1),'Raised horizontal wall must remain illuminated');");fs.writeFileSync(p,s);

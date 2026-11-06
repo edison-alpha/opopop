@@ -1,17 +1,16 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { store, useOffice, type Avatar } from "../store"
+import { registerMapOverlay } from "../game/overlayPositions"
 import { TILE, areas, areaAt } from "../game/map"
 import { OFFICE_DESKS, getDeskClaim, claimDesk, unclaimDesk } from "../game/desks"
 
 function HeadOverlayItem({
   player,
   isMe,
-  toScreen,
 }: {
   player: Avatar
   isMe: boolean
-  toScreen: (wx: number, wy: number) => { x: number; y: number }
 }) {
   const office = useOffice()
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -27,25 +26,23 @@ function HeadOverlayItem({
     }
   }, [stream, isCamOn])
 
-  // Initial screen position so it is positioned immediately on mount
-  const wx = (player.rx + 0.5) * TILE
-  const wy = (player.ry + 1) * TILE - 46 - (isCamOn ? 8 : 4)
-  const { x, y } = toScreen(wx, wy)
+  const bindHead = useCallback((node: HTMLDivElement | null) => registerMapOverlay("head:" + player.id, node), [player.id])
 
   return (
     <div
       id={`head-overlay-${player.id}`}
+      ref={bindHead}
       style={{
         position: "absolute",
         left: 0,
         top: 0,
-        transform: `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -100%)`,
         willChange: "transform",
         pointerEvents: "none",
         zIndex: isMe ? 35 : 30,
         transition: "none",
       }}
     >
+      <div style={{transform: "translate(-50%, -100%)"}}>
       {isCamOn ? (
         // Floating Video Bubble directly above avatar head (Gather-style compact screen, NO name when cam is ON)
         <div
@@ -190,6 +187,7 @@ function HeadOverlayItem({
           />
         </div>
       )}
+      </div>
     </div>
   )
 }
@@ -203,6 +201,7 @@ export function GameUIOverlay() {
 
   // State reaktif untuk klaim meja (agar update seketika saat diklaim/lepas)
   const [claimVersion, setClaimVersion] = useState(0)
+  const bindHover = useCallback((node: HTMLDivElement | null) => registerMapOverlay("hover-tile", node), [])
 
   useEffect(() => {
     const onStorage = () => setClaimVersion((v) => v + 1)
@@ -223,97 +222,46 @@ export function GameUIOverlay() {
   // 1. Hover indicator (4 corner brackets + dark room pill)
   // Aturan User: "kalau saya emang udah ada di area tersebut dan mouse saya di area itu juga yaudah gausah dimunculin"
   const renderHoverIndicator = () => {
-    if (isOverview || !hoverTile || !hoverTile.areaName || office.build.open) return null
+    if (isOverview || !hoverTile || office.build.open) return null
 
     // Cek area tempat pemain saat ini berdiri
     const myAreaName = office.areaName || (me ? areaAt(me.x, me.y)?.name : null)
 
     // JIKA kursor berada di ruangan/area yang sama dengan pemain -> SEMBUNYIKAN (tidak muncul)
-    if (hoverTile.areaName === myAreaName) return null
+    const showLabel = !!hoverTile.areaName && hoverTile.areaName !== myAreaName
 
-    const wx = hoverTile.tx * TILE
-    const wy = hoverTile.ty * TILE
-    const { x, y } = toScreen(wx, wy)
     const tileSize = TILE * zoom
-    const corner = Math.max(5, Math.min(8, 6 * zoom))
 
     // Format label persis Gather (seperti pada screenshot: "Coworking area: Central Couches")
-    let displayTitle = hoverTile.areaName
+    let displayTitle = hoverTile.areaName ?? ""
     if (hoverTile.areaName === "Central Couches") {
       displayTitle = "Coworking area: Central Couches"
     } else if (hoverTile.areaName === "Team") {
       displayTitle = "Coworking area: Team Workstations"
     } else if (hoverTile.areaName === "Lobby") {
       displayTitle = "Lobby & Reception"
-    } else if (hoverTile.areaName.startsWith("Focus Booth")) {
+    } else if (hoverTile.areaName?.startsWith("Focus Booth")) {
       displayTitle = `Private Office: ${hoverTile.areaName}`
     }
 
     return (
       <div
+        ref={bindHover}
         style={{
           position: "absolute",
           left: 0,
           top: 0,
-          transform: `translate3d(${x}px, ${y}px, 0)`,
-          transition: "transform 0.08s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.1s ease",
+          willChange: "transform",
           width: tileSize,
           height: tileSize,
           zIndex: 20,
           pointerEvents: "none",
         }}
       >
-        {/* 4 Corner brackets ⌜ ⌝ ⌞ ⌟ */}
-        <svg
-          width={tileSize}
-          height={tileSize}
-          style={{
-            position: "absolute",
-            inset: 0,
-            overflow: "visible",
-            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))",
-          }}
-        >
-          {/* Top-Left ⌜ */}
-          <path
-            d={`M 0 ${corner} L 0 0 L ${corner} 0`}
-            stroke="#9ca3af"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-          {/* Top-Right ⌝ */}
-          <path
-            d={`M ${tileSize - corner} 0 L ${tileSize} 0 L ${tileSize} ${corner}`}
-            stroke="#9ca3af"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-          {/* Bottom-Left ⌞ */}
-          <path
-            d={`M 0 ${tileSize - corner} L 0 ${tileSize} L ${corner} ${tileSize}`}
-            stroke="#9ca3af"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-          {/* Bottom-Right ⌟ */}
-          <path
-            d={`M ${tileSize - corner} ${tileSize} L ${tileSize} ${tileSize} L ${tileSize} ${tileSize - corner}`}
-            stroke="#9ca3af"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        </svg>
+        <div aria-hidden="true" style={{position:"absolute",inset:1,border:"1px dotted rgba(255,255,255,0.8)",backgroundImage:"url(/assets/office/hover-tile.png)",backgroundSize:"100% 100%",imageRendering:"pixelated",filter:"drop-shadow(0 1px 1px #0005)"}} />
 
-        {/* Sleek Dark Pill Room Label (Format & Style Persis Gather pada Screenshot Referensi 2) */}
-        <div
+        {/* Room label stays separate from the tile highlight. */}
+        {showLabel && <div
           style={{
             position: "absolute",
             left: "50%",
@@ -337,7 +285,7 @@ export function GameUIOverlay() {
           }}
         >
           {displayTitle}
-        </div>
+        </div>}
       </div>
     )
   }
@@ -354,6 +302,8 @@ export function GameUIOverlay() {
       // Jarak avatar lokal ke meja
       const dist = me ? Math.hypot(me.x - desk.chairTile[0], me.y - desk.chairTile[1]) : 999
       const isNear = dist <= 3.2
+      const isHovered = hoverTile && desk.deskTiles.some(([x, y]) => x === hoverTile.tx && y === hoverTile.ty)
+      if (!isNear && !isHovered && !isMyDesk) return null
 
       const { x, y } = toScreen(desk.btnPos.x, desk.btnPos.y)
 
@@ -371,6 +321,7 @@ export function GameUIOverlay() {
             zIndex: 25,
           }}
         >
+          {!isClaimed && isNear && <span style={{ background: "#252529ed", color: "white", padding: "5px 9px", borderRadius: 7, fontSize: 13, marginBottom: 4 }}>Unclaimed desk</span>}
           {isClaimed ? (
             <button
               onClick={() => {
@@ -577,7 +528,6 @@ export function GameUIOverlay() {
         key={p.id}
         player={p}
         isMe={p.id === office.meId}
-        toScreen={toScreen}
       />
     ))
   }

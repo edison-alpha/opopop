@@ -10,6 +10,7 @@ const inMap = (x: number, y: number) => x >= 0 && y >= 0 && x < MAP_W && y < MAP
 
 /** Palette groups shown in the build panel. */
 export const OBJECT_GROUPS: { name: string; items: Obj[] }[] = [
+  {name:"Garden & office details",items:["flowerPink","flowerBlue","trailingShelf","snakePlant","monstera","oakSideTable","recycleStation","snackVending","landscapePoster","airConditioner","coatRack","firstAid","magazineRack"]},
   { name: "Desks & meeting furniture", items: ["workDesk", "furnishedDesk", "roundSmall", "meetingRound", "chartEasel", "whiteboard", "studyShelf", "filingLaptop", "pantryUnit"] },
   { name: "New furniture & accessories", items: ["beanbagPurple", "bamboo", "terracottaPlant", "sideTablePlant", "sideTableMug", "monitor", "laptop", "deskPhone", "notebooks", "blueSofaBack", "blueArmchairBack", "koiPond", "loungeTable", "roundSmall"] },
   { name: "Work", items: ["workDesk", "reception", "displayShelf", "deskMonitor", "desk", "officeChairUp", "officeChair", "whiteboard", "printer", "cabinet", "cabinetPlant", "bookshelf", "tv", "table", "roundTable"] },
@@ -20,6 +21,7 @@ export const OBJECT_GROUPS: { name: string; items: Obj[] }[] = [
 ]
 
 export const OBJECT_LABEL: Partial<Record<Obj, string>> = {
+  flowerPink:"Flower Pink", flowerBlue:"Flower Blue", trailingShelf:"Trailing Shelf", snakePlant:"Snake Plant", monstera:"Monstera", oakSideTable:"Oak Side Table", recycleStation:"Recycle Station", snackVending:"Snack Vending", landscapePoster:"Landscape Poster", airConditioner:"Air Conditioner", coatRack:"Coat Rack", firstAid:"First Aid", magazineRack:"Magazine Rack",
   furnishedDesk: "White desk + computer", chartEasel: "Chart easel", studyShelf: "Bookcase + snake plant", filingLaptop: "Filing cabinet + laptop", pantryUnit: "Espresso pantry", meetingRound: "Round meeting table",
   beanbagPurple: "Purple beanbag", bamboo: "Potted bamboo", terracottaPlant: "Terracotta plant", sideTablePlant: "Side table + plant", sideTableMug: "Side table + mug", deskPhone: "Desk phone", blueSofaBack: "Blue sofa (back)", blueArmchairBack: "Blue armchair (back)", koiPond: "Koi pond",
   workDesk: "White work desk", reception: "Reception desk", displayShelf: "Display shelves", loungeTable: "Lounge coffee table",

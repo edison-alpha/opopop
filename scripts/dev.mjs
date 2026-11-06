@@ -85,6 +85,7 @@ async function main() {
   if (rustRunning) console.log("Reusing the existing Rust server on port 3001.")
   else start("Rust", "cargo", ["run", "--locked", "--manifest-path", "apps/server/Cargo.toml"], { ...process.env, PORT: "3001" })
   if (webRunning) console.log("Reusing the existing Vite server on port 3000.")
+  else if (/\.exe$/i.test(pnpmEntry)) start("Vite", pnpmEntry, ["--filter", "web", "dev"])
   else start("Vite", process.execPath, [pnpmEntry, "--filter", "web", "dev"])
 }
 

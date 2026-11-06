@@ -1,0 +1,3 @@
+import fs from 'node:fs';
+let p='apps/web/src/office/game/sprites.ts',s=fs.readFileSync(p,'utf8').replace(', bush: "terracottaPlant"','');fs.writeFileSync(p,s);
+p='scripts/check-walkthrough.mjs';s=fs.readFileSync(p,'utf8').replace("const control=stage.children[5];assert.equal(control.children[0].textContent,'Move Desk Here');", "const control=stage.children[5],action=control.children.find(c=>c.textContent==='Move Desk Here');assert(action);");s=s.replaceAll('control.children[0].onclick()', 'action.onclick()').replaceAll("control.children[0].textContent,'Release Desk'", "action.textContent,'Release Desk'");fs.writeFileSync(p,s);

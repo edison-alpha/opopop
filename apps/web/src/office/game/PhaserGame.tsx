@@ -10,6 +10,10 @@ import { VoiceActivity } from "../voiceActivity"
 import { loadOfficeSprites } from "./sprites"
 import { DoorSystem } from "./doors"
 import { DeskSystem } from "./desks"
+import { OFFICE_DESKS } from "./deskClaims"
+import { focusAreaAt, roomLightRegions, outsideLightRects, lightOutline } from "./focusLighting"
+import { positionAt } from "./motion"
+import { positionMapOverlay, clearMapOverlayPositions } from "./overlayPositions"
 import { RoomLabelSystem } from "./roomLabels"
 import { drawAvatar, redrawTiles, renderObjectThumb, renderSeatFrontRow, renderStaticMap } from "./art"
 import { REACTION_KEYS, REACTION_MS, STATUS_COLOR } from "./constants"
@@ -54,6 +58,7 @@ class OfficeScene extends Phaser.Scene {
   private voice!: VoiceActivity
   private sprites = new Map<string, Sprite>()
   private held: Dir[] = []
+  private pointerInside = false
   private lastProx = 0
   private dim!: Phaser.GameObjects.Graphics
   private dimKey: string | null = null
@@ -80,6 +85,8 @@ class OfficeScene extends Phaser.Scene {
   }
 
   create() {
+    this.events.on(Phaser.Scenes.Events.RENDER, this.syncScreenUI, this)
+    this.cleanup.push(() => { this.events.off(Phaser.Scenes.Events.RENDER, this.syncScreenUI, this); clearMapOverlayPositions() })
     this.voice = new VoiceActivity()
     window.addEventListener("pointerdown", this.voice.resume)
     window.addEventListener("keydown", this.voice.resume)
@@ -102,6 +109,7 @@ class OfficeScene extends Phaser.Scene {
     this.roomLabels = new RoomLabelSystem(this)
     this.cleanup.push(() => this.roomLabels.destroy())
     this.input.on("pointermove", (p: Phaser.Input.Pointer) => {
+      this.pointerInside = true
       const tx = Math.floor(p.worldX / TILE)
       const ty = Math.floor(p.worldY / TILE)
       const area = areaAt(tx, ty)
@@ -109,6 +117,7 @@ class OfficeScene extends Phaser.Scene {
       this.roomLabels.onPointerMove(p)
     })
     this.input.on("gameout", () => {
+      this.pointerInside = false
       store.setHoverTile(null, null)
       this.roomLabels.onGameOut()
     })
@@ -158,8 +167,6 @@ class OfficeScene extends Phaser.Scene {
     this.input.on("pointerup", (p: Phaser.Input.Pointer) => {
       if (store.build.open) return // build mode has its own handlers
       if (p.getDistance() > 6) return // was a drag
-      if (this.deskSystem.handlePointerUp(p.worldX, p.worldY)) return
-      if (this.deskSystem.handleBadgeClick(p.worldX, p.worldY)) return
       const tx = Math.floor(p.worldX / TILE)
       const ty = Math.floor(p.worldY / TILE)
       for (const a of store.players.values()) {
@@ -171,7 +178,9 @@ class OfficeScene extends Phaser.Scene {
           return
         }
       }
-      walkTo(tx, ty)
+      const desk = OFFICE_DESKS.find(d => d.deskTiles.some(([x, y]) => x === tx && y === ty))
+      if (desk) walkTo(...desk.chairTile)
+      else walkTo(tx, ty)
     })
     const onWheel = (e: WheelEvent) => {
       if (!e.ctrlKey) return
@@ -431,31 +440,42 @@ class OfficeScene extends Phaser.Scene {
   }
 
   private updateDim(area: Area | null) {
-    const key = area ? `${area.name}:${area.x},${area.y},${area.w},${area.h}` : null
+    const regions = area ? roomLightRegions(area) : []
+    const key = regions.length ? JSON.stringify(regions) : null
     if (key === this.dimKey) return
     this.dimKey = key
     this.dim.clear()
+    if (!regions.length) return
+    this.dim.fillStyle(0x111a20, 0.42)
+    for (const r of outsideLightRects(regions, MAP_W*TILE, MAP_H*TILE)) this.dim.fillRect(r.x,r.y,r.w,r.h)
+    this.dim.lineStyle(1,0xe5f0df,0.75)
+    for (const [x1,y1,x2,y2] of lightOutline(regions)) this.dim.lineBetween(x1,y1,x2,y2)
+  }
 
-    // Hanya ruangan private/tertutup (Focus Booths atau Meja Pribadi yang diklaim)
-    // Area terbuka seperti Lobby, Lounge, Café, Team Pod, Courtyard TIDAK BOLEH menggelapkan layar
-    if (!area) return
-    const isPrivateFocusRoom = area.private
-
-    if (!isPrivateFocusRoom) return
-
-    const mapW = MAP_W * TILE
-    const mapH = MAP_H * TILE
-    const ax = area.x * TILE, ay = area.y * TILE, aw = area.w * TILE, ah = area.h * TILE
-
-    // Dimming halus & elegan (40% focus overlay, bukan hitam pekat)
-    this.dim.fillStyle(0x0a0f1d, 0.42)
-    this.dim.fillRect(0, 0, mapW, ay)
-    this.dim.fillRect(0, ay + ah, mapW, mapH - ay - ah)
-    this.dim.fillRect(0, ay, ax, ah)
-    this.dim.fillRect(ax + aw, ay, mapW - ax - aw, ah)
-
-    // Border glowing halus penanda ruangan private
-    this.dim.lineStyle(2, 0x818cf8, 0.7).strokeRect(ax, ay, aw, ah)
+  /** Runs after camera follow/preRender, using the exact sprite and camera matrix rendered this frame. */
+  private syncScreenUI() {
+    const cam = this.cameras.main, v = cam.worldView
+    // Camera.matrix is used by Phaser's renderer but omitted from its Camera typings.
+    const matrix = (cam as typeof cam & {matrix: Phaser.GameObjects.Components.TransformMatrix}).matrix
+    store.view = {x:v.x,y:v.y,w:v.width,h:v.height}
+    if (this.pointerInside && !store.build.open) {
+      const pointer = this.input.activePointer
+      const world = cam.getWorldPoint(pointer.x, pointer.y)
+      const tx = Math.floor(world.x / TILE), ty = Math.floor(world.y / TILE)
+      if (tx >= 0 && ty >= 0 && tx < MAP_W && ty < MAP_H) store.setHoverTile(tx,ty,areaAt(tx,ty)?.name ?? null)
+      else store.setHoverTile(null,null)
+    }
+    for (const player of store.players.values()) {
+      const sprite = this.sprites.get(player.id)
+      if (!sprite) continue
+      const point = matrix.transformPoint(sprite.root.x - cam.scrollX, sprite.root.y + sprite.body.y - HEAD_H - 8 - cam.scrollY)
+      positionMapOverlay('head:' + player.id, {x:point.x,y:point.y,visible:cam.zoom > 0.65 && (player.cam || store.preferences.nameLabels)})
+    }
+    const hover = store.hoverTile
+    if (hover && !store.build.open && cam.zoom > 0.65) {
+      const point = matrix.transformPoint(hover.tx*TILE-cam.scrollX,hover.ty*TILE-cam.scrollY)
+      positionMapOverlay('hover-tile',{x:point.x,y:point.y,visible:true})
+    } else positionMapOverlay('hover-tile',{x:0,y:0,visible:false})
   }
 
   update(time: number) {
@@ -488,10 +508,10 @@ class OfficeScene extends Phaser.Scene {
         s.key = this.avatarTexture(a.look)
         s.body.setTexture(s.key, `${a.dir}0`)
       }
-      const t = Math.min(1, (now - a.stepStart) / STEP_MS)
-      a.rx = a.fromX + (a.x - a.fromX) * t
-      a.ry = a.fromY + (a.y - a.fromY) * t
-      const walking = t < 1
+      const motion = positionAt(a, now, STEP_MS)
+      a.rx = motion.x
+      a.ry = motion.y
+      const walking = motion.walking
       // Standing still on a chair/sofa/bench/stool = sitting on it, facing the seat's way.
       const seat = walking ? null : seatAt(a.x, a.y)
       s.speech.setY(-HEAD_H + 12 - (seat?.lift ?? 0)).setVisible(store.preferences.speechBubbles && this.voice.isSpeaking(a.id, now))
@@ -548,35 +568,12 @@ class OfficeScene extends Phaser.Scene {
       const s = me && this.sprites.get(me.id)
       if (s) cam.centerOn(s.root.x, s.root.y)
     }
-    const v = cam.worldView
-    store.view = { x: v.x, y: v.y, w: v.width, h: v.height }
-
-    // 60 FPS rigid tracking for DOM head overlays (nametag & camera video bubble)
-    const isOverview = cam.zoom <= 0.65
-    for (const a of store.players.values()) {
-      const el = document.getElementById(`head-overlay-${a.id}`)
-      if (!el) continue
-      if ((!a.cam && !store.preferences.nameLabels) || isOverview) {
-        el.style.display = "none"
-        continue
-      }
-      el.style.display = "block"
-      const seat = now - a.stepStart >= STEP_MS ? seatAt(a.x, a.y) : null
-      const headLift = seat?.lift ?? 0
-      // Stable continuous world coordinates (not affected by character's walking bounce)
-      const wx = (a.rx + 0.5) * TILE
-      const wy = (a.ry + 1) * TILE - HEAD_H - headLift - (a.cam ? 8 : 4)
-      const sx = (wx - v.x) * cam.zoom
-      const sy = (wy - v.y) * cam.zoom
-      el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) translate(-50%, -100%)`
-    }
-
     const allPlayers = [...store.players.values()].map((p) => ({ x: p.rx + 0.5, y: p.ry + 0.5 }))
     this.doorSystem.update(allPlayers)
     this.deskSystem.update(me)
     this.roomLabels.update(cam.zoom)
 
-    this.updateDim(me && !building ? areaAt(me.x, me.y) : null)
+    this.updateDim(me && !building ? focusAreaAt(me.rx+0.5, me.ry+0.5) : null)
     void time
   }
 }

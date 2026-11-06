@@ -8,6 +8,7 @@
  * 4. Area pintu 100% bebas hambatan (walkable), pemain bebas berjalan tanpa terblokir.
  */
 import * as Phaser from "phaser"
+import { doorFrame } from "./doorGeometry"
 import { TILE } from "./map"
 import { OFFICE_ORIGIN, LAYOUT_DOORS } from "./layout"
 
@@ -83,6 +84,7 @@ export class DoorObject {
 
   private render() {
     this.gfx.clear()
+    for (const p of doorFrame(this.def.tiles, this.def.orientation, this.def.id.startsWith("focus-")).posts) this.drawDoorPost(p.x,p.y,p.w,p.h)
     if (this.def.orientation === "horizontal") {
       this.renderHorizontalDoor()
     } else {
@@ -210,20 +212,16 @@ export class DoorObject {
     const maxX = Math.max(...tiles.map((t) => t[0]))
     const tileY = tiles[0][1]
 
-    const leftX = minX * TILE
-    const rightX = (maxX + 1) * TILE
-    const centerY = tileY * TILE + TILE / 2
-
-    // 1. Tiang kusen pintu kayu tetap
-    this.drawDoorPost(leftX - 2, centerY - 14, 5, 28)
-    this.drawDoorPost(rightX - 3, centerY - 14, 5, 28)
+    const frame = doorFrame(tiles, 'horizontal', this.def.id.startsWith('focus-'))
+    const leftX = frame.left, rightX = frame.right, centerY = frame.centerY
+    if (this.def.id.startsWith('focus-')) return
 
     // 2. Garis ambang pintu (threshold line) di lantai
     this.gfx.lineStyle(2, 0xa16207, 0.75)
     this.gfx.lineBetween(leftX + 2, centerY + 12, rightX - 2, centerY + 12)
 
     // 3. Daun Pintu Ganda yang Mengayun
-    const leafLen = 31
+    const leafLen = (rightX - leftX) / 2 - 2
     const leafThick = 6
     // Maksimum ayunan 85° agar tetap terlihat proporsional di dinding
     const maxAngle = Math.PI * 0.47
@@ -257,16 +255,14 @@ export class DoorObject {
     const bottomY = (maxY + 1) * TILE
 
     // 1. Tiang kusen pintu kayu tetap
-    this.drawDoorPost(centerX - 14, topY - 2, 28, 5)
-    this.drawDoorPost(centerX - 14, bottomY - 3, 28, 5)
 
     // 2. Garis ambang pintu (threshold line) di lantai
     this.gfx.lineStyle(2, 0xa16207, 0.75)
-    this.gfx.lineBetween(centerX + 12, topY + 2, centerX + 12, bottomY - 2)
+    this.gfx.lineBetween(centerX, topY + 2, centerX, bottomY - 2)
 
     // 3. Daun Pintu Ganda yang Mengayun
     const leafLen = 31
-    const leafThick = 6
+    const leafThick = 4
     const maxAngle = Math.PI * 0.47
     const currentAngle = this.openness * maxAngle
 
@@ -276,12 +272,12 @@ export class DoorObject {
     // Top Leaf (Hinge di sudut atas kusen)
     // Sudut istirahat (tertutup) = PI/2 rad (mengarah ke bawah)
     const topAngle = Math.PI * 0.5 - currentAngle * dirSign
-    this.drawLeaf(centerX - 12, topY + 2, topAngle, leafLen, leafThick, true)
+    this.drawLeaf(centerX - 2, topY + 2, topAngle, leafLen, leafThick, true)
 
     // Bottom Leaf (Hinge di sudut bawah kusen)
     // Sudut istirahat (tertutup) = -PI/2 rad (mengarah ke atas)
     const bottomAngle = -Math.PI * 0.5 + currentAngle * dirSign
-    this.drawLeaf(centerX - 12, bottomY - 2, bottomAngle, leafLen, leafThick, false)
+    this.drawLeaf(centerX - 2, bottomY - 2, bottomAngle, leafLen, leafThick, false)
   }
 }
 
