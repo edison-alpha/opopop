@@ -12,6 +12,7 @@ import { CommandPalette } from "./ui/CommandPalette"
 import { JoinScreen } from "./ui/JoinScreen"
 import { MeetingRestore, MeetingView } from "./ui/Meeting"
 import { MapControls, Minimap, StageHeader, ToastBar } from "./ui/Overlays"
+import { GameUIOverlay } from "./ui/GameUIOverlay"
 import { Rail } from "./ui/Rail"
 import { SettingsModal } from "./ui/SettingsModal"
 import { Sidebar } from "./ui/Sidebar"
@@ -26,6 +27,7 @@ function Stage({ onLeave }: { onLeave: () => void }) {
     <main className={`stage ${chat ? "is-chat" : ""} ${calendar ? "is-calendar" : ""}`}>
       {/* The map keeps running underneath the chat/calendar so movement and audio continue. */}
       <PhaserGame />
+      <GameUIOverlay />
       {chat ? (
         <ChatMain />
       ) : calendar ? (

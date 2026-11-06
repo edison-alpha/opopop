@@ -55,50 +55,104 @@ export const OFFICE_DESKS: DeskDef[] = [
     id: "focus-booth-1",
     roomName: "Focus Booth 1",
     displayName: "Focus Booth 1",
-    chairTile: [OX + 15, OY + 2],
+    chairTile: [OX + 6, OY + 1],
     deskTiles: [
-      [OX + 15, OY + 1],
-      [OX + 16, OY + 1],
+      [OX + 5, OY + 2],
+      [OX + 6, OY + 2],
+      [OX + 7, OY + 2],
     ],
     badgePos: {
-      x: (OX + 15.5) * TILE,
-      y: (OY + 10) * TILE - 12,
+      x: (OX + 6.5) * TILE,
+      y: (OY + 9) * TILE - 12,
     },
     btnPos: {
-      x: (OX + 15.5) * TILE,
+      x: (OX + 6.5) * TILE,
       y: (OY + 2) * TILE + 4,
     },
     doorId: "focus-1",
     roomBounds: {
-      x: OX + 14,
+      x: OX + 2,
       y: OY + 1,
-      w: 4,
-      h: 9,
+      w: 9,
+      h: 8,
     },
   },
   {
     id: "focus-booth-2",
     roomName: "Focus Booth 2",
     displayName: "Focus Booth 2",
-    chairTile: [OX + 20, OY + 2],
+    chairTile: [OX + 18, OY + 1],
     deskTiles: [
-      [OX + 20, OY + 1],
-      [OX + 21, OY + 1],
+      [OX + 17, OY + 2],
+      [OX + 18, OY + 2],
+      [OX + 19, OY + 2],
     ],
     badgePos: {
-      x: (OX + 20.5) * TILE,
-      y: (OY + 10) * TILE - 12,
+      x: (OX + 18.5) * TILE,
+      y: (OY + 9) * TILE - 12,
     },
     btnPos: {
-      x: (OX + 20.5) * TILE,
+      x: (OX + 18.5) * TILE,
       y: (OY + 2) * TILE + 4,
     },
     doorId: "focus-2",
     roomBounds: {
-      x: OX + 19,
+      x: OX + 14,
       y: OY + 1,
-      w: 4,
-      h: 9,
+      w: 9,
+      h: 8,
+    },
+  },
+  {
+    id: "focus-booth-3",
+    roomName: "Focus Booth 3",
+    displayName: "Focus Booth 3",
+    chairTile: [OX + 42, OY + 1],
+    deskTiles: [
+      [OX + 41, OY + 2],
+      [OX + 42, OY + 2],
+      [OX + 43, OY + 2],
+    ],
+    badgePos: {
+      x: (OX + 42.5) * TILE,
+      y: (OY + 9) * TILE - 12,
+    },
+    btnPos: {
+      x: (OX + 42.5) * TILE,
+      y: (OY + 2) * TILE + 4,
+    },
+    doorId: "focus-3",
+    roomBounds: {
+      x: OX + 38,
+      y: OY + 1,
+      w: 9,
+      h: 8,
+    },
+  },
+  {
+    id: "focus-booth-4",
+    roomName: "Focus Booth 4",
+    displayName: "Focus Booth 4",
+    chairTile: [OX + 54, OY + 1],
+    deskTiles: [
+      [OX + 53, OY + 2],
+      [OX + 54, OY + 2],
+      [OX + 55, OY + 2],
+    ],
+    badgePos: {
+      x: (OX + 54.5) * TILE,
+      y: (OY + 9) * TILE - 12,
+    },
+    btnPos: {
+      x: (OX + 54.5) * TILE,
+      y: (OY + 2) * TILE + 4,
+    },
+    doorId: "focus-4",
+    roomBounds: {
+      x: OX + 50,
+      y: OY + 1,
+      w: 9,
+      h: 8,
     },
   },
 ]
@@ -257,6 +311,7 @@ export class DeskObject {
         this.badgeText,
       ])
       .setDepth(120)
+      .setVisible(false)
 
     // 2. "Move Desk Here" Button Container
     this.btnBg = scene.add.graphics()
@@ -452,7 +507,7 @@ export class DeskObject {
     // dan meja tersebut BELUM diklaim oleh pemain ini sendiri
     const showButton = dist <= 3.8 && !isMyDesk
     this.isBtnNearby = showButton
-    this.btnContainer.setVisible(showButton)
+    this.btnContainer.setVisible(false)
   }
 
   destroy() {

@@ -8,7 +8,7 @@ import type { MapOp } from "@/shared/protocol"
 
 export const TILE = 32
 const BW = 60
-const BH = 44
+const BH = 38
 const OX = 13
 const OY = 9
 export const MAP_W = OX + BW + 13
@@ -150,154 +150,141 @@ function build() {
   fill(0, 0, BW - 1, BH - 1, "hall")
   walls(0, 0, BW - 1, BH - 1)
 
-  // ───────── Top band: rooms (y 0..10) ─────────
+  // ───────── Top Band: 4 Private Offices + Central Outdoor Koi Pond (y 0..9) ─────────
 
-  // Pantry
-  room(0, 0, 13, 10, "kitchen", [[6, 10], [7, 10]], "hall")
-  area({ name: "Pantry", x: 1, y: 1, w: 12, h: 9, private: false, label: true })
-  put(1, 1, "fridge"); for (let x = 2; x <= 8; x++) put(x, 1, "counter"); put(9, 1, "coffee")
-  put(11, 1, "plant"); put(12, 1, "vending"); put(1, 4, "waterCooler"); put(1, 9, "trash"); put(12, 9, "plantBig")
-  for (const [tx, ty] of [[4, 5], [9, 5]]) {
-    put(tx, ty, "roundTable"); put(tx + 1, ty, "roundTable"); put(tx, ty + 1, "roundTable"); put(tx + 1, ty + 1, "roundTable")
-    put(tx, ty - 1, "chair"); put(tx + 1, ty - 1, "chair"); put(tx, ty + 2, "chairUp"); put(tx + 1, ty + 2, "chairUp")
-    put(tx - 1, ty, "chairR"); put(tx + 2, ty + 1, "chairL")
+  // 1. Focus Booth 1 (Private Office 1)
+  room(1, 0, 11, 9, "lavender", [[6, 9]], "hall")
+  area({ name: "Focus Booth 1", x: 2, y: 1, w: 9, h: 8, private: true })
+  put(5, 2, "deskMonitor"); put(6, 2, "desk"); put(7, 2, "desk")
+  put(6, 1, "officeChair")
+  put(2, 1, "plantBig"); put(10, 1, "plant")
+  put(4, 0, "wallWindow"); put(8, 0, "wallWindow")
+
+  // 2. Focus Booth 2 (Private Office 2)
+  room(13, 0, 23, 9, "lavender", [[18, 9]], "hall")
+  area({ name: "Focus Booth 2", x: 14, y: 1, w: 9, h: 8, private: true })
+  put(17, 2, "deskMonitor"); put(18, 2, "desk"); put(19, 2, "desk")
+  put(18, 1, "officeChair")
+  put(14, 1, "plantBig"); put(22, 1, "plant")
+  put(16, 0, "wallWindow"); put(20, 0, "wallWindow")
+
+  // 3. Central Outdoor Courtyard & Koi Pond (Photo 2 Top-Center)
+  fill(24, 0, 36, 9, "path")
+  for (let y = 0; y <= 9; y++) { setF(24, y, "wall"); setF(36, y, "wall") }
+  // Organic Koi Pond in the middle
+  fill(27, 2, 33, 7, "water")
+  put(28, 4, "lily"); put(31, 5, "lily")
+  // Patio Deck Chairs around the pond
+  put(29, 1, "chair"); put(31, 1, "chair")
+  put(29, 8, "chairUp"); put(31, 8, "chairUp")
+  put(26, 4, "chairR"); put(34, 5, "chairL")
+  // Surrounding lush shrubs
+  put(25, 1, "bush"); put(35, 1, "bush"); put(25, 8, "bush"); put(35, 8, "bush")
+  area({ name: "Koi Pond Courtyard", x: 25, y: 1, w: 11, h: 8, private: false, label: true })
+
+  // 4. Focus Booth 3 (Private Office 3)
+  room(37, 0, 47, 9, "lavender", [[42, 9]], "hall")
+  area({ name: "Focus Booth 3", x: 38, y: 1, w: 9, h: 8, private: true })
+  put(41, 2, "deskMonitor"); put(42, 2, "desk"); put(43, 2, "desk")
+  put(42, 1, "officeChair")
+  put(38, 1, "plantBig"); put(46, 1, "plant")
+  put(40, 0, "wallWindow"); put(44, 0, "wallWindow")
+
+  // 5. Focus Booth 4 (Private Office 4)
+  room(49, 0, 59, 9, "lavender", [[54, 9]], "hall")
+  area({ name: "Focus Booth 4", x: 50, y: 1, w: 9, h: 8, private: true })
+  put(53, 2, "deskMonitor"); put(54, 2, "desk"); put(55, 2, "desk")
+  put(54, 1, "officeChair")
+  put(50, 1, "plantBig"); put(58, 1, "plant")
+  put(52, 0, "wallWindow"); put(56, 0, "wallWindow")
+
+  // ───────── Central Corridor (y 10..13) ─────────
+  put(9, 10, "arcade")
+  put(11, 10, "bookshelf"); put(12, 10, "bookshelf")
+  put(20, 10, "counter"); put(21, 10, "coffee"); put(22, 10, "fridge")
+  put(27, 10, "whiteboard")
+  put(34, 10, "lampPost")
+  put(38, 10, "bookshelf"); put(39, 10, "bookshelf")
+  put(48, 10, "whiteboard")
+
+  // ───────── Middle Band: Lounge, Team Pod, Café & Conference (y 14..26) ─────────
+
+  // Breakroom / Café (Far-Left)
+  room(1, 14, 11, 26, "wood", [[11, 20]], "hall")
+  area({ name: "Café", x: 2, y: 15, w: 9, h: 11, private: false, label: true })
+  cafeSet(4, 17); cafeSet(8, 17)
+  cafeSet(4, 23); cafeSet(8, 23)
+  put(2, 15, "counter"); put(3, 15, "coffee"); put(4, 15, "waterCooler"); put(10, 15, "plantBig")
+
+  // Central Lounge (Center-Left: Striped Slate Rug + Cognac Sofas)
+  fill(13, 14, 28, 26, "slate")
+  area({ name: "Lounge", x: 13, y: 14, w: 16, h: 12, private: false, label: true })
+  // Modern bookcases on left & right
+  put(13, 14, "bookshelf"); put(13, 15, "bookshelf"); put(13, 25, "cabinetPlant")
+  put(28, 14, "bookshelf"); put(28, 15, "bookshelf"); put(28, 25, "cabinetPlant")
+  // Cognac leather sofas facing each other
+  put(18, 16, "sofa"); put(19, 16, "sofa"); put(20, 16, "sofa"); put(21, 16, "sofa"); put(22, 16, "sofa")
+  put(19, 19, "coffeeTable"); put(20, 19, "coffeeTable"); put(21, 19, "coffeeTable")
+  put(18, 22, "sofaUp"); put(19, 22, "sofaUp"); put(20, 22, "sofaUp"); put(21, 22, "sofaUp"); put(22, 22, "sofaUp")
+  // Colorful beanbags
+  put(15, 18, "beanbag"); put(15, 20, "beanbagPink"); put(25, 18, "beanbagPink"); put(25, 20, "beanbag")
+
+  // Team Desk Pod (Center-Right: Purple Chevron Carpet + 6 Modern Desks)
+  fill(31, 14, 46, 26, "lavender")
+  area({ name: "Team", x: 31, y: 14, w: 16, h: 12, private: false, label: true })
+  // Top row: 3 connected desks facing down
+  put(33, 16, "deskMonitor"); put(34, 16, "deskMonitor"); put(35, 16, "deskMonitor")
+  put(39, 16, "deskMonitor"); put(40, 16, "deskMonitor"); put(41, 16, "deskMonitor")
+  put(34, 18, "officeChairUp"); put(40, 18, "officeChairUp")
+  // Bottom row: 3 connected desks facing up
+  put(33, 21, "deskMonitor"); put(34, 21, "deskMonitor"); put(35, 21, "deskMonitor")
+  put(39, 21, "deskMonitor"); put(40, 21, "deskMonitor"); put(41, 21, "deskMonitor")
+  put(34, 23, "officeChairUp"); put(40, 23, "officeChairUp")
+  put(31, 26, "printer"); put(46, 26, "plantBig"); put(31, 14, "whiteboard"); put(46, 14, "whiteboard")
+
+  // Meeting Room A (Boardroom - Upper Right)
+  room(48, 11, 58, 18, "carpet", [[48, 14]], "hall")
+  area({ name: "Meeting Room A", x: 49, y: 12, w: 9, h: 6, private: true, meeting: true })
+  put(53, 14, "roundTable"); put(54, 14, "roundTable"); put(53, 15, "roundTable"); put(54, 15, "roundTable")
+  put(53, 13, "chair"); put(54, 13, "chair"); put(53, 16, "chairUp"); put(54, 16, "chairUp")
+  put(52, 14, "chairR"); put(55, 15, "chairL")
+  put(50, 12, "whiteboard"); put(57, 12, "plantBig")
+
+  // Meeting Room B (Huddle Room - Lower Right)
+  room(48, 19, 58, 26, "slate", [[48, 22]], "hall")
+  area({ name: "Meeting Room B", x: 49, y: 20, w: 9, h: 6, private: true, meeting: true })
+  put(53, 22, "coffeeTable"); put(54, 22, "coffeeTable")
+  put(53, 21, "chair"); put(54, 21, "chair"); put(53, 24, "chairUp"); put(54, 24, "chairUp")
+  put(49, 20, "cabinet"); put(57, 20, "lampPost")
+
+  // ───────── Bottom Band: Lobby & Reception (y 27..37) ─────────
+  fill(1, 27, 34, 37, "wood")
+  area({ name: "Lobby", x: 2, y: 27, w: 32, h: 10, private: false, label: true })
+  // Blue modular L-couch on diamond rug
+  fill(3, 28, 12, 34, "rug")
+  put(4, 29, "sofa"); put(5, 29, "sofa"); put(6, 29, "sofa"); put(7, 29, "sofa")
+  put(4, 30, "sofa"); put(4, 31, "sofa"); put(4, 32, "sofa")
+  put(6, 31, "coffeeTable"); put(7, 31, "coffeeTable")
+  // Curved reception desk
+  put(18, 30, "desk"); put(19, 30, "deskMonitor"); put(20, 30, "desk")
+  put(19, 29, "officeChair")
+  // Abstract swirling blue mural on north lobby wall
+  put(8, 27, "painting"); put(9, 27, "painting")
+  put(2, 28, "plantBig"); put(23, 28, "lampPost")
+
+  // Tech & Archives (Bottom Right: x 35..58)
+  fill(35, 27, 58, 37, "wood")
+  area({ name: "HR & Finance", x: 35, y: 27, w: 23, h: 10, private: true, label: true })
+  put(36, 28, "cabinet"); put(37, 28, "cabinet"); put(38, 28, "waterCooler")
+  put(56, 28, "vending"); put(57, 28, "printer"); put(58, 28, "cabinetPlant")
+
+  // Floor-to-ceiling glass windows on South Wall overlooking the garden
+  for (let x = 3; x <= 57; x += 3) {
+    if (x < 33 || x > 36) put(x, 37, "wallWindow")
   }
-  put(3, 0, "wallWindow"); put(10, 0, "wallWindow")
 
-  // Focus booths
-  for (const [x0, i] of [[13, 1], [18, 2]] as const) {
-    room(x0, 0, x0 + 5, 10, "lavender", [[x0 + 2, 10], [x0 + 3, 10]], "hall")
-    area({ name: `Focus Booth ${i}`, x: x0 + 1, y: 1, w: 4, h: 9, private: true })
-    put(x0 + 2, 1, "deskMonitor"); put(x0 + 3, 1, "desk"); put(x0 + 2, 2, "officeChairUp")
-    put(x0 + 1, 1, "plant")
-    put(x0 + 4, 1, "lamp"); put(x0 + 4, 5, i === 1 ? "beanbag" : "beanbagPink"); put(x0 + 4, 9, "bookshelf"); put(x0 + 1, 9, "plant")
-    put(x0 + 2, 0, "wallWindow"); put(x0 + 3, 0, "wallWindow")
-  }
-
-  // Meeting Room A (boardroom)
-  room(23, 0, 35, 10, "slate", [[29, 10], [30, 10]], "hall")
-  area({ name: "Meeting Room A", x: 24, y: 1, w: 11, h: 9, private: true, meeting: true })
-  for (let x = 26; x <= 32; x++) { put(x, 4, "table"); put(x, 5, "table"); put(x, 6, "table"); put(x, 3, "chair"); put(x, 7, "chairUp") }
-  put(25, 5, "chairR"); put(33, 5, "chairL")
-  put(28, 1, "tv"); put(29, 1, "tv"); put(30, 1, "tv"); put(32, 1, "whiteboard"); put(33, 1, "whiteboard")
-  put(24, 1, "plantBig"); put(34, 1, "cabinetPlant"); put(24, 9, "plant"); put(34, 9, "plant")
-  put(26, 0, "wallWindow"); put(32, 0, "wallWindow")
-
-  // Meeting Room B (huddle)
-  room(35, 0, 45, 10, "carpet", [[40, 10]], "hall")
-  area({ name: "Meeting Room B", x: 36, y: 1, w: 9, h: 9, private: true, meeting: true })
-  put(39, 4, "roundTable"); put(40, 4, "roundTable"); put(39, 5, "roundTable"); put(40, 5, "roundTable")
-  put(39, 3, "chair"); put(40, 3, "chair"); put(39, 6, "chairUp"); put(40, 6, "chairUp"); put(38, 4, "chairR"); put(41, 5, "chairL")
-  put(37, 1, "whiteboard"); put(38, 1, "whiteboard"); put(43, 1, "bookshelf"); put(44, 1, "cabinetPlant")
-  put(36, 9, "plant"); put(44, 9, "lamp"); put(40, 0, "wallWindow")
-
-  // HR & Finance office
-  room(45, 0, 59, 10, "wood", [[51, 10], [52, 10]], "hall")
-  area({ name: "HR & Finance", x: 46, y: 1, w: 13, h: 9, private: true, label: true })
-  deskRow(47, 2, 3); deskRow(54, 2, 3); deskRow(47, 6, 3); deskRow(54, 6, 3)
-  put(46, 1, "cabinet"); put(58, 1, "bookshelf"); put(57, 1, "bookshelf"); put(46, 9, "plantBig"); put(58, 9, "printer")
-  put(51, 4, "plant"); put(52, 4, "waterCooler")
-  put(48, 0, "wallWindow"); put(55, 0, "wallWindow")
-
-  // Corridor wall decor (faces of the top rooms, seen from the hallway)
-  put(2, 10, "poster"); put(11, 10, "poster"); put(26, 10, "clock"); put(33, 10, "poster")
-  put(43, 10, "poster"); put(48, 10, "painting"); put(49, 10, "painting"); put(56, 10, "poster")
-
-  // ───────── Middle band: division floors (y 13..26) ─────────
-
-  // Engineering
-  fill(1, 13, 20, 26, "lavender")
-  area({ name: "Engineering", x: 1, y: 13, w: 20, h: 14, private: false, label: true })
-  for (const y of [14, 18, 22]) { deskRow(2, y, 7); deskRow(11, y, 7) }
-  put(19, 14, "whiteboard"); put(20, 14, "whiteboard"); put(20, 17, "cabinetPlant"); put(20, 21, "cabinet")
-  put(1, 26, "plantBig"); put(10, 26, "printer"); put(19, 26, "trash"); put(20, 26, "plant"); put(9, 13, "plant")
-
-  // Design Studio
-  fill(22, 13, 35, 26, "wood")
-  area({ name: "Design Studio", x: 22, y: 13, w: 14, h: 14, private: false, label: true })
-  deskRow(23, 14, 6); deskRow(30, 14, 5); deskRow(23, 18, 6); deskRow(30, 18, 5)
-  put(30, 23, "whiteboard"); put(31, 23, "whiteboard"); put(32, 23, "whiteboard")
-  fill(23, 22, 28, 26, "rugBlue")
-  put(24, 24, "beanbag"); put(25, 24, "coffeeTable"); put(26, 24, "coffeeTable"); put(27, 24, "beanbagPink")
-  put(24, 22, "sofa"); put(25, 22, "sofa"); put(26, 22, "sofa"); put(27, 22, "sofa")
-  put(33, 25, "table"); put(34, 25, "table"); put(33, 24, "chair"); put(34, 26, "chairUp")
-  put(22, 26, "plant"); put(35, 26, "plantBig"); put(35, 22, "lamp"); put(29, 26, "trash")
-
-  // Marketing & Sales
-  fill(37, 13, 58, 26, "carpet")
-  area({ name: "Marketing & Sales", x: 37, y: 13, w: 22, h: 14, private: false, label: true })
-  for (const y of [14, 18, 22]) { deskRow(38, y, 7); deskRow(47, y, 7) }
-  put(56, 14, "tv"); put(57, 14, "tv"); put(56, 18, "whiteboard"); put(57, 18, "whiteboard")
-  put(56, 22, "sofaUp"); put(57, 22, "sofaUp"); put(56, 20, "coffeeTable")
-  put(37, 26, "plant"); put(58, 26, "plantBig"); put(55, 26, "printer"); put(46, 26, "trash"); put(58, 13, "plant")
-
-  // Corridor planters between zones
-  for (const [x, y] of [[21, 13], [21, 26], [36, 13], [36, 26], [1, 11], [58, 11], [1, 28], [58, 28]]) put(x, y, "plant")
-  put(21, 20, "waterCooler"); put(36, 20, "plantBig")
-
-  // ───────── Bottom band: hangouts + lobby (y 29..43) ─────────
-
-  // Lounge (with a side door to the terrace)
-  room(0, 29, 16, 43, "wood", [[7, 29], [8, 29], [9, 29], [0, 36], [0, 37]])
-  area({ name: "Lounge", x: 1, y: 30, w: 15, h: 13, private: false, label: true })
-  fill(9, 31, 15, 35, "rugWarm"); fill(1, 36, 6, 42, "rugBlue")
-  for (let x = 1; x <= 4; x++) put(x, 30, "bookshelf")
-  put(5, 30, "plantBig"); put(6, 30, "lamp")
-  put(11, 30, "tv"); put(12, 30, "tv"); put(13, 30, "tv"); put(10, 30, "cabinet"); put(14, 30, "cabinet"); put(15, 30, "plant")
-  for (let x = 10; x <= 14; x++) put(x, 34, "sofaUp")
-  put(11, 32, "coffeeTable"); put(13, 32, "coffeeTable"); put(9, 32, "beanbag"); put(15, 32, "beanbagPink")
-  for (let x = 2; x <= 5; x++) { put(x, 37, "sofa"); put(x, 41, "sofaUp") }
-  put(3, 39, "coffeeTable"); put(4, 39, "coffeeTable"); put(1, 38, "chairR"); put(6, 40, "chairL"); put(1, 36, "lamp"); put(6, 36, "plantBig")
-  put(10, 39, "pingpong"); put(11, 39, "pingpong"); put(9, 39, "stool"); put(12, 39, "stool")
-  put(15, 37, "arcade"); put(15, 38, "arcade")
-  put(15, 42, "plant"); put(1, 42, "plant"); put(8, 42, "trash"); put(13, 42, "plantBig"); put(10, 42, "waterCooler")
-  put(4, 43, "wallWindow"); put(12, 43, "wallWindow"); put(2, 29, "poster"); put(13, 29, "clock")
-
-  // Café
-  room(16, 29, 31, 43, "wood", [[27, 29], [28, 29], [29, 29]])
-  area({ name: "Café", x: 17, y: 30, w: 14, h: 13, private: false, label: true })
-  put(17, 30, "whiteboard"); for (let x = 18; x <= 23; x++) put(x, 30, "counter")
-  put(24, 30, "coffee"); put(25, 30, "coffee"); put(30, 31, "fridge"); put(30, 32, "vending")
-  for (let x = 18; x <= 24; x += 2) put(x, 31, "stool")
-  fill(18, 33, 28, 41, "rugWarm")
-  for (const y of [34, 37, 40]) for (const x of [19, 23, 27]) cafeSet(x, y)
-  put(17, 42, "plantBig"); put(30, 42, "plant"); put(30, 36, "trash"); put(17, 34, "plant"); put(17, 38, "plant")
-  put(30, 39, "sofa"); put(30, 40, "plant"); put(22, 42, "plant"); put(26, 42, "plant"); put(26, 31, "stool")
-  put(19, 29, "poster"); put(21, 29, "painting"); put(22, 29, "painting")
-  put(20, 43, "wallWindow"); put(27, 43, "wallWindow")
-
-  // Lobby & reception (main entrance on the bottom wall)
-  room(31, 29, 41, 43, "marble", [[35, 29], [36, 29], [37, 29], [35, 43], [36, 43], [37, 43]])
-  area({ name: "Lobby", x: 32, y: 30, w: 9, h: 13, private: false, label: true })
-  for (let x = 34; x <= 38; x++) put(x, 33, x === 36 ? "desk" : "deskMonitor")
-  put(35, 32, "officeChair"); put(37, 32, "officeChair")
-  fill(33, 31, 39, 34, "rugBlue")
-  put(32, 37, "sofa"); put(33, 37, "sofa"); put(32, 39, "coffeeTable"); put(33, 39, "plant")
-  put(40, 37, "sofa"); put(39, 37, "sofa"); put(40, 39, "coffeeTable"); put(39, 39, "plant")
-  put(32, 30, "plantBig"); put(40, 30, "plantBig"); put(32, 42, "plantBig"); put(40, 42, "plantBig"); put(32, 35, "waterCooler")
-  put(34, 31, "bookshelf"); put(38, 31, "cabinetPlant"); put(40, 34, "lamp"); put(33, 42, "flowers"); put(39, 42, "flowers")
-  put(39, 29, "painting"); put(40, 29, "painting"); put(32, 29, "poster")
-
-  // Game Room
-  room(41, 29, 50, 43, "game", [[45, 29], [46, 29]])
-  area({ name: "Game Room", x: 42, y: 30, w: 8, h: 13, private: false, label: true })
-  put(42, 30, "arcade"); put(43, 30, "arcade"); put(44, 30, "arcade"); put(48, 30, "tv"); put(49, 30, "tv")
-  for (let x = 47; x <= 49; x++) put(x, 33, "sofaUp")
-  fill(46, 31, 49, 34, "rugWarm")
-  put(44, 36, "pingpong"); put(45, 36, "pingpong")
-  put(42, 40, "beanbag"); put(44, 41, "beanbagPink"); put(43, 40, "coffeeTable"); put(49, 42, "vending"); put(47, 42, "plant"); put(42, 33, "lamp")
-  put(48, 38, "pingpong"); put(49, 38, "pingpong"); put(42, 36, "stool"); put(47, 36, "stool"); put(48, 32, "coffeeTable")
-  put(45, 43, "wallWindow")
-
-  // Library / quiet room
-  room(50, 29, 59, 43, "wood", [[54, 29], [55, 29]])
-  area({ name: "Library", x: 51, y: 30, w: 8, h: 13, private: false, label: true })
-  for (let x = 51; x <= 58; x++) if (x < 54 || x > 55) put(x, 30, "bookshelf")
-  for (let x = 53; x <= 56; x++) { put(x, 35, "table"); put(x, 36, "table"); put(x, 34, "chair"); put(x, 37, "chairUp") }
-  fill(52, 33, 57, 38, "rugBlue")
-  put(51, 40, "beanbag"); put(52, 41, "lamp"); put(58, 40, "beanbagPink"); put(58, 42, "plantBig"); put(51, 33, "plant")
-  put(54, 41, "sofaUp"); put(55, 41, "sofaUp"); put(54, 39, "coffeeTable"); put(58, 33, "cabinetPlant"); put(51, 42, "plant")
-  put(54, 43, "wallWindow")
+  // Double main entrance door opening to garden
+  setF(34, 37, "hall"); setF(35, 37, "hall")
 
   // ───────── Garden ─────────
   const bx0 = OX, by0 = OY, bx1 = OX + BW - 1, by1 = OY + BH - 1
@@ -475,7 +462,7 @@ export function objectOrigin(x: number, y: number): [number, number] | null {
   return [ox, oy]
 }
 
-export const SPAWN = { x: OX + 36, y: OY + 37 }
+export const SPAWN = { x: OX + 19, y: OY + 32 }
 
 export function isBlocked(x: number, y: number): boolean {
   if (x < 0 || y < 0 || x >= MAP_W || y >= MAP_H) return true

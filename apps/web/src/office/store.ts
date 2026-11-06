@@ -83,6 +83,7 @@ class OfficeStore {
   zoom = 1
   recenter = false
   view = { x: 0, y: 0, w: 0, h: 0 }
+  hoverTile: { tx: number; ty: number; areaName: string | null } | null = null
 
   // Feedback
   toasts: Toast[] = []
@@ -174,6 +175,21 @@ class OfficeStore {
     a.dir = dir
     a.stepStart = now
     a.stepFrame ^= 1
+  }
+
+  setHoverTile(tx: number | null, ty: number | null, areaName?: string | null) {
+    if (tx === null || ty === null) {
+      if (this.hoverTile !== null) {
+        this.hoverTile = null
+        this.emit()
+      }
+      return
+    }
+    if (this.hoverTile && this.hoverTile.tx === tx && this.hoverTile.ty === ty && this.hoverTile.areaName === (areaName ?? null)) {
+      return
+    }
+    this.hoverTile = { tx, ty, areaName: areaName ?? null }
+    this.emit()
   }
 
   setZoom(z: number) {

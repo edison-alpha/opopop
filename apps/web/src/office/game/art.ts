@@ -184,8 +184,15 @@ function floorTile(f: Exclude<Floor, "wall">, tx: number, ty: number): HTMLCanva
       return patternTile(`water${(tx + ty) % 2}`, (x, y) => {
         const o = ((tx + ty) % 2) * 9
         const r = (x + o + Math.round(Math.sin((y + o) / 3) * 2)) % 16
-        if (y % 8 === 3 && r < 5) return "#b4e3f5"
-        return "#76c3e6"
+        // Swimming orange & white koi fish on selected water tiles
+        const hasKoi = (tx * 17 + ty * 31) % 5 === 1
+        if (hasKoi) {
+          const kx = x - 14, ky = y - 15
+          if (kx * kx * 2 + ky * ky * 3 < 20) return (kx > 0 ? "#ea580c" : "#ffffff")
+          if ((kx - 4) * (kx - 4) + ky * ky < 6) return "#ea580c"
+        }
+        if (y % 8 === 3 && r < 5) return "#a5f3fc"
+        return "#38bdf8"
       })
   }
 }
@@ -220,24 +227,27 @@ function isWall(x: number, y: number) {
 function drawWall(ctx: Ctx, x: number, y: number) {
   const px = x * T, py = y * T
   const face = !isWall(x, y + 1)
-  const CAP = "#56616b", CAP_HI = "#68747e", CAP_LO = "#4a545d"
+  const CAP = "#475569", CAP_HI = "#64748b", CAP_LO = "#334155"
   rect(ctx, px, py, T, T, CAP)
-  // subtle cap texture
-  rect(ctx, px, py + 15, T, 1, "#515c66")
+  // Subtle top rim highlight
+  rect(ctx, px, py, T, 2, CAP_HI)
   if (!isWall(x - 1, y)) rect(ctx, px, py, 2, T, CAP_HI)
   if (!isWall(x + 1, y)) rect(ctx, px + T - 2, py, 2, T, CAP_LO)
-  if (!isWall(x, y - 1)) rect(ctx, px, py, T, 2, CAP_HI)
   if (face) {
-    // front face of the wall, seen from the room below
-    rect(ctx, px, py + 10, T, 1, "#3f4851")
-    rect(ctx, px, py + 11, T, 18, "#7c888c")
-    rect(ctx, px, py + 11, T, 2, "#8e999d")
-    for (let i = 0; i < T; i += 8) rect(ctx, px + i, py + 13, 1, 15, "#768286")
-    rect(ctx, px, py + 27, T, 1, "#6a7579")
-    rect(ctx, px, py + 28, T, 3, "#f3f5f6") // skirting
-    rect(ctx, px, py + 31, T, 1, "#c8cfd3")
-    if (!isWall(x - 1, y)) rect(ctx, px, py + 11, 1, 20, "#5d686d")
-    if (!isWall(x + 1, y)) rect(ctx, px + T - 1, py + 11, 1, 20, "#5d686d")
+    // 2.5D front vertical face of the wall (giving true height and perspective depth)
+    rect(ctx, px, py + 6, T, 22, "#374151")
+    rect(ctx, px, py + 6, T, 1, "#4b5563")
+    // Subtle architectural vertical seams
+    rect(ctx, px + 8, py + 7, 1, 19, "#2e3846")
+    rect(ctx, px + 24, py + 7, 1, 19, "#2e3846")
+    // Skirting board at base of wall
+    rect(ctx, px, py + 26, T, 1, "#1f2937")
+    rect(ctx, px, py + 27, T, 3, "#111827")
+    rect(ctx, px, py + 27, T, 1, "#4b5563")
+    // Contact drop shadow on floor below wall
+    rect(ctx, px, py + 30, T, 2, "rgba(0, 0, 0, 0.22)")
+    if (!isWall(x - 1, y)) rect(ctx, px, py + 6, 2, 24, "#242c37")
+    if (!isWall(x + 1, y)) rect(ctx, px + T - 2, py + 6, 2, 24, "#242c37")
   }
 }
 
@@ -318,16 +328,21 @@ function woodChairSide(ctx: Ctx, px: number, py: number, facingRight: boolean) {
   rect(ctx, X(8, 17), py + 20, 17, 2, W2); rect(ctx, X(8, 17), py + 20, 17, 1, W1)
 }
 function officeChairBack(ctx: Ctx, px: number, py: number) {
-  const C0 = "#4c5266", C1 = "#363b4c", C2 = "#262a37"
-  shadow(ctx, px + 16, py + 28, 9, 3)
-  rect(ctx, px + 15, py + 22, 2, 4, C2)
-  rect(ctx, px + 9, py + 26, 14, 2, C2)
-  rect(ctx, px + 8, py + 27, 2, 2, "#15171f"); rect(ctx, px + 22, py + 27, 2, 2, "#15171f"); rect(ctx, px + 15, py + 27, 2, 2, "#15171f")
-  obox(ctx, px + 8, py + 5, 16, 7, C1)
-  obox(ctx, px + 9, py + 10, 14, 13, C1)
-  rect(ctx, px + 10, py + 11, 12, 2, C0)
-  rect(ctx, px + 10, py + 20, 12, 2, C2)
-  rect(ctx, px + 6, py + 12, 3, 7, C2); rect(ctx, px + 23, py + 12, 3, 7, C2) // armrests
+  // 2.5D ergonomic mesh executive chair
+  shadow(ctx, px + 16, py + 28, 10, 3)
+  rect(ctx, px + 15, py + 23, 2, 4, "#334155")
+  rect(ctx, px + 9, py + 26, 14, 2, "#334155")
+  rect(ctx, px + 8, py + 27, 2, 2, "#0f172a"); rect(ctx, px + 22, py + 27, 2, 2, "#0f172a"); rect(ctx, px + 15, py + 27, 2, 2, "#0f172a")
+  // Curved mesh backrest
+  obox(ctx, px + 7, py + 4, 18, 8, "#1e293b")
+  rect(ctx, px + 9, py + 5, 14, 6, "#334155")
+  rect(ctx, px + 10, py + 6, 12, 1, "#64748b")
+  // Lumbar spine support
+  obox(ctx, px + 8, py + 11, 16, 11, "#1e293b")
+  rect(ctx, px + 10, py + 12, 12, 2, "#475569")
+  rect(ctx, px + 10, py + 19, 12, 2, "#0f172a")
+  // Armrests
+  rect(ctx, px + 5, py + 11, 3, 8, "#0f172a"); rect(ctx, px + 24, py + 11, 3, 8, "#0f172a")
 }
 
 function pottedPlant(ctx: Ctx, px: number, py: number, big: boolean) {
@@ -383,12 +398,24 @@ function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
       const x0 = px + (l ? 0 : 1), w = T - (l ? 0 : 1) - (r ? 0 : 1)
       if (!l) rect(ctx, px + 2, py + 22, 2, 8, G4)
       if (!r) rect(ctx, px + T - 4, py + 22, 2, 8, G4)
-      rect(ctx, x0, py + 3, w, 21, INK)
+      // 2.5D modern desk: crisp white top surface + 10px vertical front modesty/drawer panel
+      shadow(ctx, px + 16, py + 28, 15, 2)
+      rect(ctx, x0, py + 3, w, 15, "#1e293b")
       const ix = x0 + (l ? 0 : 1), iw = w - (l ? 0 : 1) - (r ? 0 : 1)
-      rect(ctx, ix, py + 4, iw, 14, "#f8f9fb")
-      rect(ctx, ix, py + 4, iw, 1, "#ffffff")
-      rect(ctx, ix, py + 18, iw, 3, G1)
-      rect(ctx, ix, py + 21, iw, 2, G3)
+      rect(ctx, ix, py + 4, iw, 13, "#ffffff")
+      rect(ctx, ix, py + 4, iw, 2, "#f8fafc")
+      // Front vertical 3D face (modesty panel + drawers)
+      rect(ctx, x0, py + 18, w, 9, "#1e293b")
+      rect(ctx, ix, py + 18, iw, 8, "#cbd5e1")
+      // Horizontal drawer seam
+      rect(ctx, ix, py + 22, iw, 1, "#94a3b8")
+      // Metallic chrome bar handles
+      if (iw >= 14) {
+        rect(ctx, ix + 4, py + 20, Math.min(10, iw - 8), 1, "#64748b")
+        rect(ctx, ix + 4, py + 19, Math.min(10, iw - 8), 1, "#ffffff")
+        rect(ctx, ix + 4, py + 24, Math.min(10, iw - 8), 1, "#64748b")
+        rect(ctx, ix + 4, py + 23, Math.min(10, iw - 8), 1, "#ffffff")
+      }
       const v = Math.floor(hash(x * 7, y * 3) * 4)
       if (o === "deskMonitor") {
         const screens = ["#6fb4ef", "#7fd6a8", "#f3b46b", "#b49af0"]
@@ -737,11 +764,24 @@ function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
       rect(ctx, px + 9, py - 21, 15, 2, "#2c3140")
       break
     case "wallWindow":
-      box(ctx, px + 3, py + 12, 26, 15, "#a4dcf3", "#3e4858")
-      rect(ctx, px + 15, py + 13, 2, 13, "#3e4858")
-      line(ctx, px + 5, py + 20, px + 10, py + 15, "#dff4fc"); line(ctx, px + 5, py + 23, px + 13, py + 15, "#dff4fc")
-      line(ctx, px + 19, py + 22, px + 25, py + 16, "#dff4fc")
-      rect(ctx, px + 2, py + 27, 28, 1, "#e9edf0")
+      // 2.5D Large glass partition window with 3 cyan panes & reflection lines
+      shadow(ctx, px + 16, py + 29, 15, 2)
+      box(ctx, px + 1, py + 4, 30, 24, "#0e7490", "#1e293b")
+      // 3 glass panes with cyan gradient
+      rect(ctx, px + 3, py + 6, 8, 20, "#67e8f9")
+      rect(ctx, px + 12, py + 6, 8, 20, "#a5f3fc")
+      rect(ctx, px + 21, py + 6, 8, 20, "#67e8f9")
+      // Diagonal glare reflections
+      line(ctx, px + 4, py + 18, px + 9, py + 8, "rgba(255,255,255,0.75)")
+      line(ctx, px + 13, py + 18, px + 18, py + 8, "rgba(255,255,255,0.75)")
+      line(ctx, px + 22, py + 18, px + 27, py + 8, "rgba(255,255,255,0.75)")
+      // Mullions / crossbars
+      rect(ctx, px + 2, py + 16, 28, 2, "#1e293b")
+      rect(ctx, px + 11, py + 5, 1, 22, "#1e293b")
+      rect(ctx, px + 20, py + 5, 1, 22, "#1e293b")
+      // Bottom window sill
+      rect(ctx, px, py + 28, T, 2, "#cbd5e1")
+      rect(ctx, px, py + 30, T, 1, "#94a3b8")
       break
     case "poster": {
       const bgs = ["#f2c45f", "#5b8def", "#e8907a", "#56b98a", "#a98ad8"]

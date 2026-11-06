@@ -25,61 +25,58 @@ const OY = 9
  * Daftar semua pintu ruangan di kantor virtual OPPERA
  */
 export const OFFICE_DOORS: DoorDef[] = [
-  // 1. Meeting Room A (Boardroom) - Pintu ke lorong atas
-  {
-    id: "meeting-a",
-    roomName: "Meeting Room A",
-    tiles: [
-      [OX + 29, OY + 10],
-      [OX + 30, OY + 10],
-    ],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: true,
-  },
-  // 2. Meeting Room B (Huddle Room)
-  {
-    id: "meeting-b",
-    roomName: "Meeting Room B",
-    tiles: [[OX + 40, OY + 10]],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: false,
-  },
-  // 3. Focus Booth 1 (Private Office 1 - Pintu Ganda Ayun ke Luar)
+  // 1. Focus Booth 1
   {
     id: "focus-1",
     roomName: "Focus Booth 1",
-    tiles: [
-      [OX + 15, OY + 10],
-      [OX + 16, OY + 10],
-    ],
+    tiles: [[OX + 6, OY + 9]],
     orientation: "horizontal",
     swingDir: "down",
     double: true,
   },
-  // 4. Focus Booth 2 (Private Office 2 - Pintu Ganda Ayun ke Luar)
+  // 2. Focus Booth 2
   {
     id: "focus-2",
     roomName: "Focus Booth 2",
-    tiles: [
-      [OX + 20, OY + 10],
-      [OX + 21, OY + 10],
-    ],
+    tiles: [[OX + 18, OY + 9]],
     orientation: "horizontal",
     swingDir: "down",
     double: true,
   },
-  // 5. HR & Finance (Private Office Department)
+  // 3. Focus Booth 3
   {
-    id: "hr-finance",
-    roomName: "HR & Finance",
-    tiles: [
-      [OX + 51, OY + 10],
-      [OX + 52, OY + 10],
-    ],
+    id: "focus-3",
+    roomName: "Focus Booth 3",
+    tiles: [[OX + 42, OY + 9]],
     orientation: "horizontal",
     swingDir: "down",
+    double: true,
+  },
+  // 4. Focus Booth 4
+  {
+    id: "focus-4",
+    roomName: "Focus Booth 4",
+    tiles: [[OX + 54, OY + 9]],
+    orientation: "horizontal",
+    swingDir: "down",
+    double: true,
+  },
+  // 5. Meeting Room A (Boardroom)
+  {
+    id: "meeting-a",
+    roomName: "Meeting Room A",
+    tiles: [[OX + 48, OY + 14]],
+    orientation: "vertical",
+    swingDir: "left",
+    double: true,
+  },
+  // 6. Meeting Room B (Huddle Room)
+  {
+    id: "meeting-b",
+    roomName: "Meeting Room B",
+    tiles: [[OX + 48, OY + 22]],
+    orientation: "vertical",
+    swingDir: "left",
     double: true,
   },
 ]

@@ -101,9 +101,14 @@ class OfficeScene extends Phaser.Scene {
     this.roomLabels = new RoomLabelSystem(this)
     this.cleanup.push(() => this.roomLabels.destroy())
     this.input.on("pointermove", (p: Phaser.Input.Pointer) => {
+      const tx = Math.floor(p.worldX / TILE)
+      const ty = Math.floor(p.worldY / TILE)
+      const area = areaAt(tx, ty)
+      store.setHoverTile(tx, ty, area?.name ?? null)
       this.roomLabels.onPointerMove(p)
     })
     this.input.on("gameout", () => {
+      store.setHoverTile(null, null)
       this.roomLabels.onGameOut()
     })
     this.rebuildSeatRows(0, MAP_H - 1)
@@ -371,7 +376,7 @@ class OfficeScene extends Phaser.Scene {
       .text(0, 0, a.name, { fontFamily: FONT, fontSize: "11px", color: "#ffffff", fontStyle: "bold" })
       .setOrigin(0, 0.5)
       .setResolution(3)
-    const tag = this.add.container(0, -HEAD_H - 4, [tagBg, tagText])
+    const tag = this.add.container(0, -HEAD_H - 4, [tagBg, tagText]).setVisible(false)
     const emoji = this.add.text(0, -HEAD_H - 20, "", { fontSize: "20px" }).setOrigin(0.5, 1).setResolution(3)
     const speech = this.add.graphics().setPosition(-28, -HEAD_H + 12).setVisible(false)
     speech.fillStyle(0xffffff).fillRoundedRect(-13, -9, 26, 18, 8)
