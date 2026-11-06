@@ -1,13 +1,14 @@
 "use client"
 import type { Meeting } from "@/shared/protocol"
-import { CalendarPlus, Clock, DoorOpen, MapPin, Trash2, Users, X } from "./icons"
-import { useState } from "react"
+import { CalendarPlus, Clock, DoorOpen, MapPin, Search, Trash2, Users, X, Link2 } from "./icons"
+import { useState, useEffect } from "react"
 import { areaAt, meetingRooms } from "../game/map"
-import { createMeeting, deleteMeeting, joinMeeting } from "../session"
+import { createMeeting, deleteMeeting, joinMeeting, walkToArea } from "../session"
 import { useOffice } from "../store"
 import { LetterAvatar } from "./LetterAvatar"
 import { SidebarHeader } from "./PeopleView"
 import { Dropdown } from "./Dropdown"
+import { calendarService, type CalendarEvent } from "../services/calendar"
 
 const fmtTime = (ts: number) => new Date(ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 const fmtDay = (ts: number) => {
@@ -23,7 +24,7 @@ function pad(n: number) {
   return String(n).padStart(2, "0")
 }
 
-function NewMeetingForm({ onClose }: { onClose: () => void }) {
+export function NewMeetingForm({ onClose }: { onClose: () => void }) {
   const rooms = meetingRooms()
   const soon = new Date(Math.ceil(Date.now() / (15 * 60000)) * 15 * 60000)
   const [title, setTitle] = useState("")
@@ -96,6 +97,12 @@ function MeetingCard({ m }: { m: Meeting }) {
   const live = now >= m.start && now < end
   const past = now >= end
   const inRoom = [...office.players.values()].filter((p) => areaAt(p.x, p.y)?.name === m.room)
+
+  const handleWalk = () => {
+    walkToArea(m.room)
+    office.toast(`Walking to ${m.room}...`)
+  }
+
   return (
     <li className={`meeting-card ${live ? "is-live" : ""} ${past ? "is-past" : ""}`}>
       <div className="meeting-card-time">
@@ -121,7 +128,7 @@ function MeetingCard({ m }: { m: Meeting }) {
         )}
         <div className="meeting-card-actions">
           {!past && (
-            <button className="btn btn-blue sm" onClick={() => joinMeeting(m.room)}>
+            <button className="btn btn-blue sm" onClick={handleWalk}>
               <DoorOpen size={14} /> Join
             </button>
           )}
@@ -139,9 +146,32 @@ function MeetingCard({ m }: { m: Meeting }) {
 export function CalendarView() {
   const office = useOffice()
   const [creating, setCreating] = useState(false)
+  const [tab, setTab] = useState<"scheduled" | "notes">("scheduled")
+  const [search, setSearch] = useState("")
+  const [notes, setNotes] = useState(() => {
+    try {
+      return localStorage.getItem("oppera.meeting_notes") || ""
+    } catch {
+      return ""
+    }
+  })
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("oppera.meeting_notes", notes)
+    } catch {}
+  }, [notes])
+
+  // Filter meetings by search query
+  const filteredMeetings = office.meetings.filter(
+    (m) =>
+      m.title.toLowerCase().includes(search.toLowerCase()) ||
+      m.room.toLowerCase().includes(search.toLowerCase()) ||
+      (m.description && m.description.toLowerCase().includes(search.toLowerCase()))
+  )
 
   const groups = new Map<string, Meeting[]>()
-  for (const m of office.meetings) {
+  for (const m of filteredMeetings) {
     const k = fmtDay(m.start)
     groups.set(k, [...(groups.get(k) ?? []), m])
   }
@@ -154,53 +184,100 @@ export function CalendarView() {
         </button>
       </SidebarHeader>
 
-      <div className="sb-scroll">
-        <button className="btn btn-blue full new-meeting" onClick={() => setCreating(true)}>
-          <CalendarPlus size={16} /> Schedule a meeting
+      {/* Search Input dengan Badge Ctrl F */}
+      <div className="calendar-search-wrap">
+        <Search size={14} className="calendar-search-icon" />
+        <input
+          className="calendar-search-input"
+          placeholder="Search events"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <span className="calendar-search-kbd">Ctrl F</span>
+      </div>
+
+      {/* Segmented Tabs: Scheduled & Meeting Notes */}
+      <div className="calendar-segmented-tabs">
+        <button
+          className={`calendar-tab-btn ${tab === "scheduled" ? "is-active" : ""}`}
+          onClick={() => setTab("scheduled")}
+        >
+          Scheduled
         </button>
+        <button
+          className={`calendar-tab-btn ${tab === "notes" ? "is-active" : ""}`}
+          onClick={() => setTab("notes")}
+        >
+          Meeting Notes
+        </button>
+      </div>
 
-        <div className="sb-section static">Meeting rooms</div>
-        <ul className="room-list">
-          {meetingRooms().map((r) => {
-            const people = [...office.players.values()].filter((p) => areaAt(p.x, p.y)?.name === r.name)
-            const busy = office.meetings.find((m) => m.room === r.name && Date.now() >= m.start && Date.now() < m.start + m.durationMin * 60000)
-            return (
-              <li key={r.name} className="room-row">
-                <span className={`room-dot ${people.length ? "is-occupied" : ""}`} />
-                <div className="room-info">
-                  <div className="room-name">{r.name}</div>
-                  <div className="room-sub">
-                    <Users size={12} /> {people.length ? `${people.length} inside` : "Empty"}
-                    {busy ? ` · ${busy.title}` : ""}
-                  </div>
+      <div className="sb-scroll">
+        {tab === "scheduled" ? (
+          <>
+            <button className="btn btn-blue full new-meeting" style={{ margin: "0 14px 12px", width: "calc(100% - 28px)" }} onClick={() => setCreating(true)}>
+              <CalendarPlus size={16} /> Schedule a meeting
+            </button>
+
+            {/* List Jadwal */}
+            {filteredMeetings.length === 0 ? (
+              <div className="calendar-empty-grass">
+                <p style={{ margin: 0 }}>Go touch grass, no meetings today!</p>
+              </div>
+            ) : (
+              [...groups].map(([day, list]) => (
+                <div key={day} className="day-group">
+                  <div className="day-label">{day}</div>
+                  <ul className="meeting-list">
+                    {list.map((m) => (
+                      <MeetingCard key={m.id} m={m} />
+                    ))}
+                  </ul>
                 </div>
-                <button className="btn btn-ghost sm" onClick={() => joinMeeting(r.name)}>
-                  Go
-                </button>
-              </li>
-            )
-          })}
-        </ul>
+              ))
+            )}
 
-        <div className="sb-section static">Schedule</div>
-        {office.meetings.length === 0 ? (
-          <div className="empty-block">
-            <Clock size={22} />
-            <p>No meetings scheduled. Book a room so everyone knows where to go.</p>
-          </div>
+            {/* Ruang Rapat / Meeting Rooms */}
+            <div className="sb-section static">Meeting rooms</div>
+            <ul className="room-list">
+              {meetingRooms().map((r) => {
+                const people = [...office.players.values()].filter((p) => areaAt(p.x, p.y)?.name === r.name)
+                const busy = office.meetings.find((m) => m.room === r.name && Date.now() >= m.start && Date.now() < m.start + m.durationMin * 60000)
+                return (
+                  <li key={r.name} className="room-row">
+                    <span className={`room-dot ${people.length ? "is-occupied" : ""}`} />
+                    <div className="room-info">
+                      <div className="room-name">{r.name}</div>
+                      <div className="room-sub">
+                        <Users size={12} /> {people.length ? `${people.length} inside` : "Empty"}
+                        {busy ? ` · ${busy.title}` : ""}
+                      </div>
+                    </div>
+                    <button className="btn btn-ghost sm" onClick={() => joinMeeting(r.name)}>
+                      Go
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </>
         ) : (
-          [...groups].map(([day, list]) => (
-            <div key={day} className="day-group">
-              <div className="day-label">{day}</div>
-              <ul className="meeting-list">
-                {list.map((m) => (
-                  <MeetingCard key={m.id} m={m} />
-                ))}
-              </ul>
+          <div style={{ padding: "0 14px 14px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--muted)", marginBottom: "8px" }}>
+              Quick Meeting Notes
             </div>
-          ))
+            <textarea
+              className="input textarea"
+              rows={12}
+              placeholder="Jot down notes, action items, or agendas for your meetings..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              style={{ width: "100%", resize: "vertical", fontSize: "13px" }}
+            />
+          </div>
         )}
       </div>
+
       {creating && <NewMeetingForm onClose={() => setCreating(false)} />}
     </>
   )

@@ -8,6 +8,7 @@ import "./app/build.css"
 import "./app/meeting.css"
 import "./app/appearance.css"
 import "./app/glass.css"
+import "./app/calendar.css"
 
 import Home from "./app/page"
 import Office from "./office/Office"
@@ -35,5 +36,5 @@ export function App() {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )

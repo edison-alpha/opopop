@@ -6,6 +6,7 @@ import { SPAWN } from "./game/map"
 import { joinOffice, leaveOffice } from "./session"
 import { store, useOffice } from "./store"
 import { BuildPanel } from "./ui/BuildPanel"
+import { CalendarMain } from "./ui/CalendarMain"
 import { ChatMain } from "./ui/ChatMain"
 import { CommandPalette } from "./ui/CommandPalette"
 import { JoinScreen } from "./ui/JoinScreen"
@@ -20,12 +21,15 @@ import { Spotlight, VideoBar } from "./ui/VideoBar"
 function Stage({ onLeave }: { onLeave: () => void }) {
   const office = useOffice()
   const chat = office.sidebar === "chat"
+  const calendar = office.sidebar === "calendar"
   return (
-    <main className={`stage ${chat ? "is-chat" : ""}`}>
-      {/* The map keeps running underneath the chat so movement and audio continue. */}
+    <main className={`stage ${chat ? "is-chat" : ""} ${calendar ? "is-calendar" : ""}`}>
+      {/* The map keeps running underneath the chat/calendar so movement and audio continue. */}
       <PhaserGame />
       {chat ? (
         <ChatMain />
+      ) : calendar ? (
+        <CalendarMain />
       ) : (
         <>
           <StageHeader />
