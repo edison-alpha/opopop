@@ -25,31 +25,7 @@ const OY = 9
  * Daftar semua pintu ruangan di kantor virtual OPPERA
  */
 export const OFFICE_DOORS: DoorDef[] = [
-  // 1. Lobby - Pintu Masuk Atas (ke lorong tengah)
-  {
-    id: "lobby-top",
-    roomName: "Lobby",
-    tiles: [
-      [OX + 35, OY + 29],
-      [OX + 36, OY + 29],
-    ],
-    orientation: "horizontal",
-    swingDir: "up",
-    double: true,
-  },
-  // 2. Lobby - Pintu Masuk Bawah (dari plaza / taman luar)
-  {
-    id: "lobby-bottom",
-    roomName: "Lobby",
-    tiles: [
-      [OX + 35, OY + 43],
-      [OX + 36, OY + 43],
-    ],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: true,
-  },
-  // 3. Meeting Room A (Boardroom) - Pintu ke lorong atas
+  // 1. Meeting Room A (Boardroom) - Pintu ke lorong atas
   {
     id: "meeting-a",
     roomName: "Meeting Room A",
@@ -61,7 +37,7 @@ export const OFFICE_DOORS: DoorDef[] = [
     swingDir: "down",
     double: true,
   },
-  // 4. Meeting Room B (Huddle Room)
+  // 2. Meeting Room B (Huddle Room)
   {
     id: "meeting-b",
     roomName: "Meeting Room B",
@@ -70,7 +46,7 @@ export const OFFICE_DOORS: DoorDef[] = [
     swingDir: "down",
     double: false,
   },
-  // 5. Focus Booth 1 (Private Office 1 - Pintu Ganda Ayun ke Luar)
+  // 3. Focus Booth 1 (Private Office 1 - Pintu Ganda Ayun ke Luar)
   {
     id: "focus-1",
     roomName: "Focus Booth 1",
@@ -82,7 +58,7 @@ export const OFFICE_DOORS: DoorDef[] = [
     swingDir: "down",
     double: true,
   },
-  // 6. Focus Booth 2 (Private Office 2 - Pintu Ganda Ayun ke Luar)
+  // 4. Focus Booth 2 (Private Office 2 - Pintu Ganda Ayun ke Luar)
   {
     id: "focus-2",
     roomName: "Focus Booth 2",
@@ -94,7 +70,7 @@ export const OFFICE_DOORS: DoorDef[] = [
     swingDir: "down",
     double: true,
   },
-  // 7. HR & Finance
+  // 5. HR & Finance (Private Office Department)
   {
     id: "hr-finance",
     roomName: "HR & Finance",
@@ -104,66 +80,6 @@ export const OFFICE_DOORS: DoorDef[] = [
     ],
     orientation: "horizontal",
     swingDir: "down",
-    double: true,
-  },
-  // 8. Lounge - Pintu Atas (ke lorong tengah)
-  {
-    id: "lounge-top",
-    roomName: "Lounge",
-    tiles: [
-      [OX + 7, OY + 29],
-      [OX + 8, OY + 29],
-    ],
-    orientation: "horizontal",
-    swingDir: "up",
-    double: true,
-  },
-  // 9. Lounge - Pintu Samping Terrace (Dinding Vertikal Kiri - Sesuai Gambar 2)
-  {
-    id: "lounge-terrace",
-    roomName: "Lounge",
-    tiles: [
-      [OX + 0, OY + 36],
-      [OX + 0, OY + 37],
-    ],
-    orientation: "vertical",
-    swingDir: "left",
-    double: true,
-  },
-  // 10. Café - Pintu Masuk
-  {
-    id: "cafe-top",
-    roomName: "Café",
-    tiles: [
-      [OX + 27, OY + 29],
-      [OX + 28, OY + 29],
-    ],
-    orientation: "horizontal",
-    swingDir: "up",
-    double: true,
-  },
-  // 11. Game Room
-  {
-    id: "gameroom-top",
-    roomName: "Game Room",
-    tiles: [
-      [OX + 45, OY + 29],
-      [OX + 46, OY + 29],
-    ],
-    orientation: "horizontal",
-    swingDir: "up",
-    double: true,
-  },
-  // 12. Library (Ruang Tenang)
-  {
-    id: "library-top",
-    roomName: "Library",
-    tiles: [
-      [OX + 54, OY + 29],
-      [OX + 55, OY + 29],
-    ],
-    orientation: "horizontal",
-    swingDir: "up",
     double: true,
   },
 ]

@@ -177,7 +177,7 @@ class OfficeStore {
   }
 
   setZoom(z: number) {
-    this.zoom = Math.min(3, Math.max(0.75, Math.round(z * 4) / 4))
+    this.zoom = Math.min(2.5, Math.max(0.4, Math.round(z * 4) / 4))
     this.emit()
   }
 

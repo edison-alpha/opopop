@@ -9,6 +9,7 @@ import { STEP_MS, store, type Avatar } from "../store"
 import { VoiceActivity } from "../voiceActivity"
 import { DoorSystem } from "./doors"
 import { DeskSystem } from "./desks"
+import { RoomLabelSystem } from "./roomLabels"
 import { drawAvatar, redrawTiles, renderObjectThumb, renderSeatFrontRow, renderStaticMap } from "./art"
 import { REACTION_KEYS, REACTION_MS, STATUS_COLOR } from "./constants"
 import {
@@ -61,7 +62,7 @@ class OfficeScene extends Phaser.Scene {
   private mapCanvas!: HTMLCanvasElement
   private mapTex!: Phaser.Textures.CanvasTexture
   private seatRows = new Map<number, Phaser.GameObjects.Image>()
-  private labels: Phaser.GameObjects.Container[] = []
+  private roomLabels!: RoomLabelSystem
   // Build mode
   private ghost!: Phaser.GameObjects.Image
   private buildGfx!: Phaser.GameObjects.Graphics
@@ -97,7 +98,14 @@ class OfficeScene extends Phaser.Scene {
     this.cleanup.push(() => this.doorSystem.destroy())
     this.deskSystem = new DeskSystem(this)
     this.cleanup.push(() => this.deskSystem.destroy())
-    this.drawAreaLabels()
+    this.roomLabels = new RoomLabelSystem(this)
+    this.cleanup.push(() => this.roomLabels.destroy())
+    this.input.on("pointermove", (p: Phaser.Input.Pointer) => {
+      this.roomLabels.onPointerMove(p)
+    })
+    this.input.on("gameout", () => {
+      this.roomLabels.onGameOut()
+    })
     this.rebuildSeatRows(0, MAP_H - 1)
     this.ghost = this.add.image(0, 0, "__DEFAULT").setOrigin(0).setAlpha(0.7).setDepth(900).setVisible(false)
     this.buildGfx = this.add.graphics().setDepth(901)
@@ -170,21 +178,6 @@ class OfficeScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.cleanup.forEach((f) => f()))
   }
 
-  private drawAreaLabels() {
-    for (const l of this.labels) l.destroy()
-    this.labels = []
-    for (const a of areas.filter((x) => x.label)) {
-      const text = this.add
-        .text(0, 0, `👥 ${a.name}`, { fontFamily: FONT, fontSize: "11px", color: "#5b5f73", fontStyle: "bold" })
-        .setResolution(3)
-      const w = text.width + 14
-      const g = this.add.graphics()
-      g.fillStyle(0xffffff, 0.85).fillRoundedRect(-w / 2, -9, w, 18, 9)
-      text.setOrigin(0.5)
-      this.labels.push(this.add.container((a.x + a.w / 2) * TILE, a.y * TILE - 2, [g, text]).setDepth(2))
-    }
-  }
-
   // ───── Live map updates ─────
 
   private onMapChanged(c: MapChange) {
@@ -197,7 +190,7 @@ class OfficeScene extends Phaser.Scene {
     }
     this.mapTex.refresh()
     if (c.areas || c.all) {
-      this.drawAreaLabels()
+      this.roomLabels.buildOverviewBadges()
       this.dimKey = null
     }
   }
@@ -269,7 +262,7 @@ class OfficeScene extends Phaser.Scene {
         if (ops) {
           editMap(ops)
           const created = ops.find((o) => o.k === "area")
-          if (created && created.k === "area") store.toast(`Room “${created.area.name}” created`)
+          if (created && created.k === "area") store.toast(`Room "${created.area.name}" created`)
         } else store.toast("Drag a rectangle of at least 3 × 3 tiles to make a room")
       }
     }
@@ -547,6 +540,7 @@ class OfficeScene extends Phaser.Scene {
     const allPlayers = [...store.players.values()].map((p) => ({ x: p.rx + 0.5, y: p.ry + 0.5 }))
     this.doorSystem.update(allPlayers)
     this.deskSystem.update(me)
+    this.roomLabels.update(cam.zoom)
 
     this.updateDim(me && !building ? areaAt(me.x, me.y) : null)
     void time
