@@ -21,6 +21,7 @@
   border-bottom: 1px solid #e5e7eb;
   background: #ffffff;
   min-height: 58px;
+  box-sizing: border-box;
 }
 
 .calendar-nav-left {
@@ -68,7 +69,7 @@
   font-size: 17px;
   font-weight: 600;
   color: #111827;
-  margin-left: 6px;
+  margin: 0 0 0 6px;
 }
 
 .calendar-nav-right {
@@ -88,6 +89,7 @@
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 6px;
+  transition: all 0.15s ease;
 }
 
 .calendar-sync-indicator:hover {
@@ -135,16 +137,19 @@
   background: #1d4ed8;
 }
 
-/* Week header grid */
+/* ───── Week Header Grid (Uniform 52px height for all days) ───── */
 .calendar-week-header {
   display: grid;
   grid-template-columns: 60px repeat(7, 1fr);
   border-bottom: 1px solid #e5e7eb;
   background: #ffffff;
+  height: 52px;
+  box-sizing: border-box;
 }
 
 .calendar-gutter-corner {
   border-right: 1px solid #f3f4f6;
+  height: 100%;
 }
 
 .calendar-day-header {
@@ -152,35 +157,65 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 4px;
-  font-size: 13px;
-  color: #4b5563;
+  height: 100%;
+  padding: 0 4px;
   border-right: 1px solid #f3f4f6;
+  box-sizing: border-box;
+}
+
+.calendar-day-header .day-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  letter-spacing: -0.01em;
+}
+
+/* Day number wrapper: ALWAYS 28px x 28px square flexbox */
+.calendar-day-header .day-num-wrapper {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Day number: ALWAYS 28px x 28px circular box */
+.calendar-day-header .day-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background: transparent;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+/* When it is today: add solid red background and bold white font */
+.calendar-day-header.is-today .day-name {
+  color: #111827;
+  font-weight: 600;
 }
 
 .calendar-day-header.is-today .day-num {
   background: #ef4444;
   color: #ffffff;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 700;
 }
 
-.calendar-day-header .day-name {
-  font-weight: 500;
-}
-
-/* All-day multi-day events banner section */
+/* ───── All-day multi-day events banner section ───── */
 .calendar-allday-row {
   display: grid;
   grid-template-columns: 60px 1fr;
   border-bottom: 1px solid #e5e7eb;
   background: #ffffff;
   min-height: 44px;
+  box-sizing: border-box;
 }
 
 .calendar-allday-gutter {
@@ -223,7 +258,7 @@
   filter: brightness(0.97);
 }
 
-/* Time Grid Scroll Area */
+/* ───── Time Grid Scroll Area ───── */
 .calendar-scroll-area {
   flex: 1;
   overflow-y: auto;
@@ -254,6 +289,7 @@
   font-size: 11px;
   color: #9ca3af;
   font-weight: 500;
+  box-sizing: border-box;
 }
 
 /* Day Column in Grid */
@@ -269,7 +305,7 @@
   box-sizing: border-box;
 }
 
-/* Current time indicator (red line) */
+/* ───── Current Time Indicator (Red Line & Badge) ───── */
 .calendar-now-indicator {
   position: absolute;
   left: 0;
@@ -282,28 +318,29 @@
 
 .calendar-now-badge {
   position: absolute;
-  left: -54px;
-  top: -9px;
+  left: 0;
+  top: -10px;
   background: #ef4444;
   color: #ffffff;
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 9999px;
   white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.4);
 }
 
 .calendar-now-dot {
   position: absolute;
   left: -4px;
-  top: -4px;
-  width: 10px;
-  height: 10px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #ef4444;
 }
 
-/* Event cards on grid */
+/* ───── Event Cards on Grid ───── */
 .calendar-grid-card {
   position: absolute;
   left: 4px;
@@ -356,7 +393,7 @@
   border-radius: 4px;
 }
 
-/* Sidebar Calendar enhancements */
+/* ───── Sidebar Calendar Enhancements ───── */
 .calendar-search-wrap {
   position: relative;
   margin: 12px 14px 8px;
@@ -373,6 +410,7 @@
   color: #111827;
   outline: none;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
 .calendar-search-input:focus {
