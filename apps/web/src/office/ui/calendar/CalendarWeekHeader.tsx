@@ -16,7 +16,7 @@ export function CalendarWeekHeader({ weekDays, now }: CalendarWeekHeaderProps) {
         return (
           <div key={i} className={`calendar-day-header ${isToday ? "is-today" : ""}`}>
             <span className="day-name">{DAYS[d.getDay()]}</span>
-            <div className="day-num-wrapper">
+            <div className="day-num-box">
               <span className="day-num">{d.getDate()}</span>
             </div>
           </div>

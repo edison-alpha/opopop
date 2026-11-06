@@ -184,7 +184,7 @@ export function CalendarView() {
         </button>
       </SidebarHeader>
 
-      {/* Search Input dengan Badge Ctrl F */}
+      {/* Search Input dengan Badge Ctrl & F terpisah */}
       <div className="calendar-search-wrap">
         <Search size={14} className="calendar-search-icon" />
         <input
@@ -193,7 +193,10 @@ export function CalendarView() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <span className="calendar-search-kbd">Ctrl F</span>
+        <div className="calendar-search-kbd-group">
+          <kbd>Ctrl</kbd>
+          <kbd>F</kbd>
+        </div>
       </div>
 
       {/* Segmented Tabs: Scheduled & Meeting Notes */}
