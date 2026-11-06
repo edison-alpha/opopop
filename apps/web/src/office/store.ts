@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 // Mutable office state read by the renderer every frame; React subscribes via a version counter.
 import { useSyncExternalStore } from "react"
 import type { Channel, ChatMsg, Dir, Meeting, PlayerState } from "@/shared/protocol"

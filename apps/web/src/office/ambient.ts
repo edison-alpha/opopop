@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 // Soft generated background music for the office (no audio files): a slow
 // warm chord pad over filtered noise, synthesized with WebAudio.
 

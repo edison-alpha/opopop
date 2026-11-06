@@ -1,96 +1,47 @@
 /**
- * Sistem Pintu Interaktif OPPERA (Interactive Swinging Doors).
- * Pintu berayun 1 arah ke luar ruangan (outward) saat pemain mendekat,
- * dan menutup kembali secara halus saat pemain menjauh.
+ * Sistem Pintu Interaktif OPPERA Bergaya Gather Town (Interactive Swinging Double Doors).
+ *
+ * Fitur:
+ * 1. Pintu ganda kayu alami (warm honey oak) dengan panel kaca persegi & pegangan krom.
+ * 2. Mengayun halus (smooth 90° swing outward) saat avatar mendekat dalam radius 2 tile.
+ * 3. Menutup kembali secara otomatis dan halus saat avatar menjauh.
+ * 4. Area pintu 100% bebas hambatan (walkable), pemain bebas berjalan tanpa terblokir.
  */
 import * as Phaser from "phaser"
 import { TILE } from "./map"
+import { OFFICE_ORIGIN, LAYOUT_DOORS } from "./layout"
 
 export interface DoorDef {
   id: string
   roomName: string
-  // Tile coordinates
+  // Tile coordinates (selalu 2 tile selebar 64px)
   tiles: [number, number][]
   orientation: "horizontal" | "vertical"
   // Arah membuka ke luar ruangan:
-  // "up" (ke lorong utara), "down" (ke lorong selatan), "left" (ke lorong barat), "right" (ke lorong timur)
   swingDir: "up" | "down" | "left" | "right"
   double: boolean
 }
 
-const OX = 13
-const OY = 9
+export const OX = OFFICE_ORIGIN.x
+export const OY = OFFICE_ORIGIN.y
 
-/**
- * Daftar semua pintu ruangan di kantor virtual OPPERA
- */
-export const OFFICE_DOORS: DoorDef[] = [
-  // 1. Focus Booth 1
-  {
-    id: "focus-1",
-    roomName: "Focus Booth 1",
-    tiles: [[OX + 6, OY + 9]],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: true,
-  },
-  // 2. Focus Booth 2
-  {
-    id: "focus-2",
-    roomName: "Focus Booth 2",
-    tiles: [[OX + 18, OY + 9]],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: true,
-  },
-  // 3. Focus Booth 3
-  {
-    id: "focus-3",
-    roomName: "Focus Booth 3",
-    tiles: [[OX + 42, OY + 9]],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: true,
-  },
-  // 4. Focus Booth 4
-  {
-    id: "focus-4",
-    roomName: "Focus Booth 4",
-    tiles: [[OX + 54, OY + 9]],
-    orientation: "horizontal",
-    swingDir: "down",
-    double: true,
-  },
-  // 5. Meeting Room A (Boardroom)
-  {
-    id: "meeting-a",
-    roomName: "Meeting Room A",
-    tiles: [[OX + 48, OY + 14]],
-    orientation: "vertical",
-    swingDir: "left",
-    double: true,
-  },
-  // 6. Meeting Room B (Huddle Room)
-  {
-    id: "meeting-b",
-    roomName: "Meeting Room B",
-    tiles: [[OX + 48, OY + 22]],
-    orientation: "vertical",
-    swingDir: "left",
-    double: true,
-  },
-]
+export const OFFICE_DOORS: DoorDef[] = LAYOUT_DOORS.map((d) => ({
+  id: d.id, roomName: d.roomName,
+  tiles: [[OX + d.x, OY + d.y], [OX + d.x + (d.orientation === "horizontal" ? 1 : 0), OY + d.y + (d.orientation === "vertical" ? 1 : 0)]],
+  orientation: d.orientation, swingDir: d.swingDir, double: true,
+}))
 
 export class DoorObject {
-  public openness = 0 // 0 = closed, 1 = fully open
+  public openness = 0 // 0 = fully closed, 1 = fully open 90°
   public targetOpenness = 0
   private gfx: Phaser.GameObjects.Graphics
 
   constructor(scene: Phaser.Scene, public def: DoorDef) {
     this.gfx = scene.add.graphics()
-    // Render pada kedalaman tepat di atas lantai dan di sekitar dinding
     const minY = Math.min(...def.tiles.map((t) => t[1]))
-    this.gfx.setDepth(10 + minY + 0.5)
+    // Tepat di atas lantai (depth 10 + Y) dan di bawah avatar saat melangkah
+    this.gfx.setDepth(10 + minY + 0.6)
+    this.render()
   }
 
   destroy() {
@@ -98,16 +49,15 @@ export class DoorObject {
   }
 
   update(players: { x: number; y: number }[]): boolean {
-    // 1. Cek jarak pemain terdekat ke pintu
-    let nearby = false
     const doorCenterX = this.def.tiles.reduce((acc, t) => acc + t[0], 0) / this.def.tiles.length + 0.5
     const doorCenterY = this.def.tiles.reduce((acc, t) => acc + t[1], 0) / this.def.tiles.length + 0.5
 
+    // Deteksi pemain dalam radius 2.3 tile untuk membuka pintu
+    let nearby = false
     for (const p of players) {
       const dx = Math.abs(p.x - doorCenterX)
       const dy = Math.abs(p.y - doorCenterY)
-      // Jarak deteksi interaksi pintu (sekitar 1.8 tile)
-      if (dx <= 1.8 && dy <= 1.8) {
+      if (dx <= 2.3 && dy <= 2.3) {
         nearby = true
         break
       }
@@ -115,16 +65,15 @@ export class DoorObject {
 
     this.targetOpenness = nearby ? 1.0 : 0.0
 
-    // 2. Animasi ayunan pintu (smooth interpolation)
     const prev = this.openness
-    this.openness += (this.targetOpenness - this.openness) * 0.18
+    // Smooth easing interpolation (~0.22s transition)
+    this.openness += (this.targetOpenness - this.openness) * 0.22
 
     if (Math.abs(this.openness - this.targetOpenness) < 0.005) {
       this.openness = this.targetOpenness
     }
 
     const changed = Math.abs(this.openness - prev) > 0.001
-
     if (changed || this.openness > 0 || prev > 0) {
       this.render()
     }
@@ -134,7 +83,6 @@ export class DoorObject {
 
   private render() {
     this.gfx.clear()
-
     if (this.def.orientation === "horizontal") {
       this.renderHorizontalDoor()
     } else {
@@ -143,76 +91,118 @@ export class DoorObject {
   }
 
   /**
-   * Menggambar daun pintu kayu dengan rotasi (Hinge di sudut dinding)
+   * Menggambar kusen kayu pintu di sudut dinding
    */
-  private drawDoorLeaf(
-    hx: number,
-    hy: number,
-    angleRad: number,
-    length: number,
-    thickness: number,
-    handleSide: "left" | "right"
-  ) {
-    const cos = Math.cos(angleRad)
-    const sin = Math.sin(angleRad)
-    const nx = -sin
-    const ny = cos
-
-    // 4 titik sudut daun pintu
-    const p0 = { x: hx, y: hy }
-    const p1 = { x: hx + cos * length, y: hy + sin * length }
-    const p2 = { x: p1.x + nx * thickness, y: p1.y + ny * thickness }
-    const p3 = { x: hx + nx * thickness, y: hy + ny * thickness }
-
-    // Bayangan halus di bawah daun pintu saat terbuka
-    if (this.openness > 0.05) {
-      this.gfx.fillStyle(0x000000, 0.22 * this.openness)
-      this.gfx.fillPoints(
-        [
-          { x: p0.x + 3, y: p0.y + 4 },
-          { x: p1.x + 3, y: p1.y + 4 },
-          { x: p2.x + 3, y: p2.y + 4 },
-          { x: p3.x + 3, y: p3.y + 4 },
-        ],
-        true
-      )
-    }
-
-    // Warna dasar kayu pintu (sesuai screenshot)
-    this.gfx.fillStyle(0xe2aa6e, 1.0)
-    this.gfx.fillPoints([p0, p1, p2, p3], true)
-
-    // Garis tepi outline kayu gelap
-    this.gfx.lineStyle(1.5, 0x8b5b29, 1.0)
-    this.gfx.strokePoints([p0, p1, p2, p3], true)
-
-    // Panel ukiran kayu di dalam
-    if (length > 14) {
-      const inset = 3
-      const ip0 = { x: hx + cos * inset + nx * 1.5, y: hy + sin * inset + ny * 1.5 }
-      const ip1 = { x: hx + cos * (length - inset) + nx * 1.5, y: hy + sin * (length - inset) + ny * 1.5 }
-      const ip2 = { x: ip1.x + nx * (thickness - 3), y: ip1.y + ny * (thickness - 3) }
-      const ip3 = { x: ip0.x + nx * (thickness - 3), y: ip0.y + ny * (thickness - 3) }
-
-      this.gfx.fillStyle(0xd5995b, 0.85)
-      this.gfx.fillPoints([ip0, ip1, ip2, ip3], true)
-      this.gfx.lineStyle(1, 0x7a4d22, 0.6)
-      this.gfx.strokePoints([ip0, ip1, ip2, ip3], true)
-    }
-
-    // Gagang pintu logam (metal handle) di dekat ujung
-    const handleDist = length - 6
-    const hxPos = hx + cos * handleDist + nx * (thickness / 2)
-    const hyPos = hy + sin * handleDist + ny * (thickness / 2)
-
-    this.gfx.fillStyle(0x334155, 1.0)
-    this.gfx.fillCircle(hxPos, hyPos, 2.5)
-    this.gfx.fillStyle(0xe2e8f0, 1.0)
-    this.gfx.fillCircle(hxPos - 0.5, hyPos - 0.5, 1.2)
+  private drawDoorPost(x: number, y: number, w: number, h: number) {
+    this.gfx.fillStyle(0xc98a4b, 1.0)
+    this.gfx.fillRect(x, y, w, h)
+    this.gfx.fillStyle(0xf6cf9b, 0.9)
+    this.gfx.fillRect(x, y, Math.min(w, 2), Math.min(h, 2))
+    this.gfx.lineStyle(1, 0x6b4423, 1.0)
+    this.gfx.strokeRect(x, y, w, h)
   }
 
   /**
-   * Render Pintu Horizontal (Dinding Utara / Selatan)
+   * Menggambar daun pintu kayu dengan jendela kaca persegi dan pegangan krom
+   */
+  private drawLeaf(
+    hx: number,
+    hy: number,
+    angle: number,
+    len: number,
+    thick: number,
+    isLeftOrTop: boolean,
+  ) {
+    const cos = Math.cos(angle)
+    const sin = Math.sin(angle)
+
+    // Vector along length
+    const lx = cos * len
+    const ly = sin * len
+
+    // Vector across thickness (perpendicular)
+    const perpSign = isLeftOrTop ? 1 : -1
+    const tx = -sin * thick * perpSign
+    const ty = cos * thick * perpSign
+
+    // Corner points of the door leaf polygon
+    const p1 = { x: hx, y: hy }
+    const p2 = { x: hx + lx, y: hy + ly }
+    const p3 = { x: hx + lx + tx, y: hy + ly + ty }
+    const p4 = { x: hx + tx, y: hy + ty }
+
+    // 1. Soft contact shadow under swinging door
+    if (this.openness > 0.05) {
+      this.gfx.fillStyle(0x000000, 0.22)
+      this.gfx.fillPoints(
+        [
+          { x: p1.x + 2, y: p1.y + 4 },
+          { x: p2.x + 2, y: p2.y + 4 },
+          { x: p3.x + 2, y: p3.y + 4 },
+          { x: p4.x + 2, y: p4.y + 4 },
+        ],
+        true,
+      )
+    }
+
+    // 2. Main warm beech wood door leaf
+    this.gfx.fillStyle(0xd99b66, 1.0)
+    this.gfx.fillPoints([p1, p2, p3, p4], true)
+
+    // 3. Highlight bevel on outer rim
+    this.gfx.lineStyle(1.5, 0xf6d5b0, 0.9)
+    this.gfx.lineBetween(p1.x, p1.y, p2.x, p2.y)
+
+    // 4. Dark outline
+    this.gfx.lineStyle(1, 0x78350f, 1.0)
+    this.gfx.strokePoints([p1, p2, p3, p4], true)
+
+    // 5. Square Glass Window Insert (Gaya Khas Gather Town)
+    // Berada di tengah-tengah daun pintu (sekitar 40% - 60% panjang pintu)
+    const wCenter = 0.52
+    const wLen = len * 0.28
+    const wThick = thick * 0.65
+
+    const wx0 = hx + lx * (wCenter - 0.14) + tx * 0.18
+    const wy0 = hy + ly * (wCenter - 0.14) + ty * 0.18
+
+    const wlx = cos * wLen
+    const wly = sin * wLen
+    const wtx = -sin * wThick * perpSign
+    const wty = cos * wThick * perpSign
+
+    const wp1 = { x: wx0, y: wy0 }
+    const wp2 = { x: wx0 + wlx, y: wy0 + wly }
+    const wp3 = { x: wx0 + wlx + wtx, y: wy0 + wly + wty }
+    const wp4 = { x: wx0 + wtx, y: wy0 + wty }
+
+    // Window frame border
+    this.gfx.lineStyle(1.5, 0x451a03, 1.0)
+    this.gfx.strokePoints([wp1, wp2, wp3, wp4], true)
+
+    // Sky blue reflective glass
+    this.gfx.fillStyle(0x38bdf8, 0.95)
+    this.gfx.fillPoints([wp1, wp2, wp3, wp4], true)
+
+    // White glare glint on glass
+    this.gfx.lineStyle(1, 0xffffff, 0.85)
+    this.gfx.lineBetween(wp1.x + 1, wp1.y + 1, wp3.x - 1, wp3.y - 1)
+
+    // 6. Chrome Vertical Pull Handle (dekat ujung pertemuan pintu)
+    const hPos = 0.85
+    const hx0 = hx + lx * hPos + tx * 0.2
+    const hy0 = hy + ly * hPos + ty * 0.2
+    const hx1 = hx + lx * hPos + tx * 0.8
+    const hy1 = hy + ly * hPos + ty * 0.8
+
+    this.gfx.lineStyle(2, 0xffffff, 1.0)
+    this.gfx.lineBetween(hx0, hy0, hx1, hy1)
+    this.gfx.lineStyle(1, 0x475569, 0.8)
+    this.gfx.lineBetween(hx0 + 1, hy0 + 1, hx1 + 1, hy1 + 1)
+  }
+
+  /**
+   * Render Pintu Horizontal (Dinding Utara / Selatan - Ayunan 90° Smooth)
    */
   private renderHorizontalDoor() {
     const tiles = this.def.tiles
@@ -224,37 +214,37 @@ export class DoorObject {
     const rightX = (maxX + 1) * TILE
     const centerY = tileY * TILE + TILE / 2
 
-    const maxSwingRad = Phaser.Math.DegToRad(75) // Sudut buka 75 derajat ke luar
-    const isUp = this.def.swingDir === "up"
+    // 1. Tiang kusen pintu kayu tetap
+    this.drawDoorPost(leftX - 2, centerY - 14, 5, 28)
+    this.drawDoorPost(rightX - 3, centerY - 14, 5, 28)
 
-    if (this.def.double) {
-      // Pintu Ganda (2 Daun Pintu)
-      const leafLength = (rightX - leftX) / 2 - 1
-      const thickness = 6
+    // 2. Garis ambang pintu (threshold line) di lantai
+    this.gfx.lineStyle(2, 0xa16207, 0.75)
+    this.gfx.lineBetween(leftX + 2, centerY + 12, rightX - 2, centerY + 12)
 
-      // Daun Kiri (Hinge di tiang kiri)
-      // Saat membuka ke atas: rotasi berlawanan jarum jam (-), saat ke bawah: searah jarum jam (+)
-      const leftAngle = isUp ? -this.openness * maxSwingRad : this.openness * maxSwingRad
-      this.drawDoorLeaf(leftX, centerY, leftAngle, leafLength, thickness, "right")
+    // 3. Daun Pintu Ganda yang Mengayun
+    const leafLen = 31
+    const leafThick = 6
+    // Maksimum ayunan 85° agar tetap terlihat proporsional di dinding
+    const maxAngle = Math.PI * 0.47
+    const currentAngle = this.openness * maxAngle
 
-      // Daun Kanan (Hinge di tiang kanan)
-      // Saat tertutup sudutnya PI (menghadap ke kiri)
-      const rightAngleBase = Math.PI
-      const rightAngle = isUp
-        ? rightAngleBase + this.openness * maxSwingRad
-        : rightAngleBase - this.openness * maxSwingRad
-      this.drawDoorLeaf(rightX, centerY, rightAngle, leafLength, thickness, "left")
-    } else {
-      // Pintu Tunggal
-      const leafLength = TILE - 2
-      const thickness = 5
-      const angle = isUp ? -this.openness * maxSwingRad : this.openness * maxSwingRad
-      this.drawDoorLeaf(leftX, centerY, angle, leafLength, thickness, "right")
-    }
+    const swingDown = this.def.swingDir === "down"
+    const dirSign = swingDown ? 1 : -1
+
+    // Left Leaf (Hinge di sudut kiri kusen)
+    // Sudut istirahat (tertutup) = 0 rad (mengarah ke kanan)
+    const leftAngle = currentAngle * dirSign
+    this.drawLeaf(leftX + 2, centerY - 12, leftAngle, leafLen, leafThick, true)
+
+    // Right Leaf (Hinge di sudut kanan kusen)
+    // Sudut istirahat (tertutup) = PI rad (mengarah ke kiri)
+    const rightAngle = Math.PI - currentAngle * dirSign
+    this.drawLeaf(rightX - 2, centerY - 12, rightAngle, leafLen, leafThick, false)
   }
 
   /**
-   * Render Pintu Vertikal (Dinding Barat / Timur - Seperti Pintu Terrace di Gambar 2)
+   * Render Pintu Vertikal (Dinding Barat / Timur - Ayunan 90° Smooth)
    */
   private renderVerticalDoor() {
     const tiles = this.def.tiles
@@ -266,36 +256,32 @@ export class DoorObject {
     const topY = minY * TILE
     const bottomY = (maxY + 1) * TILE
 
-    const maxSwingRad = Phaser.Math.DegToRad(70) // Sudut buka 70 derajat ke luar (ke kiri)
-    const isLeft = this.def.swingDir === "left"
+    // 1. Tiang kusen pintu kayu tetap
+    this.drawDoorPost(centerX - 14, topY - 2, 28, 5)
+    this.drawDoorPost(centerX - 14, bottomY - 3, 28, 5)
 
-    if (this.def.double) {
-      // Pintu Ganda Vertikal (Gambar 2):
-      // Daun Atas: Hinge di sudut atas (topY), tertutup menghadap ke bawah (+PI/2)
-      // Daun Bawah: Hinge di sudut bawah (bottomY), tertutup menghadap ke atas (-PI/2)
-      const leafLength = (bottomY - topY) / 2 - 1
-      const thickness = 6
+    // 2. Garis ambang pintu (threshold line) di lantai
+    this.gfx.lineStyle(2, 0xa16207, 0.75)
+    this.gfx.lineBetween(centerX + 12, topY + 2, centerX + 12, bottomY - 2)
 
-      // Daun Atas: Mengayun ke luar (kiri)
-      const topAngleBase = Math.PI / 2
-      const topAngle = isLeft
-        ? topAngleBase - this.openness * maxSwingRad
-        : topAngleBase + this.openness * maxSwingRad
-      this.drawDoorLeaf(centerX, topY, topAngle, leafLength, thickness, "right")
+    // 3. Daun Pintu Ganda yang Mengayun
+    const leafLen = 31
+    const leafThick = 6
+    const maxAngle = Math.PI * 0.47
+    const currentAngle = this.openness * maxAngle
 
-      // Daun Bawah: Mengayun ke luar (kiri)
-      const bottomAngleBase = -Math.PI / 2
-      const bottomAngle = isLeft
-        ? bottomAngleBase + this.openness * maxSwingRad
-        : bottomAngleBase - this.openness * maxSwingRad
-      this.drawDoorLeaf(centerX, bottomY, bottomAngle, leafLength, thickness, "left")
-    } else {
-      const leafLength = TILE - 2
-      const thickness = 5
-      const angleBase = Math.PI / 2
-      const angle = isLeft ? angleBase - this.openness * maxSwingRad : angleBase + this.openness * maxSwingRad
-      this.drawDoorLeaf(centerX, topY, angle, leafLength, thickness, "right")
-    }
+    const swingRight = this.def.swingDir === "right"
+    const dirSign = swingRight ? 1 : -1
+
+    // Top Leaf (Hinge di sudut atas kusen)
+    // Sudut istirahat (tertutup) = PI/2 rad (mengarah ke bawah)
+    const topAngle = Math.PI * 0.5 - currentAngle * dirSign
+    this.drawLeaf(centerX - 12, topY + 2, topAngle, leafLen, leafThick, true)
+
+    // Bottom Leaf (Hinge di sudut bawah kusen)
+    // Sudut istirahat (tertutup) = -PI/2 rad (mengarah ke atas)
+    const bottomAngle = -Math.PI * 0.5 + currentAngle * dirSign
+    this.drawLeaf(centerX - 12, bottomY - 2, bottomAngle, leafLen, leafThick, false)
   }
 }
 

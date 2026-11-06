@@ -1,4 +1,4 @@
-// Layered chibi avatars (original to OPPERA): skin, hair, facial hair, top,
+﻿// Layered chibi avatars (original to OPPERA): skin, hair, facial hair, top,
 // jacket, bottom, shoes, hat, glasses and an accessory, in four directions.
 import type { AvatarLook, Dir } from "@/shared/protocol"
 import { INK, SHADOW, box, disc, ell, frame, line, obox, rect, rrect, tri, type Ctx } from "./pixel"

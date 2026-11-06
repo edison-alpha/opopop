@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 // Glue between the socket, WebRTC and the store, plus every user action in the office.
 import type { AvatarLook, ChatScope, Dir, MapOp, NewMeeting, PlayerPatch, ServerMsg, Status } from "@/shared/protocol"
 import {

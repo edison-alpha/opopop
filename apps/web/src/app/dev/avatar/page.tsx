@@ -3,8 +3,8 @@
 import type { AvatarLook } from "@/shared/protocol"
 import { useState } from "react"
 import { randomLook } from "@/office/game/art"
-import { AvatarEditor } from "@/office/ui/AvatarEditor"
-import { AvatarPreview } from "@/office/ui/AvatarPreview"
+import { AvatarEditor } from "@/office/ui"
+import { AvatarPreview } from "@/office/ui"
 
 const START: AvatarLook = {
   skin: "#f1c27d", hair: "#4a2f1d", hairStyle: 0, shirt: "#ffffff", pants: "#2c3e66",

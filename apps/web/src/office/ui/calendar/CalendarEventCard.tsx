@@ -1,6 +1,6 @@
 "use client"
 import type { CalendarEvent } from "../../services/calendar"
-import { MapPin } from "../icons"
+import { MapPin } from "../common/icons"
 
 interface CalendarEventCardProps {
   event: CalendarEvent

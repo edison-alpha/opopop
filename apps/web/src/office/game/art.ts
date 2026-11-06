@@ -3,7 +3,9 @@
 // paths) so it stays crisp when Phaser scales it with pixelArt: true.
 import { INK, SHADOW, blob, box, disc, ell, hash, line, obox, rect, tri, type Ctx } from "./pixel"
 export { drawAvatar, randomLook, SKIN_TONES, HAIR_COLORS, SHIRT_COLORS, PANTS_COLORS, PALETTE } from "./avatar"
-import { MAP_H, MAP_W, TILE, floor, objects, type Floor, type Obj } from "./map"
+import { FOOTPRINT, MAP_H, MAP_W, OX, OY, TILE, floor, objects, type Floor, type Obj } from "./map"
+import { MEDIA_ROOM } from "./layout"
+import { drawDetailedObject } from "./sprites"
 
 const T = TILE
 
@@ -52,6 +54,21 @@ function patternTile(key: string, fn: (x: number, y: number) => string): HTMLCan
 
 function floorTile(f: Exclude<Floor, "wall">, tx: number, ty: number): HTMLCanvasElement {
   switch (f) {
+    case "stripe":
+      return patternTile("stripe", (x, y) => {
+        const band = Math.floor(x / 16) % 2
+        return y % 8 === 0 ? (band ? "#9fadb0" : "#aab7b8") : band ? "#a6b3b5" : "#b5c1c1"
+      })
+    case "huddle":
+      return patternTile("huddle", (x, y) => {
+        const d = Math.abs(x % 16 - 8) + Math.abs(y % 16 - 8)
+        return d === 5 || d === 6 ? "#c6cbd7" : d < 3 ? "#d3d7e0" : "#dfe1e9"
+      })
+    case "diamond":
+      return patternTile("diamond", (x, y) => {
+        const d = Math.abs(x - 16) + Math.abs(y - 16)
+        return d === 14 || d === 16 || d === 18 ? "#cdd0dc" : "#edeaf1"
+      })
     case "grass": {
       const v = Math.floor(hash(tx, ty) * 4)
       return patternTile(`grass${v}`, (x, y) => {
@@ -74,26 +91,17 @@ function floorTile(f: Exclude<Floor, "wall">, tx: number, ty: number): HTMLCanva
         if (ly === 0 || lx === 0) return "#efe9dc"
         return "#e3dccb"
       })
-    case "hall": {
-      const v = Math.floor(hash(tx * 3, ty * 5) * 4)
-      return patternTile(`hall${v}`, (x, y) => {
-        const row = Math.floor(y / 8)
-        const off = ((row * 3 + v * 2 + (ty % 2) * 5) % 4) * 8
-        if (y % 8 === 7) return "#e5ccae"
-        if (x === off) return "#e8d2b6"
-        if (y % 8 === 0) return "#f9ecdc"
-        if (hash(x + v * 13, y + row * 7) > 0.93) return "#efdcc4"
-        return "#f4e3cd"
+    case "hall":
+      return patternTile("hall", (x, y) => {
+        const seam = (x + (Math.floor(y / 8) % 2) * 16) % 32
+        if (y % 8 === 7 || seam === 31) return "#e3d4c0"
+        if (y % 8 === 0) return "#f7eddf"
+        return hash(x, y) > 0.96 ? "#ecdeca" : "#f1e4d2"
       })
-    }
     case "lavender":
       return patternTile("lavender", (x, y) => {
-        // woven carpet: soft diagonal weave
-        const a = ((x >> 1) + (y >> 1)) % 4
-        const b = ((x >> 1) - (y >> 1) + 64) % 6
-        if (a === 0 && b < 3) return "#9a9deb"
-        if (b === 0) return "#8083d6"
-        return "#8d90e2"
+        const chevron = (y + Math.abs(x - 16)) % 16
+        return chevron < 7 ? "#a7a5df" : chevron < 9 ? "#9c9ad5" : "#b6b3e8"
       })
     case "slate":
       return patternTile("slate", (x, y) => {
@@ -226,28 +234,31 @@ function isWall(x: number, y: number) {
 
 function drawWall(ctx: Ctx, x: number, y: number) {
   const px = x * T, py = y * T
+  const horizontal = isWall(x - 1, y) || isWall(x + 1, y)
+  if (!horizontal) {
+    // Side partitions are a narrow cutaway. Extend each room's own flooring
+    // underneath its half, instead of leaving an entire dark tile-wide column.
+    for (const [dx, offset] of [[-1, 0], [1, T / 2]] as const) {
+      const f = floor[y]?.[x + dx]
+      const surface = f && f !== "wall" ? f : "hall"
+      const tile = floorTile(surface, x + dx, y)
+      ctx.drawImage(tile, offset, 0, T / 2, T, px + offset, py, T / 2, T)
+    }
+    rect(ctx, px + T / 2 - 3, py, 6, T, "#718581")
+    rect(ctx, px + T / 2 - 3, py, 1, T, "#a6b8ae")
+    rect(ctx, px + T / 2 + 2, py, 1, T, "#526967")
+    rect(ctx, px + T / 2 + 3, py, 2, T, "rgba(42,60,55,0.12)")
+    return
+  }
   const face = !isWall(x, y + 1)
-  const CAP = "#475569", CAP_HI = "#64748b", CAP_LO = "#334155"
-  rect(ctx, px, py, T, T, CAP)
-  // Subtle top rim highlight
-  rect(ctx, px, py, T, 2, CAP_HI)
-  if (!isWall(x - 1, y)) rect(ctx, px, py, 2, T, CAP_HI)
-  if (!isWall(x + 1, y)) rect(ctx, px + T - 2, py, 2, T, CAP_LO)
+
+  // A continuous muted green back wall, with a thin rim rather than dark blocks.
+  rect(ctx, px, py, T, T, "#6d7f80")
+  rect(ctx, px, py, T, 2, "#9aaca5")
+  rect(ctx, px, py + 2, T, 1, "#586e6d")
   if (face) {
-    // 2.5D front vertical face of the wall (giving true height and perspective depth)
-    rect(ctx, px, py + 6, T, 22, "#374151")
-    rect(ctx, px, py + 6, T, 1, "#4b5563")
-    // Subtle architectural vertical seams
-    rect(ctx, px + 8, py + 7, 1, 19, "#2e3846")
-    rect(ctx, px + 24, py + 7, 1, 19, "#2e3846")
-    // Skirting board at base of wall
-    rect(ctx, px, py + 26, T, 1, "#1f2937")
-    rect(ctx, px, py + 27, T, 3, "#111827")
-    rect(ctx, px, py + 27, T, 1, "#4b5563")
-    // Contact drop shadow on floor below wall
-    rect(ctx, px, py + 30, T, 2, "rgba(0, 0, 0, 0.22)")
-    if (!isWall(x - 1, y)) rect(ctx, px, py + 6, 2, 24, "#242c37")
-    if (!isWall(x + 1, y)) rect(ctx, px + T - 2, py + 6, 2, 24, "#242c37")
+    rect(ctx, px, py + T - 3, T, 1, "#8fa19a")
+    rect(ctx, px, py + T - 2, T, 2, "#506967")
   }
 }
 
@@ -327,6 +338,58 @@ function woodChairSide(ctx: Ctx, px: number, py: number, facingRight: boolean) {
   rect(ctx, X(10, 13), py + 14, 13, 2, B0)
   rect(ctx, X(8, 17), py + 20, 17, 2, W2); rect(ctx, X(8, 17), py + 20, 17, 1, W1)
 }
+
+// ── Executive Red Conference Chairs (Photo 2 Reference) ──
+function redChairFront(ctx: Ctx, px: number, py: number) {
+  shadow(ctx, px + 16, py + 28, 10, 3)
+  // Swivel base
+  rect(ctx, px + 15, py + 20, 2, 6, "#334155")
+  rect(ctx, px + 9, py + 26, 14, 2, "#1e293b")
+  rect(ctx, px + 8, py + 27, 2, 2, "#0f172a"); rect(ctx, px + 22, py + 27, 2, 2, "#0f172a")
+  // Curved vibrant red backrest with headrest
+  obox(ctx, px + 7, py + 1, 18, 9, "#ef4444")
+  rect(ctx, px + 9, py + 2, 14, 2, "#f87171")
+  rect(ctx, px + 8, py + 8, 16, 1, "#b91c1c")
+  // Red seat cushion
+  obox(ctx, px + 6, py + 11, 20, 10, "#ef4444")
+  rect(ctx, px + 8, py + 12, 16, 2, "#f87171")
+  rect(ctx, px + 7, py + 18, 18, 2, "#b91c1c")
+  // Armrests
+  rect(ctx, px + 4, py + 10, 2, 8, "#1e293b"); rect(ctx, px + 26, py + 10, 2, 8, "#1e293b")
+}
+
+function redChairBack(ctx: Ctx, px: number, py: number) {
+  shadow(ctx, px + 16, py + 28, 10, 3)
+  // Swivel base
+  rect(ctx, px + 15, py + 22, 2, 5, "#334155")
+  rect(ctx, px + 9, py + 26, 14, 2, "#1e293b")
+  rect(ctx, px + 8, py + 27, 2, 2, "#0f172a"); rect(ctx, px + 22, py + 27, 2, 2, "#0f172a")
+  // Red backrest rear shell
+  obox(ctx, px + 6, py + 2, 20, 10, "#dc2626")
+  rect(ctx, px + 8, py + 3, 16, 2, "#ef4444")
+  rect(ctx, px + 15, py + 12, 2, 10, "#1e293b")
+  obox(ctx, px + 7, py + 12, 18, 9, "#b91c1c")
+  rect(ctx, px + 9, py + 13, 14, 2, "#dc2626")
+  // Armrests
+  rect(ctx, px + 4, py + 10, 2, 8, "#1e293b"); rect(ctx, px + 26, py + 10, 2, 8, "#1e293b")
+}
+
+function redChairSide(ctx: Ctx, px: number, py: number, facingRight: boolean) {
+  const X = (x: number, w: number) => (facingRight ? px + x : px + T - x - w)
+  shadow(ctx, px + 16, py + 28, 9, 3)
+  rect(ctx, X(15, 2), py + 21, 2, 6, "#334155")
+  rect(ctx, X(9, 14), py + 26, 14, 2, "#1e293b")
+  // Red backrest profile
+  obox(ctx, X(6, 6), py + 2, 6, 17, "#ef4444")
+  rect(ctx, X(7, 2), py + 3, 2, 14, "#f87171")
+  // Red seat cushion profile
+  obox(ctx, X(8, 17), py + 12, 17, 8, "#ef4444")
+  rect(ctx, X(10, 13), py + 13, 13, 2, "#f87171")
+  rect(ctx, X(8, 17), py + 18, 17, 2, "#b91c1c")
+  // Armrest
+  rect(ctx, X(10, 10), py + 9, 10, 2, "#1e293b")
+  rect(ctx, X(14, 2), py + 11, 2, 5, "#1e293b")
+}
 function officeChairBack(ctx: Ctx, px: number, py: number) {
   // 2.5D ergonomic mesh executive chair
   shadow(ctx, px + 16, py + 28, 10, 3)
@@ -388,9 +451,97 @@ function painting(ctx: Ctx, x: number, y: number) {
 }
 
 function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
+  if (drawDetailedObject(ctx, o, x, y, grid)) return
   const px = x * T
   const py = y * T
   switch (o) {
+    case "workDesk":
+    case "reception": {
+      let startX = x, startY = y
+      while (same(startX - 1, y, o)) startX--
+      while (same(x, startY - 1, o)) startY--
+        const [fw, fh] = FOOTPRINT[o] ?? [1, 1]
+        if ((x - startX) % fw || (y - startY) % fh) break
+        const w = fw * T, h = fh * T
+      shadow(ctx, px + w / 2, py + h - 3, w / 2 - 5, 4)
+      if (o === "reception") {
+        obox(ctx, px + 2, py + 8, w - 4, h - 12, "#a6b0c0", "#75839a")
+        obox(ctx, px + 2, py + 2, w - 4, h - 19, "#f5f7fa", "#8e9bae")
+        rect(ctx, px + 8, py + 4, w - 16, 3, "#ffffff")
+        rect(ctx, px + 9, py + h - 12, w - 18, 2, "#c4cbd6")
+        for (const dx of [74, 88]) {
+          obox(ctx, px + dx, py + 11, 10, 13, "#ffffff", "#9aa8b9")
+          rect(ctx, px + dx + 2, py + 13, 6, 2, "#d7dfeb")
+        }
+      } else {
+        rect(ctx, px + 8, py + h - 18, 4, 15, "#657084")
+        rect(ctx, px + w - 12, py + h - 18, 4, 15, "#657084")
+        box(ctx, px + 1, py + 1, w - 2, h - 14, "#f5f5fc", "#8d91b5")
+        rect(ctx, px + 2, py + 2, w - 4, 3, "#ffffff")
+        rect(ctx, px + 2, py + h - 21, w - 4, 6, "#d1d3e6")
+        rect(ctx, px + 2, py + h - 15, w - 4, 2, "#969bb6")
+      }
+      break
+    }
+    case "displayShelf": {
+      if (same(x - 1, y, o) || same(x, y - 1, o)) break
+      const w = 5 * T
+      box(ctx, px + 2, py - 10, w - 4, 3 * T + 8, "#e5ebec", "#6d7e8c")
+      rect(ctx, px + 4, py - 8, w - 8, 3, "#ffffff")
+      for (let row = 0; row < 4; row++) for (let col = 0; col < 6; col++) {
+        const sx = px + 6 + col * 25, sy = py - 2 + row * 25
+        box(ctx, sx, sy, 22, 22, "#78958e", "#aebfc4")
+        if ((row + col) % 3 === 0) {
+          obox(ctx, sx + 5, sy + 6, 7, 8, "#f4e6c8")
+          blob(ctx, sx, sy, [[8, 4, 4]], L1, LINK, L0)
+        } else {
+          for (let i = 0; i < 3; i++) rect(ctx, sx + 3 + i * 4, sy + 4 + i % 2, 3, 9, BOOKS[(col * 3 + row + i) % BOOKS.length])
+        }
+      }
+      break
+    }
+    case "fishTank": {
+      if (same(x - 1, y, o) || same(x, y - 1, o)) break
+      obox(ctx, px + 2, py, 60, 61, "#3d526a")
+      box(ctx, px + 5, py + 4, 54, 38, "#59bada", "#8caabb")
+      rect(ctx, px + 7, py + 6, 50, 5, "#c3f3ff")
+      rect(ctx, px + 7, py + 35, 50, 5, "#ccb98c")
+      for (const dx of [12, 39, 47]) {
+        rect(ctx, px + dx, py + 23, 2, 14, "#3f9a67")
+        rect(ctx, px + dx - 3, py + 28, 8, 2, "#64c485")
+      }
+      ell(ctx, px + 23, py + 20, 5, 3, "#ffc35a")
+      tri(ctx, px + 30, py + 18, 5, 3, "#f18c43")
+      rect(ctx, px + 7, py + 47, 50, 1, "#72859c")
+      rect(ctx, px + 30, py + 48, 1, 10, "#28394f")
+      break
+    }
+    case "loungeTable": {
+      if (same(x - 1, y, o) || same(x, y - 1, o)) break
+      shadow(ctx, px + 64, py + 89, 51, 5)
+      rect(ctx, px + 59, py + 52, 10, 34, W3)
+      ell(ctx, px + 64, py + 46, 59, 34, W3)
+      ell(ctx, px + 64, py + 41, 59, 32, W0)
+      ell(ctx, px + 59, py + 36, 45, 22, "#e6b47a")
+      obox(ctx, px + 28, py + 25, 12, 15, "#ffffff", W2)
+      rect(ctx, px + 30, py + 27, 8, 3, "#805239")
+      break
+    }
+    case "roundSmall":
+      if (same(x - 1, y, o) || same(x, y - 1, o)) break
+      shadow(ctx, px + 32, py + 57, 21, 4)
+      rect(ctx, px + 28, py + 30, 8, 26, "#7b879a")
+      ell(ctx, px + 32, py + 25, 25, 18, "#67798f")
+      ell(ctx, px + 32, py + 21, 24, 16, "#dce4eb")
+      ell(ctx, px + 28, py + 17, 12, 5, "#f4f7fa")
+      break
+    case "blueSofaSide":
+      shadow(ctx, px + 16, py + 28, 13, 3)
+      obox(ctx, px + 3, py + 2, 26, 27, B2)
+      rect(ctx, px + 4, py + 3, 7, 24, B0)
+      box(ctx, px + 11, py + 4, 16, 22, B1, B3)
+      rect(ctx, px + 13, py + 5, 12, 2, B0)
+      break
     case "desk":
     case "deskMonitor": {
       const kinds: Obj[] = ["desk", "deskMonitor"]
@@ -462,14 +613,19 @@ function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
     case "chairUp": woodChairBack(ctx, px, py); break
     case "chairL": woodChairSide(ctx, px, py, false); break
     case "chairR": woodChairSide(ctx, px, py, true); break
+    case "redChair": redChairFront(ctx, px, py); break
+    case "redChairUp": redChairBack(ctx, px, py); break
+    case "redChairL": redChairSide(ctx, px, py, false); break
+    case "redChairR": redChairSide(ctx, px, py, true); break
     case "officeChairUp": officeChairBack(ctx, px, py); break
     case "plant": pottedPlant(ctx, px, py, false); break
     case "plantBig": pottedPlant(ctx, px, py, true); break
+    case "blueSofa":
     case "sofa":
     case "sofaUp": {
       const up = o === "sofaUp"
       const l = same(x - 1, y, o), r = same(x + 1, y, o)
-      const S0 = "#dc9e6c", S1 = "#c27c4c", S2 = "#9e5d35", S3 = "#7a4426"
+      const [S0, S1, S2, S3] = o === "blueSofa" ? [B0, B1, B2, B3] : ["#dc9e6c", "#c27c4c", "#9e5d35", "#7a4426"]
       const x0 = px + (l ? 0 : 2), w = T - (l ? 0 : 2) - (r ? 0 : 2)
       shadow(ctx, px + 16, py + 29, 16, 3)
       rect(ctx, x0, py + 4, w, 25, INK)
@@ -502,13 +658,33 @@ function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
       rect(ctx, x0, y0, w, h, INK)
       const ix = x0 + (l ? 0 : 1), iy = y0 + (u ? 0 : 1)
       const iw = w - (l ? 0 : 1) - (r ? 0 : 1), ih = h - (u ? 0 : 1) - (d ? 0 : 1)
-      rect(ctx, ix, iy, iw, ih, W1)
-      // plank grain
-      for (let gy = iy + 5; gy < iy + ih - 4; gy += 7) rect(ctx, ix, gy, iw, 1, "#bd7f49")
-      if (!u) rect(ctx, ix, iy, iw, 2, W0)
-      if (!d) { rect(ctx, ix, iy + ih - 4, iw, 4, W2); rect(ctx, ix, iy + ih - 1, iw, 1, W3) }
-      if (hash(x, y) > 0.78 && !d && u) {
-        box(ctx, px + 8, py + 6, 9, 7, "#ffffff", G2)
+
+      const isExecutive = x >= OX + MEDIA_ROOM.x && x < OX + MEDIA_ROOM.x + MEDIA_ROOM.w && y >= OY + MEDIA_ROOM.y && y < OY + MEDIA_ROOM.y + MEDIA_ROOM.h
+      if (isExecutive) {
+        // Glossy White Executive Conference Table (Photo 2 Reference)
+        rect(ctx, ix, iy, iw, ih, "#f8fafc")
+        if (!u) rect(ctx, ix, iy, iw, 2, "#ffffff")
+        if (!d) { rect(ctx, ix, iy + ih - 4, iw, 4, "#cbd5e1"); rect(ctx, ix, iy + ih - 1, iw, 1, "#94a3b8") }
+        // Laptops & workspace tech on table
+        if (!d && u) {
+          // Open laptop with lit glowing code screen
+          obox(ctx, px + 6, py + 4, 11, 8, "#1e293b")
+          rect(ctx, px + 7, py + 5, 9, 6, "#0284c7")
+          rect(ctx, px + 8, py + 6, 7, 1, "#38bdf8")
+          rect(ctx, px + 5, py + 11, 13, 2, "#94a3b8")
+          // Paper notes + pen
+          rect(ctx, px + 21, py + 6, 7, 9, "#ffffff")
+          rect(ctx, px + 22, py + 8, 5, 1, "#94a3b8")
+          rect(ctx, px + 22, py + 10, 4, 1, "#94a3b8")
+        }
+      } else {
+        rect(ctx, ix, iy, iw, ih, W1)
+        for (let gy = iy + 5; gy < iy + ih - 4; gy += 7) rect(ctx, ix, gy, iw, 1, "#bd7f49")
+        if (!u) rect(ctx, ix, iy, iw, 2, W0)
+        if (!d) { rect(ctx, ix, iy + ih - 4, iw, 4, W2); rect(ctx, ix, iy + ih - 1, iw, 1, W3) }
+        if (hash(x, y) > 0.78 && !d && u) {
+          box(ctx, px + 8, py + 6, 9, 7, "#ffffff", G2)
+        }
       }
       break
     }
@@ -763,26 +939,45 @@ function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
       rect(ctx, px + 12, py - 18, 9, 2, "#fff6d6")
       rect(ctx, px + 9, py - 21, 15, 2, "#2c3140")
       break
-    case "wallWindow":
-      // 2.5D Large glass partition window with 3 cyan panes & reflection lines
-      shadow(ctx, px + 16, py + 29, 15, 2)
-      box(ctx, px + 1, py + 4, 30, 24, "#0e7490", "#1e293b")
-      // 3 glass panes with cyan gradient
-      rect(ctx, px + 3, py + 6, 8, 20, "#67e8f9")
-      rect(ctx, px + 12, py + 6, 8, 20, "#a5f3fc")
-      rect(ctx, px + 21, py + 6, 8, 20, "#67e8f9")
-      // Diagonal glare reflections
-      line(ctx, px + 4, py + 18, px + 9, py + 8, "rgba(255,255,255,0.75)")
-      line(ctx, px + 13, py + 18, px + 18, py + 8, "rgba(255,255,255,0.75)")
-      line(ctx, px + 22, py + 18, px + 27, py + 8, "rgba(255,255,255,0.75)")
-      // Mullions / crossbars
-      rect(ctx, px + 2, py + 16, 28, 2, "#1e293b")
-      rect(ctx, px + 11, py + 5, 1, 22, "#1e293b")
-      rect(ctx, px + 20, py + 5, 1, 22, "#1e293b")
-      // Bottom window sill
-      rect(ctx, px, py + 28, T, 2, "#cbd5e1")
-      rect(ctx, px, py + 30, T, 1, "#94a3b8")
+    case "wallWindow": {
+      // Gather-style architectural panoramic window with dark steel mullions & multi-pane glass
+      const hasLeft = same(x - 1, y, "wallWindow")
+      const hasRight = same(x + 1, y, "wallWindow")
+
+      const FRAME = "#1e293b"
+      const MULLION = "#0f172a"
+      const SILL = "#64748b"
+
+      // 1. Vibrant sky blue glass background
+      rect(ctx, px, py + 4, T, 22, "#0284c7")
+      rect(ctx, px, py + 4, T, 9, "#38bdf8")
+      rect(ctx, px, py + 13, T, 7, "#0ea5e9")
+
+      // 2. Diagonal glass glare reflections (///)
+      line(ctx, px + 2, py + 21, px + 10, py + 6, "rgba(255, 255, 255, 0.55)")
+      line(ctx, px + 4, py + 22, px + 13, py + 6, "rgba(255, 255, 255, 0.75)")
+      line(ctx, px + 18, py + 21, px + 26, py + 6, "rgba(255, 255, 255, 0.55)")
+      line(ctx, px + 20, py + 22, px + 29, py + 6, "rgba(255, 255, 255, 0.75)")
+
+      // 3. Two horizontal transom mullions dividing the window into 3 rows of panes (Gather style)
+      rect(ctx, px, py + 11, T, 1.5, MULLION)
+      rect(ctx, px, py + 18, T, 1.5, MULLION)
+
+      // 4. Vertical mullion down the middle of each tile
+      rect(ctx, px + 15, py + 4, 1.5, 22, MULLION)
+
+      // 5. Outer steel frame (top & bottom run continuously across window bays)
+      rect(ctx, px, py + 3, T, 1.5, FRAME)
+      rect(ctx, px, py + 25, T, 1.5, FRAME)
+      if (!hasLeft) rect(ctx, px, py + 3, 2, 23, FRAME)
+      if (!hasRight) rect(ctx, px + T - 2, py + 3, 2, 23, FRAME)
+
+      // 6. Projecting window sill at bottom with soft contact shadow
+      rect(ctx, px, py + 26, T, 2, SILL)
+      rect(ctx, px, py + 26, T, 0.75, "#94a3b8")
+      rect(ctx, px, py + 28, T, 1.5, "rgba(0, 0, 0, 0.28)")
       break
+    }
     case "poster": {
       const bgs = ["#f2c45f", "#5b8def", "#e8907a", "#56b98a", "#a98ad8"]
       const bg = bgs[Math.floor(hash(x * 3, y) * bgs.length)]
@@ -898,7 +1093,7 @@ function drawObject(ctx: Ctx, o: Obj, x: number, y: number) {
 }
 
 // Objects drawn once from their left-most tile across a run of tiles.
-const RUNS: ReadonlySet<Obj> = new Set<Obj>(["painting", "pingpong", "roundTable"])
+const RUNS: ReadonlySet<Obj> = new Set<Obj>(["painting", "pingpong", "roundTable", "workDesk", "reception", "displayShelf", "fishTank", "roundSmall", "loungeTable"])
 
 /**
  * Redraws the tile rectangle [x0..x1] x [y0..y1] (inclusive), clipped to it.
@@ -909,8 +1104,8 @@ function drawRegion(ctx: Ctx, x0: number, y0: number, x1: number, y1: number) {
   x0 = Math.max(0, x0); y0 = Math.max(0, y0)
   x1 = Math.min(MAP_W - 1, x1); y1 = Math.min(MAP_H - 1, y1)
   if (x0 > x1 || y0 > y1) return
-  const ex0 = Math.max(0, x0 - 2), ex1 = Math.min(MAP_W - 1, x1 + 2)
-  const ey0 = Math.max(0, y0 - 2), ey1 = Math.min(MAP_H - 1, y1 + 3)
+  const ex0 = Math.max(0, x0 - 5), ex1 = Math.min(MAP_W - 1, x1 + 5)
+  const ey0 = Math.max(0, y0 - 5), ey1 = Math.min(MAP_H - 1, y1 + 6)
   ctx.save()
   ctx.beginPath()
   ctx.rect(x0 * T, y0 * T, (x1 - x0 + 1) * T, (y1 - y0 + 1) * T)
@@ -946,7 +1141,7 @@ export function redrawTiles(c: HTMLCanvasElement, tiles: [number, number][]): [n
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
   for (const [x, y] of tiles) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y) }
   // A change can alter how neighbours draw (wall faces, rug borders, merged desks, tall sprites above).
-  x0 -= 2; x1 += 2; y0 -= 3; y1 += 2
+  x0 -= 5; x1 += 5; y0 -= 6; y1 += 5
   drawRegion(c.getContext("2d")!, x0, y0, x1, y1)
   return [Math.max(0, x0), Math.max(0, y0), Math.min(MAP_W - 1, x1), Math.min(MAP_H - 1, y1)]
 }
@@ -986,7 +1181,7 @@ export function renderSeatFrontRow(y: number, seats: Partial<Record<Obj, { front
  * anchor tile at (1, 2). Wall decor gets a strip of wall behind it.
  */
 export function renderObjectThumb(o: Obj, footprint: [number, number] = [1, 1]): HTMLCanvasElement {
-  const W = 4, H = 4
+  const W = Math.max(4, footprint[0] + 2), H = Math.max(4, footprint[1] + 3)
   const c = document.createElement("canvas")
   c.width = W * T
   c.height = H * T
@@ -1041,7 +1236,7 @@ export function renderMinimap(scale = 2): HTMLCanvasElement {
     grass: "#3c4a3f", path: "#5a5a5a", wall: "#9aa0b0", hall: "#4a4a55", lavender: "#55588a",
     slate: "#53585f", rug: "#4f5a5d", kitchen: "#5c6070", game: "#3e404a",
     wood: "#5e5048", carpet: "#4a5e5f", marble: "#66666a", deck: "#5a4a3e", water: "#3d6a86",
-    rugWarm: "#6e4a40", rugBlue: "#46507a",
+    rugWarm: "#6e4a40", rugBlue: "#46507a", stripe: "#a7b6b8", huddle: "#d6dae4", diamond: "#e9e6ef",
   }
   for (let y = 0; y < MAP_H; y++) {
     for (let x = 0; x < MAP_W; x++) {

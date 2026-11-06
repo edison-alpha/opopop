@@ -1,6 +1,6 @@
 "use client"
 import type { CalendarEvent } from "../../services/calendar"
-import { Clock, DoorOpen, MapPin, X } from "../icons"
+import { Clock, DoorOpen, MapPin, X } from "../common/icons"
 
 interface CalendarDetailModalProps {
   event: CalendarEvent

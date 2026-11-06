@@ -1,5 +1,5 @@
 "use client"
-import { ChevronDown, Plus, RotateCw } from "../icons"
+import { ChevronDown, Plus, RotateCw } from "../common/icons"
 
 interface CalendarTopbarProps {
   monthTitle: string

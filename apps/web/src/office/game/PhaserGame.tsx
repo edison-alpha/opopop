@@ -7,6 +7,7 @@ import { eraseOps, floorOps, placeError, placeOps, roomOps, rotateObj } from "..
 import { advancePath, cancelPath, editMap, react, redoEdit, tryStep, undoEdit, updateProximity, walkTo } from "../session"
 import { STEP_MS, store, type Avatar } from "../store"
 import { VoiceActivity } from "../voiceActivity"
+import { loadOfficeSprites } from "./sprites"
 import { DoorSystem } from "./doors"
 import { DeskSystem } from "./desks"
 import { RoomLabelSystem } from "./roomLabels"
@@ -120,7 +121,7 @@ class OfficeScene extends Phaser.Scene {
 
     const cam = this.cameras.main
     cam.setBounds(0, 0, mapW, mapH)
-    cam.setBackgroundColor("#c4e6b8")
+    cam.setBackgroundColor("#d2ecc7")
     cam.setRoundPixels(true)
     cam.setZoom(store.zoom)
     cam.centerOn(mapW / 2, mapH / 2)
@@ -373,10 +374,15 @@ class OfficeScene extends Phaser.Scene {
     const body = this.add.image(0, 2, key, "down0").setOrigin(0.5, 1)
     const tagBg = this.add.graphics()
     const tagText = this.add
-      .text(0, 0, a.name, { fontFamily: FONT, fontSize: "11px", color: "#ffffff", fontStyle: "bold" })
+      .text(0, 0, a.name, {
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontSize: "11px",
+        color: "#ffffff",
+        fontStyle: "bold",
+      })
       .setOrigin(0, 0.5)
       .setResolution(3)
-    const tag = this.add.container(0, -HEAD_H - 4, [tagBg, tagText]).setVisible(false)
+    const tag = this.add.container(0, -HEAD_H - 8, [tagBg, tagText]).setVisible(false)
     const emoji = this.add.text(0, -HEAD_H - 20, "", { fontSize: "20px" }).setOrigin(0.5, 1).setResolution(3)
     const speech = this.add.graphics().setPosition(-28, -HEAD_H + 12).setVisible(false)
     speech.fillStyle(0xffffff).fillRoundedRect(-13, -9, 26, 18, 8)
@@ -391,21 +397,37 @@ class OfficeScene extends Phaser.Scene {
 
   private drawTag(s: Sprite, a: Avatar) {
     const isMe = a.id === store.meId
-    const sig = `${a.name}|${a.status}|${isMe}|${a.mic}|${a.screen}`
+    const sig = `${a.name}|${a.status}|${isMe}|${a.screen}`
     if (sig === s.tagSig) return
     s.tagSig = sig
     let label = a.name
     if (label.length > 18) label = label.slice(0, 17) + "…"
     s.tagText.setText(label)
-    const w = s.tagText.width + 24
-    const h = 18
+    const textW = s.tagText.width
+    const w = textW + 26
+    const h = 20
     s.tagBg.clear()
-    s.tagBg.fillStyle(isMe ? 0x5b4fe9 : 0x1f1f26, isMe ? 1 : 0.88).fillRoundedRect(-w / 2, -h / 2, w, h, 6)
-    s.tagBg.fillStyle(Phaser.Display.Color.HexStringToColor(STATUS_COLOR[a.status]).color, 1).fillCircle(-w / 2 + 9, 0, 3.5)
-    s.tagText.setX(-w / 2 + 16)
-    if (a.screen) {
-      s.tagBg.fillStyle(0x2fbf71, 1).fillRoundedRect(w / 2 + 3, -6, 12, 12, 3)
-    }
+
+    // 1. Pill Background (Biru Indigo untuk Saya, Gelap Elegan untuk Orang Lain)
+    s.tagBg.fillStyle(isMe ? 0x5b4fe9 : 0x18191d, isMe ? 0.98 : 0.94)
+    s.tagBg.fillRoundedRect(-w / 2, -h / 2, w, h, 10)
+
+    // 2. Glowing Subtle Border
+    s.tagBg.lineStyle(1, isMe ? 0x818cf8 : 0x3f3f46, 0.85)
+    s.tagBg.strokeRoundedRect(-w / 2, -h / 2, w, h, 10)
+
+    // 3. Titik Hijau Status Online (Lingkaran padat persis Gather, TANPA HURUF X)
+    s.tagBg.fillStyle(0x22c55e, 1).fillCircle(-w / 2 + 10, 0, 3)
+
+    // 4. Panah Segitiga Runcing ke Bawah (Caret mengarah persis ke tengah kepala avatar)
+    s.tagBg.fillStyle(isMe ? 0x5b4fe9 : 0x18191d, 1)
+    s.tagBg.fillTriangle(-3.5, h / 2, 3.5, h / 2, 0, h / 2 + 3.5)
+    s.tagBg.lineStyle(1, isMe ? 0x818cf8 : 0x3f3f46, 0.85)
+    s.tagBg.lineBetween(-3.5, h / 2, 0, h / 2 + 3.5)
+    s.tagBg.lineBetween(0, h / 2 + 3.5, 3.5, h / 2)
+
+    s.tagText.setX(-w / 2 + 17)
+    s.tagText.setY(0)
   }
 
   private updateDim(area: Area | null) {
@@ -414,38 +436,26 @@ class OfficeScene extends Phaser.Scene {
     this.dimKey = key
     this.dim.clear()
 
-    // Ruangan tertutup yang memiliki pintu dan pembatas dinding
-    const isEnclosedRoom =
-      !!area &&
-      (area.private ||
-        area.meeting ||
-        area.name === "Lobby" ||
-        area.name === "Meeting Room A" ||
-        area.name === "Meeting Room B" ||
-        area.name.startsWith("Focus Booth") ||
-        area.name.endsWith("'s desk") ||
-        area.name === "HR & Finance" ||
-        area.name === "Lounge" ||
-        area.name === "Café" ||
-        area.name === "Game Room" ||
-        area.name === "Library" ||
-        area.name === "Pantry")
+    // Hanya ruangan private/tertutup (Focus Booths atau Meja Pribadi yang diklaim)
+    // Area terbuka seperti Lobby, Lounge, Café, Team Pod, Courtyard TIDAK BOLEH menggelapkan layar
+    if (!area) return
+    const isPrivateFocusRoom = area.private
 
-    if (!isEnclosedRoom || !area) return
+    if (!isPrivateFocusRoom) return
 
     const mapW = MAP_W * TILE
     const mapH = MAP_H * TILE
     const ax = area.x * TILE, ay = area.y * TILE, aw = area.w * TILE, ah = area.h * TILE
 
-    // Gelap pekat di luar ruangan saat pemain di dalam ruangan (72% dark overlay)
-    this.dim.fillStyle(0x070914, 0.72)
+    // Dimming halus & elegan (40% focus overlay, bukan hitam pekat)
+    this.dim.fillStyle(0x0a0f1d, 0.42)
     this.dim.fillRect(0, 0, mapW, ay)
     this.dim.fillRect(0, ay + ah, mapW, mapH - ay - ah)
     this.dim.fillRect(0, ay, ax, ah)
     this.dim.fillRect(ax + aw, ay, mapW - ax - aw, ah)
 
-    // Border glowing halus penanda ruangan
-    this.dim.lineStyle(2, 0x6366f1, 0.5).strokeRect(ax, ay, aw, ah)
+    // Border glowing halus penanda ruangan private
+    this.dim.lineStyle(2, 0x818cf8, 0.7).strokeRect(ax, ay, aw, ah)
   }
 
   update(time: number) {
@@ -485,29 +495,28 @@ class OfficeScene extends Phaser.Scene {
       // Standing still on a chair/sofa/bench/stool = sitting on it, facing the seat's way.
       const seat = walking ? null : seatAt(a.x, a.y)
       s.speech.setY(-HEAD_H + 12 - (seat?.lift ?? 0)).setVisible(store.preferences.speechBubbles && this.voice.isSpeaking(a.id, now))
-      s.tag.setVisible(store.preferences.nameLabels)
+      // Head tags are managed via 60 FPS HD vector DOM overlay in GameUIOverlay
+      s.tag.setVisible(false)
       if (seat) {
         s.body.setFrame(`sit${seat.dir === "any" ? a.dir : seat.dir}`)
         s.body.setY(2 - seat.lift)
-        s.tag.setY(-HEAD_H - 4 - seat.lift + 3)
       } else {
         s.body.setFrame(`${a.dir}${walking ? a.stepFrame : 0}`)
         s.body.setY(2)
-        s.tag.setY(-HEAD_H - 4)
       }
       s.body.setAlpha(a.status === "away" ? 0.6 : 1)
       s.root.setPosition(Math.round((a.rx + 0.5) * TILE), Math.round((a.ry + 1) * TILE))
       s.root.setDepth(10 + a.ry)
-      this.drawTag(s, a)
 
+      const emojiBaseY = a.cam ? -HEAD_H - 84 : -HEAD_H - 14
       if (a.hand && !(a.reaction && now - a.reaction.at < REACTION_MS)) {
         if (s.emoji.text !== "✋") s.emoji.setText("✋")
-        s.emoji.setY(-HEAD_H - 14 + Math.sin(now / 250) * 2)
+        s.emoji.setY(emojiBaseY + Math.sin(now / 250) * 2)
         s.emoji.setAlpha(1)
       } else if (a.reaction && now - a.reaction.at < REACTION_MS) {
         const k = (now - a.reaction.at) / REACTION_MS
         s.emoji.setText(a.reaction.emoji)
-        s.emoji.setY(-HEAD_H - 14 - k * 22)
+        s.emoji.setY(emojiBaseY - k * 22)
         s.emoji.setAlpha(1 - Math.max(0, k - 0.7) / 0.3)
       } else if (s.emoji.text) {
         a.reaction = null
@@ -542,6 +551,26 @@ class OfficeScene extends Phaser.Scene {
     const v = cam.worldView
     store.view = { x: v.x, y: v.y, w: v.width, h: v.height }
 
+    // 60 FPS rigid tracking for DOM head overlays (nametag & camera video bubble)
+    const isOverview = cam.zoom <= 0.65
+    for (const a of store.players.values()) {
+      const el = document.getElementById(`head-overlay-${a.id}`)
+      if (!el) continue
+      if ((!a.cam && !store.preferences.nameLabels) || isOverview) {
+        el.style.display = "none"
+        continue
+      }
+      el.style.display = "block"
+      const seat = now - a.stepStart >= STEP_MS ? seatAt(a.x, a.y) : null
+      const headLift = seat?.lift ?? 0
+      // Stable continuous world coordinates (not affected by character's walking bounce)
+      const wx = (a.rx + 0.5) * TILE
+      const wy = (a.ry + 1) * TILE - HEAD_H - headLift - (a.cam ? 8 : 4)
+      const sx = (wx - v.x) * cam.zoom
+      const sy = (wy - v.y) * cam.zoom
+      el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) translate(-50%, -100%)`
+    }
+
     const allPlayers = [...store.players.values()].map((p) => ({ x: p.rx + 0.5, y: p.ry + 0.5 }))
     this.doorSystem.update(allPlayers)
     this.deskSystem.update(me)
@@ -556,7 +585,11 @@ export function PhaserGame() {
   const hostRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const game = new Phaser.Game({
+    let disposed = false
+    let game: Phaser.Game | null = null
+    void loadOfficeSprites().then(() => {
+    if (disposed) return
+    game = new Phaser.Game({
       // Always render with WebGL.
       type: Phaser.WEBGL,
       parent: hostRef.current!,
@@ -569,7 +602,8 @@ export function PhaserGame() {
       audio: { noAudio: true },
       input: { keyboard: false },
     })
-    return () => game.destroy(true)
+    })
+    return () => { disposed = true; game?.destroy(true) }
   }, [])
 
   return <div ref={hostRef} className="game-host" aria-label="Office map" />

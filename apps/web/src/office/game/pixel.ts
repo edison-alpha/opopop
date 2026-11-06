@@ -1,4 +1,4 @@
-// Pixel-exact drawing primitives shared by the map art and the avatars.
+﻿// Pixel-exact drawing primitives shared by the map art and the avatars.
 // Everything uses integer rects / row runs (no anti-aliased paths) so sprites
 // stay crisp when Phaser scales them with pixelArt: true.
 

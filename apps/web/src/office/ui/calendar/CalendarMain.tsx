@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useOffice } from "../../store"
 import { calendarService, type CalendarEvent } from "../../services/calendar"
 import { walkToArea } from "../../session"
-import { NewMeetingForm } from "../CalendarView"
+import { NewMeetingForm } from "./CalendarView"
 
 import { CalendarTopbar } from "./CalendarTopbar"
 import { CalendarWeekHeader } from "./CalendarWeekHeader"

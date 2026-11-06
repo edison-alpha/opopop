@@ -1,23 +1,30 @@
-"use client"
+﻿"use client"
 import type { AvatarLook } from "@/shared/protocol"
 import { PhaserGame } from "./game/PhaserGame"
 import { useEffect, useState } from "react"
 import { SPAWN } from "./game/map"
 import { joinOffice, leaveOffice } from "./session"
 import { store, useOffice } from "./store"
-import { BuildPanel } from "./ui/BuildPanel"
-import { CalendarMain } from "./ui/CalendarMain"
-import { ChatMain } from "./ui/ChatMain"
-import { CommandPalette } from "./ui/CommandPalette"
-import { JoinScreen } from "./ui/JoinScreen"
-import { MeetingRestore, MeetingView } from "./ui/Meeting"
-import { MapControls, Minimap, StageHeader, ToastBar } from "./ui/Overlays"
-import { GameUIOverlay } from "./ui/GameUIOverlay"
-import { Rail } from "./ui/Rail"
-import { SettingsModal } from "./ui/SettingsModal"
-import { Sidebar } from "./ui/Sidebar"
-import { Toolbar } from "./ui/Toolbar"
-import { Spotlight, VideoBar } from "./ui/VideoBar"
+import {
+  BuildPanel,
+  CalendarMain,
+  ChatMain,
+  CommandPalette,
+  GameUIOverlay,
+  JoinScreen,
+  MapControls,
+  MeetingRestore,
+  MeetingView,
+  Minimap,
+  Rail,
+  SettingsModal,
+  Sidebar,
+  Spotlight,
+  StageHeader,
+  ToastBar,
+  Toolbar,
+  VideoBar,
+} from "./ui"
 
 function Stage({ onLeave }: { onLeave: () => void }) {
   const office = useOffice()

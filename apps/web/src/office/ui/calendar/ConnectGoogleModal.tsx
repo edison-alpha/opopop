@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { Link2, X } from "../icons"
+import { Link2, X } from "../common/icons"
 
 interface ConnectGoogleModalProps {
   initialIcsUrl: string

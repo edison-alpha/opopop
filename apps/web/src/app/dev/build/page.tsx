@@ -5,7 +5,7 @@ import { randomLook, renderObjectThumb } from "@/office/game/art"
 import { drawAvatar } from "@/office/game/avatar"
 import { SEATS, TILE, type Obj } from "@/office/game/map"
 import { store } from "@/office/store"
-import { BuildPanel } from "@/office/ui/BuildPanel"
+import { BuildPanel } from "@/office/ui"
 
 const SEAT_LIST: Obj[] = ["chair", "chairUp", "chairL", "chairR", "officeChair", "officeChairUp", "sofa", "sofaUp", "bench", "stool", "beanbag"]
 

@@ -13,6 +13,8 @@
     "build:web": "pnpm --filter web build",
     "build:server": "cargo build --release --manifest-path apps/server/Cargo.toml",
     "typecheck": "pnpm --filter web typecheck",
+    "test:map": "node scripts/check-map.mjs",
+    "assets:office": "node scripts/build-office-sprites.mjs",
     "check:server": "cargo check --manifest-path apps/server/Cargo.toml"
   }
 }

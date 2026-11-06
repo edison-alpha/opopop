@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 // Build-mode edit builders: each returns the MapOps for one user action.
 import type { MapOp } from "@/shared/protocol"
 import {
@@ -10,14 +10,20 @@ const inMap = (x: number, y: number) => x >= 0 && y >= 0 && x < MAP_W && y < MAP
 
 /** Palette groups shown in the build panel. */
 export const OBJECT_GROUPS: { name: string; items: Obj[] }[] = [
-  { name: "Work", items: ["deskMonitor", "desk", "officeChairUp", "officeChair", "whiteboard", "printer", "cabinet", "cabinetPlant", "bookshelf", "tv", "table", "roundTable"] },
-  { name: "Seating", items: ["chair", "chairUp", "chairL", "chairR", "sofa", "sofaUp", "bench", "stool", "beanbag", "beanbagPink"] },
+  { name: "Desks & meeting furniture", items: ["workDesk", "furnishedDesk", "roundSmall", "meetingRound", "chartEasel", "whiteboard", "studyShelf", "filingLaptop", "pantryUnit"] },
+  { name: "New furniture & accessories", items: ["beanbagPurple", "bamboo", "terracottaPlant", "sideTablePlant", "sideTableMug", "monitor", "laptop", "deskPhone", "notebooks", "blueSofaBack", "blueArmchairBack", "koiPond", "loungeTable", "roundSmall"] },
+  { name: "Work", items: ["workDesk", "reception", "displayShelf", "deskMonitor", "desk", "officeChairUp", "officeChair", "whiteboard", "printer", "cabinet", "cabinetPlant", "bookshelf", "tv", "table", "roundTable"] },
+  { name: "Seating", items: ["chair", "chairUp", "chairL", "chairR", "sofa", "sofaUp", "blueSofa", "blueSofaSide", "bench", "stool", "beanbag", "beanbagPink"] },
   { name: "Hangout & pantry", items: ["coffeeTable", "cafeTable", "parasol", "counter", "coffee", "fridge", "vending", "waterCooler", "arcade", "pingpong", "lamp", "trash"] },
-  { name: "Decor", items: ["plant", "plantBig", "flowers", "painting", "poster", "clock", "wallWindow", "rock"] },
+  { name: "Decor", items: ["plant", "plantBig", "flowers", "painting", "poster", "clock", "wallWindow", "fishTank", "rock"] },
   { name: "Outdoor", items: ["tree", "pine", "bush", "hedge", "lampPost", "lily"] },
 ]
 
 export const OBJECT_LABEL: Partial<Record<Obj, string>> = {
+  furnishedDesk: "White desk + computer", chartEasel: "Chart easel", studyShelf: "Bookcase + snake plant", filingLaptop: "Filing cabinet + laptop", pantryUnit: "Espresso pantry", meetingRound: "Round meeting table",
+  beanbagPurple: "Purple beanbag", bamboo: "Potted bamboo", terracottaPlant: "Terracotta plant", sideTablePlant: "Side table + plant", sideTableMug: "Side table + mug", deskPhone: "Desk phone", blueSofaBack: "Blue sofa (back)", blueArmchairBack: "Blue armchair (back)", koiPond: "Koi pond",
+  workDesk: "White work desk", reception: "Reception desk", displayShelf: "Display shelves", loungeTable: "Lounge coffee table",
+  roundSmall: "Huddle table", fishTank: "Fish tank", blueSofa: "Blue sofa", blueSofaSide: "Blue sofa (side)",
   deskMonitor: "Desk + monitor", desk: "Desk", officeChairUp: "Office chair ↑", officeChair: "Office chair ↓",
   cabinetPlant: "Cabinet + plant", roundTable: "Round table", chair: "Chair ↓", chairUp: "Chair ↑", chairL: "Chair ←",
   chairR: "Chair →", sofa: "Sofa ↓", sofaUp: "Sofa ↑", beanbag: "Beanbag", beanbagPink: "Beanbag (pink)",
@@ -29,6 +35,7 @@ export const OBJECT_LABEL: Partial<Record<Obj, string>> = {
 export const labelOf = (o: Obj) => OBJECT_LABEL[o] ?? o.charAt(0).toUpperCase() + o.slice(1)
 
 export const FLOOR_LABEL: Record<Floor, string> = {
+  stripe: "Striped carpet", huddle: "Huddle carpet", diamond: "Diamond rug",
   grass: "Grass", path: "Stone path", wall: "Wall", hall: "Light wood", lavender: "Purple carpet", slate: "Grey chevron",
   rug: "Grey rug", kitchen: "Kitchen tile", game: "Dark tile", wood: "Parquet", carpet: "Teal carpet",
   marble: "Marble", deck: "Deck", water: "Water", rugWarm: "Warm rug", rugBlue: "Blue rug",

@@ -1,8 +1,198 @@
 "use client"
-import React, { useEffect, useState } from "react"
-import { store, useOffice } from "../store"
-import { TILE, areas } from "../game/map"
+import React, { useEffect, useRef, useState } from "react"
+import { store, useOffice, type Avatar } from "../store"
+import { TILE, areas, areaAt } from "../game/map"
 import { OFFICE_DESKS, getDeskClaim, claimDesk, unclaimDesk } from "../game/desks"
+
+function HeadOverlayItem({
+  player,
+  isMe,
+  toScreen,
+}: {
+  player: Avatar
+  isMe: boolean
+  toScreen: (wx: number, wy: number) => { x: number; y: number }
+}) {
+  const office = useOffice()
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const stream = isMe ? office.localStream : (office.streams.get(player.id) ?? null)
+  const isCamOn = !!player.cam
+  const hasLiveVideo = !!stream && stream.getVideoTracks().some((t) => t.readyState === "live" && t.enabled)
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (v && v.srcObject !== stream) {
+      v.srcObject = stream
+    }
+  }, [stream, isCamOn])
+
+  // Initial screen position so it is positioned immediately on mount
+  const wx = (player.rx + 0.5) * TILE
+  const wy = (player.ry + 1) * TILE - 46 - (isCamOn ? 8 : 4)
+  const { x, y } = toScreen(wx, wy)
+
+  return (
+    <div
+      id={`head-overlay-${player.id}`}
+      style={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        transform: `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -100%)`,
+        willChange: "transform",
+        pointerEvents: "none",
+        zIndex: isMe ? 35 : 30,
+        transition: "none",
+      }}
+    >
+      {isCamOn ? (
+        // Floating Video Bubble directly above avatar head (Gather-style compact screen, NO name when cam is ON)
+        <div
+          style={{
+            position: "relative",
+            width: "96px",
+            height: "72px",
+            borderRadius: "10px",
+            backgroundColor: "#0d0f15",
+            border: "2px solid #6366f1",
+            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(99, 102, 241, 0.25)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* Live Video Feed container */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "8px",
+              overflow: "hidden",
+              backgroundColor: "#111318",
+            }}
+          >
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted={isMe}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transform: isMe && !player.screen ? "scaleX(-1)" : "none",
+                display: hasLiveVideo ? "block" : "none",
+              }}
+            />
+            {!hasLiveVideo && (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#161922",
+                }}
+              >
+                <div
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "50%",
+                    backgroundColor: "#5c52e6",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                  }}
+                >
+                  {player.name ? player.name.charAt(0).toUpperCase() : "U"}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Downward triangle caret pointing directly to the avatar's head */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-6px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 0,
+              height: 0,
+              borderLeft: "6px solid transparent",
+              borderRight: "6px solid transparent",
+              borderTop: "6px solid #6366f1",
+            }}
+          />
+        </div>
+      ) : (
+        // Sleek HD Vector Nametag Pill (when camera is off)
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "3px 10px",
+            borderRadius: "9999px",
+            backgroundColor: isMe ? "#5c52e6" : "rgba(24, 25, 29, 0.95)",
+            border: isMe ? "1px solid #818cf8" : "1px solid rgba(255, 255, 255, 0.16)",
+            boxShadow: "0 3px 10px rgba(0, 0, 0, 0.35)",
+            color: "#ffffff",
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            fontSize: "11px",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          {/* Green Status Dot (No X!) */}
+          <span
+            style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              backgroundColor: "#22c55e",
+              boxShadow: "0 0 4px rgba(34, 197, 94, 0.6)",
+              flexShrink: 0,
+            }}
+          />
+          <span
+            style={{
+              maxWidth: "140px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {player.name}
+          </span>
+
+          {/* Downward Caret pointing to head center */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-4px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 0,
+              height: 0,
+              borderLeft: "4px solid transparent",
+              borderRight: "4px solid transparent",
+              borderTop: isMe ? "4px solid #5c52e6" : "4px solid rgba(24, 25, 29, 0.95)",
+            }}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
 
 export function GameUIOverlay() {
   const office = useOffice()
@@ -31,8 +221,15 @@ export function GameUIOverlay() {
   })
 
   // 1. Hover indicator (4 corner brackets + dark room pill)
+  // Aturan User: "kalau saya emang udah ada di area tersebut dan mouse saya di area itu juga yaudah gausah dimunculin"
   const renderHoverIndicator = () => {
     if (isOverview || !hoverTile || !hoverTile.areaName || office.build.open) return null
+
+    // Cek area tempat pemain saat ini berdiri
+    const myAreaName = office.areaName || (me ? areaAt(me.x, me.y)?.name : null)
+
+    // JIKA kursor berada di ruangan/area yang sama dengan pemain -> SEMBUNYIKAN (tidak muncul)
+    if (hoverTile.areaName === myAreaName) return null
 
     const wx = hoverTile.tx * TILE
     const wy = hoverTile.ty * TILE
@@ -40,32 +237,48 @@ export function GameUIOverlay() {
     const tileSize = TILE * zoom
     const corner = Math.max(5, Math.min(8, 6 * zoom))
 
+    // Format label persis Gather (seperti pada screenshot: "Coworking area: Central Couches")
+    let displayTitle = hoverTile.areaName
+    if (hoverTile.areaName === "Central Couches") {
+      displayTitle = "Coworking area: Central Couches"
+    } else if (hoverTile.areaName === "Team") {
+      displayTitle = "Coworking area: Team Workstations"
+    } else if (hoverTile.areaName === "Lobby") {
+      displayTitle = "Lobby & Reception"
+    } else if (hoverTile.areaName.startsWith("Focus Booth")) {
+      displayTitle = `Private Office: ${hoverTile.areaName}`
+    }
+
     return (
       <div
-        className="pointer-events-none"
         style={{
           position: "absolute",
           left: 0,
           top: 0,
           transform: `translate3d(${x}px, ${y}px, 0)`,
-          transition: "transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.1s ease",
+          transition: "transform 0.08s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.1s ease",
           width: tileSize,
           height: tileSize,
           zIndex: 20,
+          pointerEvents: "none",
         }}
       >
         {/* 4 Corner brackets ⌜ ⌝ ⌞ ⌟ */}
         <svg
           width={tileSize}
           height={tileSize}
-          className="absolute inset-0 overflow-visible"
-          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "visible",
+            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))",
+          }}
         >
           {/* Top-Left ⌜ */}
           <path
             d={`M 0 ${corner} L 0 0 L ${corner} 0`}
             stroke="#9ca3af"
-            strokeWidth="1.5"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
@@ -74,7 +287,7 @@ export function GameUIOverlay() {
           <path
             d={`M ${tileSize - corner} 0 L ${tileSize} 0 L ${tileSize} ${corner}`}
             stroke="#9ca3af"
-            strokeWidth="1.5"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
@@ -83,7 +296,7 @@ export function GameUIOverlay() {
           <path
             d={`M 0 ${tileSize - corner} L 0 ${tileSize} L ${corner} ${tileSize}`}
             stroke="#9ca3af"
-            strokeWidth="1.5"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
@@ -92,74 +305,44 @@ export function GameUIOverlay() {
           <path
             d={`M ${tileSize - corner} ${tileSize} L ${tileSize} ${tileSize} L ${tileSize} ${tileSize - corner}`}
             stroke="#9ca3af"
-            strokeWidth="1.5"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
           />
         </svg>
 
-        {/* Dark Room Label Pill (Sesuai Referensi Gambar 1 & Gambar 2) */}
+        {/* Sleek Dark Pill Room Label (Format & Style Persis Gather pada Screenshot Referensi 2) */}
         <div
-          className="absolute z-20 flex items-center px-2.5 py-1 rounded-md bg-[#111827]/95 text-white font-semibold text-[11px] shadow-lg border border-neutral-700/80 pointer-events-none whitespace-nowrap"
           style={{
-            left: tileSize + 4,
-            top: tileSize - 8,
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.35)",
-            backdropFilter: "blur(6px)",
+            position: "absolute",
+            left: "50%",
+            top: tileSize + 8,
+            transform: "translateX(-50%)",
+            display: "flex",
+            alignItems: "center",
+            padding: "5px 12px",
+            borderRadius: "8px",
+            backgroundColor: "rgba(24, 25, 29, 0.95)",
+            border: "1px solid rgba(255, 255, 255, 0.16)",
+            boxShadow: "0 4px 14px rgba(0, 0, 0, 0.45)",
+            color: "#ffffff",
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            fontSize: "12px",
+            fontWeight: 500,
+            whiteSpace: "nowrap",
+            pointerEvents: "none",
+            letterSpacing: "-0.01em",
+            zIndex: 30,
           }}
         >
-          {hoverTile.areaName}
+          {displayTitle}
         </div>
       </div>
     )
   }
 
-  // 2. Player Nametag Pills (HD, crisp vector typography, status dot & caret)
-  const renderPlayerTags = () => {
-    return [...office.players.values()].map((p) => {
-      const isMe = p.id === office.meId
-      // World position di atas kepala avatar
-      const wx = (p.rx + 0.5) * TILE
-      const wy = (p.ry + 1) * TILE - 36
-      const { x, y } = toScreen(wx, wy)
-
-      return (
-        <div
-          key={p.id}
-          className="absolute z-30 pointer-events-none flex flex-col items-center -translate-x-1/2 -translate-y-full"
-          style={{
-            left: 0,
-            top: 0,
-            transform: `translate3d(${x}px, ${y}px, 0)`,
-            transition: "transform 0.08s linear",
-          }}
-        >
-          <div
-            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-white shadow-md backdrop-blur ${
-              isMe ? "bg-[#6366f1] ring-1 ring-indigo-400" : "bg-[#18181b]/95 ring-1 ring-neutral-700"
-            }`}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
-            <span className="truncate max-w-[130px]">{p.name}</span>
-            {p.mic === false && (
-              <span className="text-[10px] text-red-300 opacity-90" title="Muted">
-                ✕
-              </span>
-            )}
-          </div>
-          {/* Downward triangle caret pointing to the avatar */}
-          <div
-            className={`w-0 h-0 border-x-4 border-x-transparent border-t-4 ${
-              isMe ? "border-t-[#6366f1]" : "border-t-[#18181b]/95"
-            }`}
-          />
-        </div>
-      )
-    })
-  }
-
-  // 3. Desk Badges & Move Desk Here Buttons (Sesuai Referensi Gambar 2)
+  // 2. Desk Badges & Move Desk Here Buttons (Sesuai Referensi Gambar 2)
   const renderDeskBadges = () => {
     if (isOverview) return null
 
@@ -177,11 +360,15 @@ export function GameUIOverlay() {
       return (
         <div
           key={`${desk.id}-${claimVersion}`}
-          className="absolute z-25 -translate-x-1/2 -translate-y-full flex flex-col items-center"
           style={{
+            position: "absolute",
             left: 0,
             top: 0,
-            transform: `translate3d(${x}px, ${y}px, 0)`,
+            transform: `translate3d(${x}px, ${y}px, 0) translate(-50%, -100%)`,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            zIndex: 25,
           }}
         >
           {isClaimed ? (
@@ -199,13 +386,36 @@ export function GameUIOverlay() {
                   office.toast(`🪑 ${claim.userName}'s desk · Claimed`)
                 }
               }}
-              className={`pointer-events-auto flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold shadow-md border cursor-pointer transition hover:scale-105 active:scale-95 ${
-                isMyDesk
-                  ? "bg-[#6366f1] text-white border-indigo-400"
-                  : "bg-[#18181b]/95 text-neutral-100 border-neutral-700"
-              }`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 10px",
+                borderRadius: "6px",
+                fontSize: "11px",
+                fontWeight: 600,
+                color: "#ffffff",
+                backgroundColor: isMyDesk ? "#5c52e6" : "rgba(24, 25, 29, 0.94)",
+                border: isMyDesk ? "1px solid #818cf8" : "1px solid rgba(255, 255, 255, 0.15)",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
+                cursor: "pointer",
+                pointerEvents: "auto",
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              }}
             >
-              <span className="w-3.5 h-3.5 rounded-full bg-white/20 text-[9px] flex items-center justify-center font-bold">
+              <span
+                style={{
+                  width: "14px",
+                  height: "14px",
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  fontSize: "9px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "bold",
+                }}
+              >
                 {claim.userInitial}
               </span>
               <span>{claim.userName}&apos;s desk</span>
@@ -214,19 +424,47 @@ export function GameUIOverlay() {
             <button
               onClick={() => {
                 if (!me) return
-                claimDesk(desk.id, { id: me.id, name: me.name })
+                if (!claimDesk(desk.id, { id: me.id, name: me.name })) {
+                  office.toast("This desk is already claimed.")
+                  return
+                }
                 setClaimVersion((v) => v + 1)
                 office.toast(`🪑 Claimed ${desk.displayName}! Sit down to start private focus.`)
               }}
-              className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white hover:bg-neutral-50 text-neutral-800 text-[11px] font-bold shadow-lg border border-neutral-200 cursor-pointer transition hover:scale-105 active:scale-95 animate-pulse"
               style={{
-                boxShadow: "0 6px 16px rgba(0, 0, 0, 0.15)",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "6px 14px",
+                borderRadius: "8px",
+                fontSize: "11px",
+                fontWeight: 700,
+                color: "#111827",
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
+                boxShadow: "0 4px 14px rgba(0, 0, 0, 0.18)",
+                cursor: "pointer",
+                pointerEvents: "auto",
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
               }}
             >
-              <span className="text-sm">🪑</span> Move Desk Here
+              <span style={{ fontSize: "14px" }}>🪑</span> Move Desk Here
             </button>
           ) : (
-            <div className="pointer-events-none px-2.5 py-1 rounded-md bg-[#18181b]/90 text-neutral-200 text-[11px] font-semibold shadow-md border border-neutral-700/80">
+            <div
+              style={{
+                padding: "4px 10px",
+                borderRadius: "6px",
+                fontSize: "11px",
+                fontWeight: 600,
+                color: "#e2e8f0",
+                backgroundColor: "rgba(24, 25, 29, 0.92)",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.25)",
+                pointerEvents: "none",
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              }}
+            >
               Unclaimed desk
             </div>
           )}
@@ -253,14 +491,14 @@ export function GameUIOverlay() {
       } else if (a.meeting || a.private || a.name.startsWith("Focus Booth") || a.name.startsWith("Focus")) {
         icon = "🚪"
       } else if (
-        a.name === "Lounge" ||
+        a.name === "Central Couches" ||
         a.name === "Café" ||
         a.name === "Game Room" ||
         a.name === "Library" ||
         a.name === "Pantry"
       ) {
         icon =
-          a.name === "Lounge"
+          a.name === "Central Couches"
             ? "🛋️"
             : a.name === "Café"
               ? "☕"
@@ -270,7 +508,7 @@ export function GameUIOverlay() {
                   ? "📚"
                   : "🍳"
         isLounge = true
-      } else if (a.name === "Lobby") {
+      } else if (a.name === "Lobby" || a.name === "Media Room") {
         isDark = true
       }
 
@@ -282,30 +520,66 @@ export function GameUIOverlay() {
       return (
         <div
           key={a.name}
-          className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-1/2"
           style={{
+            position: "absolute",
             left: 0,
             top: 0,
-            transform: `translate3d(${x}px, ${y}px, 0)`,
+            transform: `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`,
             transition: "opacity 0.2s ease",
+            pointerEvents: "none",
+            zIndex: 20,
           }}
         >
           <div
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold shadow-md border ${
-              isDark
-                ? "bg-[#111827]/95 text-white border-neutral-700"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "4px 12px",
+              borderRadius: "9999px",
+              fontSize: "12px",
+              fontWeight: 700,
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.25)",
+              border: isDark
+                ? "1px solid rgba(255, 255, 255, 0.15)"
+                : "1px solid #e2e8f0",
+              backgroundColor: isDark
+                ? "rgba(24, 25, 29, 0.95)"
                 : isTeam
-                  ? "bg-white/95 text-slate-800 border-neutral-200"
+                  ? "#ffffff"
                   : isLounge
-                    ? "bg-pink-50/95 text-pink-900 border-pink-200"
-                    : "bg-slate-50/95 text-slate-700 border-slate-200"
-            }`}
+                    ? "#fff1f2"
+                    : "#f8fafc",
+              color: isDark
+                ? "#ffffff"
+                : isTeam
+                  ? "#1e293b"
+                  : isLounge
+                    ? "#9f1239"
+                    : "#334155",
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              whiteSpace: "nowrap",
+            }}
           >
             {displayText}
           </div>
         </div>
       )
     })
+  }
+
+  // 4. Player Head Overlays (Nametag Pills & Camera Video Bubbles)
+  const renderPlayerOverlays = () => {
+    if (isOverview || !office.preferences.nameLabels) return null
+
+    return Array.from(office.players.values()).map((p) => (
+      <HeadOverlayItem
+        key={p.id}
+        player={p}
+        isMe={p.id === office.meId}
+        toScreen={toScreen}
+      />
+    ))
   }
 
   return (
@@ -320,9 +594,9 @@ export function GameUIOverlay() {
       }}
     >
       {renderHoverIndicator()}
-      {renderPlayerTags()}
       {renderDeskBadges()}
       {renderOverviewBadges()}
+      {renderPlayerOverlays()}
     </div>
   )
 }

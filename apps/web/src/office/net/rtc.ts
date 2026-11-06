@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 // Mesh WebRTC between nearby players. The player with the smaller id makes the offer.
 // Each connection always carries one audio + one video transceiver so mic/cam/screen
 // changes are done with replaceTrack and never need renegotiation.

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 // Local meeting recording: captures this tab (optional) plus your mic and
 // everyone you can hear, then saves a .webm file when you stop.
 import { store } from "./store"
