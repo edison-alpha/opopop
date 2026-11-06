@@ -1,4 +1,5 @@
 "use client"
+import { calendarService } from "../../services/calendar"
 import { ChevronDown, Plus, RotateCw } from "../common/icons"
 
 interface CalendarTopbarProps {
@@ -56,9 +57,9 @@ export function CalendarTopbar({
       </div>
 
       <div className="calendar-nav-right">
-        <button className="calendar-sync-indicator" onClick={onSync} title="Refresh calendar">
+        <button className="calendar-sync-indicator" onClick={onSync} disabled={syncing} title="Refresh calendar">
           <RotateCw size={13} className={syncing ? "spin" : ""} />
-          <span>{syncing ? "Syncing..." : "Just now"}</span>
+          <span>{syncing ? "Syncing..." : calendarService.lastSync ? new Date(calendarService.lastSync).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) : "Refresh"}</span>
         </button>
 
         <button className="calendar-filter-dropdown" onClick={onOpenConnectModal}>

@@ -1,0 +1,1 @@
+import {createRequire} from 'node:module';const require=createRequire(import.meta.url);const sharp=require('../node_modules/.pnpm/sharp@0.35.5_@types+node@24.19.2/node_modules/sharp');await sharp('scratch/office-layout.png').extract({left:11*32,top:29*32,width:11*32,height:9*32}).resize({width:704,kernel:'nearest'}).png().toFile('scratch/wall-junction-detail.png');

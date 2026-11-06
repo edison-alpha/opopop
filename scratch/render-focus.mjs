@@ -44,8 +44,9 @@ ctx.fillStyle='rgba(17,26,32,0.42)';
 for(const r of lighting.outsideLightRects(regions,canvas.width,canvas.height))ctx.fillRect(r.x,r.y,r.w,r.h);
 ctx.fillStyle='#e5f0df';
 for(const [x1,y1,x2,y2] of lighting.lightOutline(regions))ctx.fillRect(x1,y1,Math.max(1,x2-x1),Math.max(1,y2-y1));
-art.drawAvatar(ctx,{skin:'#dba579',hair:'#30251f',hairStyle:0,shirt:'#667eea',pants:'#2c3e66'},(map.OX+15)*32,(map.OY+9.5)*32,'up',0);
+art.drawAvatar(ctx,{skin:'#dba579',hair:'#30251f',hairStyle:0,shirt:'#667eea',pants:'#2c3e66'},(map.OX+15)*32,(map.OY+8.5)*32,'up',0);
 
-const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}" viewBox="0 0 ${canvas.width} ${canvas.height}"><defs><image id="atlas" width="512" height="2560" href="data:image/png;base64,${atlas}" style="image-rendering:pixelated"/>${canvases.map(c=>`<g id="${c.id}">${c.parts.join('')}</g>`).join('')}</defs><use href="#${canvas.id}"/></svg>`;
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}" viewBox="0 0 ${canvas.width} ${canvas.height}"><defs><image id="atlas" width="512" height="3072" href="data:image/png;base64,${atlas}" style="image-rendering:pixelated"/>${canvases.map(c=>`<g id="${c.id}">${c.parts.join('')}</g>`).join('')}</defs><use href="#${canvas.id}"/></svg>`;
 await sharp(Buffer.from(svg),{limitInputPixels:false}).extract({left:16*32,top:7*32,width:18*32,height:13*32}).resize({width:864,kernel:'nearest'}).png().toFile(fileURLToPath(new URL('scratch/focus-lighting-detail.png',root)));
 console.log('Rendered the real focus lighting geometry and doorway.');
+

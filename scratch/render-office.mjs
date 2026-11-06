@@ -37,7 +37,7 @@ const sprites=await import(moduleUrl(new URL('apps/web/src/office/game/sprites.t
 sprites.registerOfficeSprites({id:'atlas'});
 const atlas=readFileSync(new URL('apps/web/public/assets/office/furniture.png',root)).toString('base64');
 const canvas=art.renderStaticMap();
-const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}" viewBox="0 0 ${canvas.width} ${canvas.height}"><defs><image id="atlas" width="512" height="2560" href="data:image/png;base64,${atlas}" style="image-rendering:pixelated"/>${canvases.map(c=>`<g id="${c.id}">${c.parts.join('')}</g>`).join('')}</defs><use href="#${canvas.id}"/></svg>`;
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}" viewBox="0 0 ${canvas.width} ${canvas.height}"><defs><image id="atlas" width="512" height="3072" href="data:image/png;base64,${atlas}" style="image-rendering:pixelated"/>${canvases.map(c=>`<g id="${c.id}">${c.parts.join('')}</g>`).join('')}</defs><use href="#${canvas.id}"/></svg>`;
 await sharp(Buffer.from(svg),{limitInputPixels:false}).png().toFile(fileURLToPath(new URL('scratch/office-layout.png',root)));
 await sharp(Buffer.from(svg),{limitInputPixels:false}).resize({width:1164}).png().toFile(fileURLToPath(new URL('scratch/office-overview.png',root)));
 await sharp(Buffer.from(svg),{limitInputPixels:false}).extract({left:17*32,top:18*32,width:12*32,height:12*32}).resize({width:768,kernel:'nearest'}).png().toFile(fileURLToPath(new URL('scratch/lounge-detail.png',root)));

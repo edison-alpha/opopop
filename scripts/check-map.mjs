@@ -23,8 +23,12 @@ function moduleUrl(url) {
 
 const map = await import(moduleUrl(new URL("apps/web/src/office/game/map.ts", root)))
 const layout = await import(moduleUrl(new URL("apps/web/src/office/game/layout.ts", root)))
+const {wallShape,HORIZONTAL_WALL_HEIGHT} = await import(moduleUrl(new URL("apps/web/src/office/game/wallGeometry.ts", root)))
 const world = (x, y) => [x + map.OX, y + map.OY]
 const canReach = (x, y) => map.findPath(map.SPAWN.x, map.SPAWN.y, x, y) !== null
+const leftHuddle=layout.HUDDLE_ROOMS[0],leftBooth=layout.PRIVATE_OFFICES[0]
+assert.equal(leftHuddle.y+1,leftBooth.y+leftBooth.h,"Huddle back wall and booth front wall must share their floor baseline")
+assert.equal(leftHuddle.x+leftHuddle.w-1-leftBooth.x,1,"Keep the reference's one-tile side offset")
 assert(!map.isBlocked(map.SPAWN.x, map.SPAWN.y), "Spawn must be walkable")
 
 for (const area of map.areas) {
@@ -45,6 +49,10 @@ for (const door of layout.LAYOUT_DOORS) {
 
 let seats = 0
 for (let y = 0; y < map.MAP_H; y++) for (let x = 0; x < map.MAP_W; x++) {
+  if(map.floor[y][x]==="wall") {
+    const shape=wallShape(x,y,(tx,ty)=>map.floor[ty]?.[tx]==="wall")
+    if(shape.horizontal&&!shape.hidden) assert.equal(shape.h,HORIZONTAL_WALL_HEIGHT,`Unequal horizontal wall height at ${x},${y}`)
+  }
   assert(map.isFloor(map.floor[y][x]), `Unknown floor at ${x},${y}`)
   const object = map.objects[y][x]
   assert(object === null || map.isObj(object), `Unknown object at ${x},${y}`)
@@ -55,9 +63,20 @@ for (let y = 0; y < map.MAP_H; y++) for (let x = 0; x < map.MAP_W; x++) {
 }
 
 for (const office of layout.PRIVATE_OFFICES) {
+  const [entryX, entryY] = world(office.entrance.x, office.entrance.y)
+  for (let dx=0;dx<2;dx++) {
+    assert.equal(map.floor[entryY][entryX+dx],"lavender","Door threshold matches room carpet")
+    assert.equal(map.floor[entryY+1][entryX+dx],"hall","Carpet ends flush with the wall baseline")
+    assert.equal(map.objects[entryY+1][entryX+dx],null,"Door apron is empty")
+  }
   const chair = world(office.chair.x, office.chair.y)
   assert(map.objects[chair[1]][chair[0]] === "officeChairUp", `${office.name}: claim target is not a desk chair`)
   assert(canReach(...chair), `${office.name}: inaccessible desk chair`)
+}
+
+for (const room of layout.HUDDLE_ROOMS) {
+  const [cx,cy]=world(room.x+3,room.y+5)
+  for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]]) assert(map.seatAt(cx+dx,cy+dy),`${room.name}: chairs must be adjacent to the table`)
 }
 
 // Touching desks still have independent footprints for erase/undo/build tools.

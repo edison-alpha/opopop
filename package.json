@@ -18,6 +18,7 @@
     "test:walkthrough": "node scripts/check-walkthrough.mjs",
     "test:motion": "node scripts/check-motion.mjs",
     "test:focus": "node scripts/check-focus.mjs",
+    "test:walls": "node scripts/check-walls.mjs",
     "assets:office": "node scripts/build-office-sprites.mjs",
     "check:server": "cargo check --manifest-path apps/server/Cargo.toml"
   }

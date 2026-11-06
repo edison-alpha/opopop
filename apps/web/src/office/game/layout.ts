@@ -13,6 +13,8 @@ export const PRIVATE_OFFICES = [5, 11, 25, 31].map((x, i) => ({
 }))
 
 export const HUDDLE_ROOMS = [
+  // Single-row back walls share the focus booths' front wall at y=8.
+  // The left booth's side remains one tile inset from the huddle's right side.
   { name: "Coffee Huddle", x: 0, y: 8, w: 7, h: 9, side: "left" },
   { name: "Study Huddle", x: 0, y: 16, w: 7, h: 9, side: "left" },
   { name: "Data Huddle", x: 34, y: 8, w: 7, h: 9, side: "right" },

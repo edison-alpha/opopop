@@ -10,6 +10,7 @@ const sharp = require(path.join(root, 'node_modules/.pnpm', sharpPackage, 'node_
 const dir = path.join(root, 'apps/web/public/assets/office')
 mkdirSync(path.join(dir, 'individual'), {recursive:true})
 const sets = [
+  ['source-directions.png', ['blueSofaLeft','blueSofaRight','cognacSofaLeft','cognacSofaRight','meshChairLeft','meshChairRight','meshChairSouth','meshChairNorth','redChairSouth','redChairNorth','redChairWest','redChairEast','receptionBack','whiteDeskLeft','whiteDeskRight','oakCoffeeRect']],
   ['source-extras.png', ['pondCircular','fernGround','flowerPink','flowerBlue','trailingShelf','snakePlant','monstera','oakSideTable','recycleStation','snackVending','clockFace','landscapePoster','airConditioner','coatRack','firstAid','magazineRack']],
   ['source-desks.png', ['whiteDesk','equippedDesk','ovalHuddle','roundHuddle','meshChairFront','meshChairBack','cushionChairFront','cushionChairBack','cushionChairLeft','cushionChairRight','chartEasel','planningBoard','studyShelf','filingLaptop','globeLamp','pantryUnit']],
   ['source-sprites.png', ['couchFront','couchBack','officeChairBack','woodChairFront','birch','pine','plant','shelf','workDesk','reception','coffeeStation','fishTank','arcade','tv','whiteboard','coffeeTable']],

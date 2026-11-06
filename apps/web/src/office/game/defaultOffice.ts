@@ -19,7 +19,7 @@ export function buildDefaultOffice({ fill, room, put, area, furnish }: Builder) 
     room(r.x, r.y, r.x + r.w - 1, r.h - 1, "lavender", [])
     fill(r.x, 0, r.x + r.w - 1, 1, "wall")
     area({ name: r.name, x: r.x + 1, y: 1, w: r.w - 2, h: r.h - 2, private: true, label: true })
-    if (r.id !== "focus-booth-4") windows(r.x + 1, 1, 4)
+    if (r.id !== "focus-booth-4") windows(r.x + 1, 1, 5)
     furnish(r.desk.x, r.desk.y, "workDesk")
     put(r.chair.x, r.chair.y, "officeChairUp")
     put(r.x + 5, 2, r.id === "focus-booth-2" ? "snakePlant" : r.id === "focus-booth-4" ? "monstera" : "plant")
@@ -38,16 +38,15 @@ export function buildDefaultOffice({ fill, room, put, area, furnish }: Builder) 
   for (const r of HUDDLE_ROOMS) {
     const f: Floor = r.name === "Study Huddle" || r.name === "Fishtank Huddle" ? "stripe" : "huddle"
     room(r.x, r.y, r.x + r.w - 1, r.y + r.h - 1, f, [])
-    fill(r.x, r.y, r.x + r.w - 1, r.y + 1, "wall")
     area({ name: r.name, x: r.x + 1, y: r.y + 1, w: r.w - 2, h: r.h - 2, private: true, meeting: true, label: true })
-    if (r.name !== "Fishtank Huddle") windows(r.x + 1, r.y + 1, 4)
+    if (r.name === "Coffee Huddle" || r.name === "Data Huddle") windows(r.x + 1, r.y, 5)
     const cx = r.x + 3, cy = r.y + 5
     furnish(cx, cy, r.name === "Fishtank Huddle" ? "meetingRound" : "roundSmall")
-    put(cx, cy - 2, "chair"); put(cx, cy + 2, "chairUp")
-    put(cx - 2, cy, "chairR"); put(cx + 2, cy, "chairL")
+    put(cx, cy - 1, "chair"); put(cx, cy + 1, "chairUp")
+    put(cx - 1, cy, "chairR"); put(cx + 1, cy, "chairL")
     if (r.name === "Coffee Huddle") {
       put(r.x + 1, r.y + 2, "cabinet"); put(r.x + 2, r.y + 2, "counter")
-      put(r.x + 3, r.y + 2, "coffee"); put(r.x + 5, r.y + 2, "plantBig")
+      furnish(r.x + 3, r.y + 2, "coffee"); put(r.x + 5, r.y + 2, "plantBig")
     } else if (r.name === "Study Huddle") {
       put(r.x + 1, r.y + 2, "bookshelf"); put(r.x + 2, r.y + 2, "bookshelf")
       put(r.x + 3, r.y, "painting"); put(r.x + 4, r.y, "painting")
@@ -62,17 +61,17 @@ export function buildDefaultOffice({ fill, room, put, area, furnish }: Builder) 
   }
 
   // Small pantry, arcade, books, presentation easel and lamps along the hall.
-  put(10, 9, "arcade"); furnish(11, 9, "studyShelf")
-  furnish(16, 9, "pantryUnit")
-  put(25, 9, "plant"); put(26, 9, "chartEasel"); furnish(30, 9, "trailingShelf")
+  furnish(11, 9, "studyShelf")
+  furnish(17, 9, "pantryUnit")
+  put(25, 9, "plant"); put(26, 9, "chartEasel")
 
   const lounge = CENTRAL_COUCHES
   fill(lounge.x, lounge.y, lounge.x + lounge.w - 1, lounge.y + lounge.h - 1, "stripe")
   area({ name: "Central Couches", ...lounge, private: false, label: true })
   furnish(10, 12, "displayShelf"); furnish(17, 12, "displayShelf")
   put(11, 14, "plant"); put(18, 14, "plantBig")
-  for (let x = 13; x <= 16; x++) put(x, 14, "sofa")
-  for (let x = 12; x <= 17; x++) put(x, 19, "sofaUp")
+  for (let x = 13; x <= 16; x++) put(x, 15, "sofa")
+  for (let x = 12; x <= 17; x++) put(x, 18, "sofaUp")
   furnish(14, 17, "loungeTable")
   put(11, 16, "beanbag"); put(11, 18, "beanbagPink")
   put(18, 16, "beanbagPurple"); put(18, 18, "beanbag")
@@ -92,23 +91,25 @@ export function buildDefaultOffice({ fill, room, put, area, furnish }: Builder) 
   area({ name: "Lobby Couches", x: 8, y: 27, w: 7, h: 6, private: false, label: true })
   area({ name: "Lobby", x: 7, y: 25, w: 17, h: 9, private: false, label: true })
   for (let x = 10; x <= 13; x++) put(x, 27, "blueSofa")
-  for (let y = 28; y <= 30; y++) put(8, y, "blueSofaSide")
-  furnish(10, 30, "loungeTable")
-  put(13, 30, "chairL"); put(11, 32, "chairUp"); put(14, 32, "chairUp")
+  for (let y = 28; y <= 30; y++) put(9, y, "blueSofaSide")
+  furnish(10, 29, "loungeTable")
+  put(12, 29, "chairL"); put(10, 30, "chairUp"); put(11, 30, "chairUp")
   put(9, 24, "tv"); put(12, 24, "painting"); put(13, 24, "painting")
   put(7, 26, "plantBig"); put(18, 26, "officeChairUp")
   put(19, 25, "lampPost"); furnish(20, 25, "displayShelf"); furnish(18, 28, "reception")
   windows(8, 34, 5); windows(19, 34, 4)
   put(23,26,"coatRack"); furnish(16,32,"recycleStation"); furnish(8,25,"flowerPink"); put(22,32,"magazineRack")
+  put(22,30,"arcade")
 
   const m = MEDIA_ROOM
   room(m.x, m.y, m.x + m.w - 1, m.y + m.h - 1, "hall", [])
   area({ name: "Media Room", x: m.x + 1, y: m.y + 1, w: m.w - 2, h: m.h - 2, private: true, meeting: true, label: true })
   put(25, 25, "arcade"); put(26, 25, "snackVending"); put(28, 24, "tv")
   put(33, 25, "cabinet"); put(34, 25, "counter"); put(36, 25, "waterCooler")
-  for (let y = 28; y <= 30; y++) for (let x = 28; x <= 32; x++) put(x, y, "table")
-  for (const x of [28,30,32]) { put(x,27,"redChair"); put(x,31,"redChairUp") }
-  for (const y of [28,30]) { put(26,y,"redChairR"); put(34,y,"redChairL") }
+  for (let y = 28; y <= 29; y++) for (let x = 29; x <= 31; x++) put(x, y, "table")
+  for (const x of [29,30,31]) { put(x,27,"redChair"); put(x,30,"redChairUp") }
+  for (const y of [28,29]) { put(28,y,"redChairR"); put(32,y,"redChairL") }
+  furnish(35,30,"trailingShelf")
   windows(26,34,4); windows(33,34,4)
   put(35,24,"clock"); put(32,24,"firstAid")
 
@@ -116,7 +117,8 @@ export function buildDefaultOffice({ fill, room, put, area, furnish }: Builder) 
     fill(d.x, d.y, d.x + (d.orientation === "horizontal" ? 1 : 0), d.y + (d.orientation === "vertical" ? 1 : 0), "hall")
   }
   for (const r of PRIVATE_OFFICES) {
-    fill(r.entrance.x, r.entrance.y, r.entrance.x + 1, r.entrance.y + 1, "lavender")
+    // Carpet ends on the facade baseline; the hall starts on one straight edge.
+    fill(r.entrance.x, r.entrance.y, r.entrance.x + 1, r.entrance.y, "lavender")
   }
   const trees: [number, number, Obj][] = [
     [2,1,"pine"], [4,-4,"pine"], [14,-4,"tree"], [24,-4,"pine"], [34,-3,"tree"],

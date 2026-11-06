@@ -16,7 +16,9 @@ function startOfWeek(d: Date): Date {
   const date = new Date(d)
   const day = date.getDay()
   const diff = date.getDate() - day
-  return new Date(date.setDate(diff))
+  date.setDate(diff)
+  date.setHours(0,0,0,0)
+  return date
 }
 
 export function CalendarMain() {
@@ -41,10 +43,14 @@ export function CalendarMain() {
     return d
   })
 
+  const connection=calendarService.isConnected, selection=calendarService.selectionKey, weekStamp=sunday.getTime()
+  useEffect(()=>{if(!connection)return;const start=new Date(weekStamp),end=new Date(weekStamp);end.setDate(end.getDate()+7);void calendarService.sync(start,end).catch(()=>{})},[connection,selection,weekStamp])
+
   const monthTitle = viewDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })
   const allEvents = calendarService.getAllEvents(office.meetings)
 
-  const allDayEvents = allEvents.filter((e) => e.allDay)
+  const weekEnd=new Date(sunday);weekEnd.setDate(weekEnd.getDate()+7)
+  const allDayEvents = allEvents.filter((e) => e.allDay && e.start<weekEnd.getTime() && e.end>sunday.getTime())
   const timeEvents = allEvents.filter((e) => !e.allDay)
 
   const handlePrevWeek = () => {
@@ -65,10 +71,13 @@ export function CalendarMain() {
 
   const handleSync = async () => {
     setSyncing(true)
-    await calendarService.syncIcsCalendar()
-    await calendarService.fetchGoogleEvents()
-    setSyncing(false)
-    office.toast("Calendar refreshed")
+    try {
+      const end=new Date(sunday); end.setDate(end.getDate()+7)
+      await calendarService.sync(sunday,end)
+      if(calendarService.isConnected) office.toast("Calendar refreshed")
+      else setShowConnectModal(true)
+    } catch(error) { office.toast(error instanceof Error?error.message:"Calendar sync failed") }
+    finally { setSyncing(false) }
   }
 
   // Deep Link: Auto-walk to room
@@ -92,7 +101,7 @@ export function CalendarMain() {
       {/* 1. Header Navigation Bar */}
       <CalendarTopbar
         monthTitle={monthTitle}
-        syncing={syncing}
+        syncing={syncing || calendarService.syncing}
         isConnected={calendarService.isConnected}
         onPrevWeek={handlePrevWeek}
         onNextWeek={handleNextWeek}
@@ -102,6 +111,7 @@ export function CalendarMain() {
         onNewMeeting={() => setCreating(true)}
       />
 
+      {calendarService.error && <p role="alert" style={{padding:"8px 24px",margin:0}}>{calendarService.error}</p>}
       {/* 2. Week Day Header (Fixed height & uniform 28px circles for all days) */}
       <CalendarWeekHeader weekDays={weekDays} now={now} />
 
@@ -132,17 +142,7 @@ export function CalendarMain() {
 
       {showConnectModal && (
         <ConnectGoogleModal
-          initialIcsUrl={calendarService.icsUrl}
-          isConnected={calendarService.isConnected}
           onClose={() => setShowConnectModal(false)}
-          onSaveIcs={(url) => {
-            calendarService.setIcsUrl(url)
-            office.toast("Google Calendar synced!")
-          }}
-          onDisconnect={() => {
-            calendarService.disconnect()
-            office.toast("Disconnected from Google Calendar")
-          }}
         />
       )}
     </div>

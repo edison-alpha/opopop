@@ -8,6 +8,7 @@
  * 4. Area pintu 100% bebas hambatan (walkable), pemain bebas berjalan tanpa terblokir.
  */
 import * as Phaser from "phaser"
+import { doorPanel } from "./doorPanels"
 import { doorFrame } from "./doorGeometry"
 import { TILE } from "./map"
 import { OFFICE_ORIGIN, LAYOUT_DOORS } from "./layout"
@@ -49,7 +50,7 @@ export class DoorObject {
     this.gfx.destroy()
   }
 
-  update(players: { x: number; y: number }[]): boolean {
+  update(players: { x: number; y: number }[], deltaMs = 1000/60): boolean {
     const doorCenterX = this.def.tiles.reduce((acc, t) => acc + t[0], 0) / this.def.tiles.length + 0.5
     const doorCenterY = this.def.tiles.reduce((acc, t) => acc + t[1], 0) / this.def.tiles.length + 0.5
 
@@ -67,15 +68,15 @@ export class DoorObject {
     this.targetOpenness = nearby ? 1.0 : 0.0
 
     const prev = this.openness
-    // Smooth easing interpolation (~0.22s transition)
-    this.openness += (this.targetOpenness - this.openness) * 0.22
+    // Time-based easing keeps the swing consistent across different frame rates.
+    this.openness += (this.targetOpenness - this.openness) * (1 - Math.exp(-Math.max(0, deltaMs) / 90))
 
     if (Math.abs(this.openness - this.targetOpenness) < 0.005) {
       this.openness = this.targetOpenness
     }
 
-    const changed = Math.abs(this.openness - prev) > 0.001
-    if (changed || this.openness > 0 || prev > 0) {
+    const changed = this.openness !== prev
+    if (changed) {
       this.render()
     }
 
@@ -85,6 +86,8 @@ export class DoorObject {
   private render() {
     this.gfx.clear()
     for (const p of doorFrame(this.def.tiles, this.def.orientation, this.def.id.startsWith("focus-")).posts) this.drawDoorPost(p.x,p.y,p.w,p.h)
+    // Interior rooms use open portals, matching the cutaway office reference.
+    if (this.def.id !== "main-entrance") return
     if (this.def.orientation === "horizontal") {
       this.renderHorizontalDoor()
     } else {
@@ -207,38 +210,32 @@ export class DoorObject {
    * Render Pintu Horizontal (Dinding Utara / Selatan - Ayunan 90° Smooth)
    */
   private renderHorizontalDoor() {
-    const tiles = this.def.tiles
-    const minX = Math.min(...tiles.map((t) => t[0]))
-    const maxX = Math.max(...tiles.map((t) => t[0]))
-    const tileY = tiles[0][1]
-
-    const frame = doorFrame(tiles, 'horizontal', this.def.id.startsWith('focus-'))
-    const leftX = frame.left, rightX = frame.right, centerY = frame.centerY
-    if (this.def.id.startsWith('focus-')) return
-
-    // 2. Garis ambang pintu (threshold line) di lantai
-    this.gfx.lineStyle(2, 0xa16207, 0.75)
-    this.gfx.lineBetween(leftX + 2, centerY + 12, rightX - 2, centerY + 12)
-
-    // 3. Daun Pintu Ganda yang Mengayun
-    const leafLen = (rightX - leftX) / 2 - 2
-    const leafThick = 6
-    // Maksimum ayunan 85° agar tetap terlihat proporsional di dinding
-    const maxAngle = Math.PI * 0.47
-    const currentAngle = this.openness * maxAngle
-
-    const swingDown = this.def.swingDir === "down"
-    const dirSign = swingDown ? 1 : -1
-
-    // Left Leaf (Hinge di sudut kiri kusen)
-    // Sudut istirahat (tertutup) = 0 rad (mengarah ke kanan)
-    const leftAngle = currentAngle * dirSign
-    this.drawLeaf(leftX + 2, centerY - 12, leftAngle, leafLen, leafThick, true)
-
-    // Right Leaf (Hinge di sudut kanan kusen)
-    // Sudut istirahat (tertutup) = PI rad (mengarah ke kiri)
-    const rightAngle = Math.PI - currentAngle * dirSign
-    this.drawLeaf(rightX - 2, centerY - 12, rightAngle, leafLen, leafThick, false)
+    const frame = doorFrame(this.def.tiles, "horizontal", this.def.id.startsWith("focus-"))
+    const baseY = frame.bottom - 2
+    const width = (frame.right - frame.left) / 2 - 2
+    const swing = this.def.swingDir === "down" ? 1 : -1
+    this.gfx.lineStyle(1, 0xbda485, .65)
+    this.gfx.lineBetween(frame.left, frame.bottom, frame.right, frame.bottom)
+    for (const side of [1, -1] as const) {
+      const hinge = side === 1 ? frame.left + 1 : frame.right - 1
+      const panel = doorPanel(hinge, baseY, width, side, this.openness, swing)
+      this.gfx.fillStyle(0xc58a55, 1)
+      this.gfx.fillPoints(panel.outline, true)
+      this.gfx.lineStyle(1, 0x6d513c, 1)
+      this.gfx.strokePoints(panel.outline, true)
+      this.gfx.fillStyle(0xe5b17d, 1)
+      this.gfx.fillPoints(panel.inset, true)
+      this.gfx.fillStyle(0xb8dfdb, 1)
+      this.gfx.fillPoints(panel.glass, true)
+      this.gfx.lineStyle(1, 0x617d80, 1)
+      this.gfx.strokePoints(panel.glass, true)
+      const glintA=panel.point(.23,.8), glintB=panel.point(.7,.59)
+      this.gfx.lineStyle(1, 0xf0ffff, .85)
+      this.gfx.lineBetween(glintA.x,glintA.y,glintB.x,glintB.y)
+      const [a,b]=panel.handle
+      this.gfx.lineStyle(2, 0xeff4f3, 1)
+      this.gfx.lineBetween(a.x,a.y,b.x,b.y)
+    }
   }
 
   /**
@@ -290,9 +287,9 @@ export class DoorSystem {
     }
   }
 
-  update(players: { x: number; y: number }[]) {
+  update(players: { x: number; y: number }[], deltaMs = 1000/60) {
     for (const d of this.doors) {
-      d.update(players)
+      d.update(players, deltaMs)
     }
   }
 

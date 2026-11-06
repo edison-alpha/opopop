@@ -13,7 +13,14 @@ export function roomLightRegions(area: Area): LightRect[] {
   if (!area.private || isGarden(area)) return []
   const focus = PRIVATE_OFFICES.find(r => roomMatches(area,r))
   const room = focus ?? HUDDLE_ROOMS.find(r => roomMatches(area,r)) ?? (roomMatches(area,MEDIA_ROOM) ? MEDIA_ROOM : null)
-  const regions: LightRect[] = [{
+  const regions: LightRect[] = [room ? {
+    // The renderer anchors each facade at its floor baseline. Stacked north
+    // walls occupy two existing rows; they do not extend into the garden.
+    x:(OX+room.x+0.5)*TILE-3,
+    y:(OY+room.y)*TILE-(focus?0:HORIZONTAL_WALL_RISE),
+    w:(room.w-1)*TILE+6,
+    h:room.h*TILE+(focus?0:HORIZONTAL_WALL_RISE),
+  } : {
     x:(area.x-0.5)*TILE-3, y:(area.y-1)*TILE-1-HORIZONTAL_WALL_RISE,
     w:(area.w+1)*TILE+6, h:(area.h+2)*TILE+2+HORIZONTAL_WALL_RISE,
   }]
@@ -24,10 +31,10 @@ export function roomLightRegions(area: Area): LightRect[] {
     const posts = frame.posts
     const x = Math.min(...posts.map(p=>p.x)), y = Math.min(...posts.map(p=>p.y))
     const right = Math.max(...posts.map(p=>p.x+p.w)), bottom = Math.max(...posts.map(p=>p.y+p.h))
-    // A focus booth's whole front facade stays bright to the end of its entry,
-    // including the low wall and furniture along it, as in the reference.
-    if (focus) regions[0].h = Math.max(regions[0].h,bottom+1-regions[0].y)
-    regions.push({x:x-1,y:y-1,w:right-x+2,h:bottom-y+2})
+    // Add only the jambs. A horizontal entry ends flush with the room's floor;
+    // it must not keep the unrelated corridor illuminated or focused.
+    const margin=door.orientation==='vertical'?1:0
+    regions.push({x:x-margin,y:y-margin,w:right-x+2*margin,h:bottom-y+2*margin})
   }
   return regions
 }

@@ -478,7 +478,7 @@ class OfficeScene extends Phaser.Scene {
     } else positionMapOverlay('hover-tile',{x:0,y:0,visible:false})
   }
 
-  update(time: number) {
+  update(time: number, delta: number) {
     const now = performance.now()
     this.voice.update(now)
     const me = store.me
@@ -569,7 +569,7 @@ class OfficeScene extends Phaser.Scene {
       if (s) cam.centerOn(s.root.x, s.root.y)
     }
     const allPlayers = [...store.players.values()].map((p) => ({ x: p.rx + 0.5, y: p.ry + 0.5 }))
-    this.doorSystem.update(allPlayers)
+    this.doorSystem.update(allPlayers, delta)
     this.deskSystem.update(me)
     this.roomLabels.update(cam.zoom)
 

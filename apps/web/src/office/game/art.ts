@@ -7,7 +7,7 @@ import { FOOTPRINT, MAP_H, MAP_W, OX, OY, TILE, floor, objects, type Floor, type
 import { doorFrame } from "./doorGeometry"
 import { COURTYARD, MEDIA_ROOM, LAYOUT_DOORS } from "./layout"
 import { drawDetailedObject } from "./sprites"
-import { HORIZONTAL_WALL_RISE } from "./wallGeometry"
+import { wallShape } from "./wallGeometry"
 
 const T = TILE
 
@@ -234,49 +234,67 @@ function isWall(x: number, y: number) {
   return x < 0 || y < 0 || x >= MAP_W || y >= MAP_H || floor[y][x] === "wall"
 }
 
+/** Ground under a cutaway corner belongs to its adjacent room or garden. */
+function wallGround(x: number, y: number): Exclude<Floor,"wall"> {
+  for (const dy of [0,1,-1,2,-2]) {
+    const f=floor[y+dy]?.[x]
+    if(f && f!=="wall") return f
+  }
+  return "grass"
+}
+
 function drawWall(ctx: Ctx, x: number, y: number) {
   const px = x * T, py = y * T
-  const horizontal = isWall(x - 1, y) || isWall(x + 1, y)
+  const shape = wallShape(x,y,isWall,T)
+  if (shape.hidden) return
+  const { horizontal } = shape
   if (!horizontal) {
     // Side partitions are a narrow cutaway. Extend each room's own flooring
     // underneath its half, instead of leaving an entire dark tile-wide column.
     for (const [dx, offset] of [[-1, 0], [1, T / 2]] as const) {
-      const f = floor[y]?.[x + dx]
-      const surface = f && f !== "wall" ? f : "hall"
+      const surface = wallGround(x+dx,y)
       const tile = floorTile(surface, x + dx, y)
       ctx.drawImage(tile, offset, 0, T / 2, T, px + offset, py, T / 2, T)
     }
-    rect(ctx, px + T / 2 - 3, py, 6, T, "#718581")
-    rect(ctx, px + T / 2 - 3, py, 1, T, "#a6b8ae")
-    rect(ctx, px + T / 2 + 2, py, 1, T, "#526967")
+    rect(ctx, px + T / 2 - 3, py, 6, T, "#85978b")
+    rect(ctx, px + T / 2 - 3, py, 1, T, "#bcc9b5")
+    rect(ctx, px + T / 2 + 2, py, 1, T, "#5c746d")
     rect(ctx, px + T / 2 + 3, py, 2, T, "rgba(42,60,55,0.12)")
     return
   }
   const face = !isWall(x, y + 1)
 
   // A continuous muted green back wall, with a thin rim rather than dark blocks.
-  const start = !isWall(x - 1, y) ? T / 2 - 3 : 0
-  const end = !isWall(x + 1, y) ? T / 2 + 3 : T
-  for (const [dx, offset, width] of [[-1, 0, start], [1, end, T - end]] as const) {
-    const surface = floor[y]?.[x + dx]
-    if (width > 0 && surface && surface !== "wall") ctx.drawImage(floorTile(surface, x + dx, y), offset, 0, width, T, px + offset, py, width, T)
-  }
+  const { start, end, topEdge, rise } = shape
   const wallX = px + start, wallW = end - start
-  const topEdge = !isWall(x, y - 1)
-  const rise = topEdge ? HORIZONTAL_WALL_RISE : 0
-  rect(ctx, wallX, py - rise, wallW, T + rise, "#6d7f80")
+  const plaster = patternTile("wall-plaster", (tx,ty) => {
+    const grain=hash(tx+41,ty+73)
+    return grain > 0.965 ? "#7b8f8a" : grain < 0.035 ? "#728681" : "#768a86"
+  })
+  for (let offset=0;offset<T+rise;offset+=T) {
+    const height=Math.min(T,T+rise-offset)
+    ctx.drawImage(plaster,start,0,wallW,height,wallX,py-rise+offset,wallW,height)
+  }
   if (topEdge) {
-    rect(ctx, wallX, py - rise, wallW, 2, "#9aaca5")
-    rect(ctx, wallX, py - rise + 2, wallW, 1, "#586e6d")
+    rect(ctx, wallX, py - rise, wallW, 1, "#d0d8c9")
+    rect(ctx, wallX, py - rise + 1, wallW, 2, "#afbfaf")
+    rect(ctx, wallX, py - rise + 3, wallW, 1, "#5c746d")
   }
   if (face) {
-    rect(ctx, wallX, py + T - 3, wallW, 1, "#8fa19a")
-    rect(ctx, wallX, py + T - 2, wallW, 2, "#506967")
+    rect(ctx, wallX, py + T - 4, wallW, 1, "#a0b1a4")
+    rect(ctx, wallX, py + T - 3, wallW, 3, "#566f69")
   }
 }
 
 function drawFloor(ctx: Ctx, f: Floor, x: number, y: number) {
-  if (f === "wall") return drawWall(ctx, x, y)
+  if (f === "wall") {
+    // Paint beneath every wall row, including hidden rows of stacked facades.
+    // Trimming a corner must expose real flooring rather than a transparent hole.
+    for(const [dx,offset] of [[-1,0],[1,T/2]] as const) {
+      ctx.drawImage(floorTile(wallGround(x+dx,y),x,y),offset,0,T/2,T,x*T+offset,y*T,T/2,T)
+    }
+    return
+  }
   ctx.drawImage(floorTile(f, x, y), x * T, y * T)
   if (f === "rugWarm" || f === "rugBlue") {
     // woven border + fringe on the rug's outer edges
@@ -1126,6 +1144,9 @@ function drawRegion(ctx: Ctx, x0: number, y0: number, x1: number, y1: number) {
   ctx.imageSmoothingEnabled = false
   ctx.clearRect(x0 * T, y0 * T, (x1 - x0 + 1) * T, (y1 - y0 + 1) * T)
   for (let y = ey0; y <= ey1; y++) for (let x = ex0; x <= ex1; x++) drawFloor(ctx, floor[y][x], x, y)
+  // Raised wall faces are composited after all ground tiles, so floor patches
+  // cannot erase their caps or the joins between vertical and horizontal walls.
+  for (let y = ey0; y <= ey1; y++) for (let x = ex0; x <= ex1; x++) if (floor[y][x] === "wall") drawWall(ctx,x,y)
   for (let y = ey0; y <= ey1; y++) for (let x = ex0; x <= ex1; x++) if (floor[y][x] === "water") waterEdge(ctx, x, y)
   const gardenX = (OX + COURTYARD.x) * T + 2, gardenY = (OY + COURTYARD.y) * T + 2
   const gardenW = COURTYARD.w * T - 4, gardenH = COURTYARD.h * T - 4

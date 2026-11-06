@@ -14,13 +14,15 @@ export const OBJECT_GROUPS: { name: string; items: Obj[] }[] = [
   { name: "Desks & meeting furniture", items: ["workDesk", "furnishedDesk", "roundSmall", "meetingRound", "chartEasel", "whiteboard", "studyShelf", "filingLaptop", "pantryUnit"] },
   { name: "New furniture & accessories", items: ["beanbagPurple", "bamboo", "terracottaPlant", "sideTablePlant", "sideTableMug", "monitor", "laptop", "deskPhone", "notebooks", "blueSofaBack", "blueArmchairBack", "koiPond", "loungeTable", "roundSmall"] },
   { name: "Work", items: ["workDesk", "reception", "displayShelf", "deskMonitor", "desk", "officeChairUp", "officeChair", "whiteboard", "printer", "cabinet", "cabinetPlant", "bookshelf", "tv", "table", "roundTable"] },
-  { name: "Seating", items: ["chair", "chairUp", "chairL", "chairR", "sofa", "sofaUp", "blueSofa", "blueSofaSide", "bench", "stool", "beanbag", "beanbagPink"] },
-  { name: "Hangout & pantry", items: ["coffeeTable", "cafeTable", "parasol", "counter", "coffee", "fridge", "vending", "waterCooler", "arcade", "pingpong", "lamp", "trash"] },
+  { name: "Seating", items: ["chair", "chairUp", "chairL", "chairR", "sofa", "sofaUp", "blueSofa", "blueSofaSide", "blueSofaLeft", "cognacSofaLeft", "cognacSofaRight", "officeChairL", "officeChairR", "bench", "stool", "beanbag", "beanbagPink"] },
+  { name: "Hangout & pantry", items: ["oakCoffeeRect", "coffeeTable", "cafeTable", "parasol", "counter", "coffee", "fridge", "vending", "waterCooler", "arcade", "pingpong", "lamp", "trash"] },
   { name: "Decor", items: ["plant", "plantBig", "flowers", "painting", "poster", "clock", "wallWindow", "fishTank", "rock"] },
   { name: "Outdoor", items: ["tree", "pine", "bush", "hedge", "lampPost", "lily"] },
 ]
 
 export const OBJECT_LABEL: Partial<Record<Obj, string>> = {
+  blueSofaLeft: "Blue sofa · facing left", cognacSofaLeft: "Cognac sofa · facing left", cognacSofaRight: "Cognac sofa · facing right",
+  officeChairL: "Office chair · facing left", officeChairR: "Office chair · facing right", oakCoffeeRect: "Oak coffee table",
   flowerPink:"Flower Pink", flowerBlue:"Flower Blue", trailingShelf:"Trailing Shelf", snakePlant:"Snake Plant", monstera:"Monstera", oakSideTable:"Oak Side Table", recycleStation:"Recycle Station", snackVending:"Snack Vending", landscapePoster:"Landscape Poster", airConditioner:"Air Conditioner", coatRack:"Coat Rack", firstAid:"First Aid", magazineRack:"Magazine Rack",
   furnishedDesk: "White desk + computer", chartEasel: "Chart easel", studyShelf: "Bookcase + snake plant", filingLaptop: "Filing cabinet + laptop", pantryUnit: "Espresso pantry", meetingRound: "Round meeting table",
   beanbagPurple: "Purple beanbag", bamboo: "Potted bamboo", terracottaPlant: "Terracotta plant", sideTablePlant: "Side table + plant", sideTableMug: "Side table + mug", deskPhone: "Desk phone", blueSofaBack: "Blue sofa (back)", blueArmchairBack: "Blue armchair (back)", koiPond: "Koi pond",
@@ -45,8 +47,10 @@ export const FLOOR_LABEL: Record<Floor, string> = {
 
 const ROTATIONS: Obj[][] = [
   ["chair", "chairR", "chairUp", "chairL"],
-  ["officeChair", "officeChairUp"],
-  ["sofa", "sofaUp"],
+  ["officeChair", "officeChairR", "officeChairUp", "officeChairL"],
+  ["sofa", "cognacSofaRight", "sofaUp", "cognacSofaLeft"],
+  ["blueSofa", "blueSofaSide", "blueSofaBack", "blueSofaLeft"],
+  ["redChair", "redChairR", "redChairUp", "redChairL"],
   ["beanbag", "beanbagPink"],
   ["plant", "plantBig"],
   ["tree", "pine"],
