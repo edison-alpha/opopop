@@ -166,11 +166,12 @@ function build() {
 
   // Focus booths
   for (const [x0, i] of [[13, 1], [18, 2]] as const) {
-    room(x0, 0, x0 + 5, 10, "lavender", [[x0 + 2, 10]], "hall")
+    room(x0, 0, x0 + 5, 10, "lavender", [[x0 + 2, 10], [x0 + 3, 10]], "hall")
     area({ name: `Focus Booth ${i}`, x: x0 + 1, y: 1, w: 4, h: 9, private: true })
     put(x0 + 2, 1, "deskMonitor"); put(x0 + 3, 1, "desk"); put(x0 + 2, 2, "officeChairUp")
-    put(x0 + 1, 1, "lamp"); put(x0 + 4, 5, i === 1 ? "beanbag" : "beanbagPink"); put(x0 + 4, 9, "plant"); put(x0 + 1, 9, "bookshelf")
-    put(x0 + 3, 0, "wallWindow")
+    put(x0 + 1, 1, "plant")
+    put(x0 + 4, 1, "lamp"); put(x0 + 4, 5, i === 1 ? "beanbag" : "beanbagPink"); put(x0 + 4, 9, "bookshelf"); put(x0 + 1, 9, "plant")
+    put(x0 + 2, 0, "wallWindow"); put(x0 + 3, 0, "wallWindow")
   }
 
   // Meeting Room A (boardroom)
@@ -484,9 +485,20 @@ export function isBlocked(x: number, y: number): boolean {
   return o !== null && BLOCKING.has(o)
 }
 
+let deskNameResolver: ((x: number, y: number) => string | null) | null = null
+export function setDeskNameResolver(fn: (x: number, y: number) => string | null) {
+  deskNameResolver = fn
+}
+
 export function areaAt(x: number, y: number): Area | null {
   for (const a of areas) {
-    if (x >= a.x && x < a.x + a.w && y >= a.y && y < a.y + a.h) return a
+    if (x >= a.x && x < a.x + a.w && y >= a.y && y < a.y + a.h) {
+      if (deskNameResolver) {
+        const custom = deskNameResolver(x, y)
+        if (custom) return { ...a, name: custom }
+      }
+      return a
+    }
   }
   return null
 }

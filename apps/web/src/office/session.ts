@@ -256,7 +256,7 @@ function canTalk(a: Avatar, b: Avatar, aArea = areaAt(a.x, a.y)): boolean {
   if (a.lockedWith.length && !a.lockedWith.includes(b.id)) return false
   if (b.lockedWith.length && !b.lockedWith.includes(a.id)) return false
   const bArea = areaAt(b.x, b.y)
-  if (aArea?.private || bArea?.private) return !!aArea && aArea === bArea
+  if (aArea?.private || bArea?.private) return !!aArea && !!bArea && (aArea === bArea || aArea.name === bArea.name)
   return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)) <= PROXIMITY
 }
 

@@ -13,6 +13,7 @@ import {
 import { useEffect, useRef } from "react"
 import { renderMinimap } from "../game/art"
 import { MAP_H, MAP_W, TILE, areaAt, onMapChange } from "../game/map"
+import { getDeskForTile, getDeskClaim, unclaimDesk } from "../game/desks"
 import { toggleLock, walkTo } from "../session"
 import { store, useOffice } from "../store"
 import { BuildButton } from "./BuildPanel"
@@ -37,7 +38,26 @@ export function StageHeader() {
             <PanelLeftOpen size={16} />
           </button>
         )}
-        <div className="convo-chip">
+        <div
+          className="convo-chip"
+          style={{ cursor: label.endsWith("'s desk") ? "pointer" : "default" }}
+          onClick={() => {
+            if (!label.endsWith("'s desk")) return
+            const desk = getDeskForTile(me.x, me.y)
+            if (desk) {
+              const claim = getDeskClaim(desk.id)
+              if (claim?.userId === me.id || claim?.userName.toLowerCase() === me.name.toLowerCase()) {
+                office.toast(`🪑 ${label} (Your claimed desk)`, {
+                  label: "Release Desk",
+                  run: () => unclaimDesk(desk.id),
+                })
+              } else if (claim) {
+                office.toast(`🪑 ${label} · Claimed by ${claim.userName}`)
+              }
+            }
+          }}
+          title={label.endsWith("'s desk") ? "Click for desk options" : undefined}
+        >
           {inConvo && (
             <span className="avatar-stack tight">
               {talking.slice(0, 3).map((p) => (
@@ -46,6 +66,11 @@ export function StageHeader() {
             </span>
           )}
           <span>{label}</span>
+          {label.endsWith("'s desk") && (
+            <span style={{ opacity: 0.7, fontSize: 13, marginLeft: 3 }} title="Desk details">
+              ⧉
+            </span>
+          )}
         </div>
         {inConvo && !area?.private && (
           <button

@@ -8,6 +8,7 @@ import { advancePath, cancelPath, editMap, react, redoEdit, tryStep, undoEdit, u
 import { STEP_MS, store, type Avatar } from "../store"
 import { VoiceActivity } from "../voiceActivity"
 import { DoorSystem } from "./doors"
+import { DeskSystem } from "./desks"
 import { drawAvatar, redrawTiles, renderObjectThumb, renderSeatFrontRow, renderStaticMap } from "./art"
 import { REACTION_KEYS, REACTION_MS, STATUS_COLOR } from "./constants"
 import {
@@ -53,7 +54,7 @@ class OfficeScene extends Phaser.Scene {
   private held: Dir[] = []
   private lastProx = 0
   private dim!: Phaser.GameObjects.Graphics
-  private dimArea: Area | null | undefined = undefined
+  private dimKey: string | null = null
   private following: string | null = null
   private cleanup: (() => void)[] = []
   // Live map
@@ -70,6 +71,7 @@ class OfficeScene extends Phaser.Scene {
   private hoverTile: [number, number] | null = null
   private wasBuilding = false
   private doorSystem!: DoorSystem
+  private deskSystem!: DeskSystem
 
   constructor() {
     super("office")
@@ -93,6 +95,8 @@ class OfficeScene extends Phaser.Scene {
     this.dim = this.add.graphics().setDepth(150)
     this.doorSystem = new DoorSystem(this)
     this.cleanup.push(() => this.doorSystem.destroy())
+    this.deskSystem = new DeskSystem(this)
+    this.cleanup.push(() => this.deskSystem.destroy())
     this.drawAreaLabels()
     this.rebuildSeatRows(0, MAP_H - 1)
     this.ghost = this.add.image(0, 0, "__DEFAULT").setOrigin(0).setAlpha(0.7).setDepth(900).setVisible(false)
@@ -140,6 +144,8 @@ class OfficeScene extends Phaser.Scene {
     this.input.on("pointerup", (p: Phaser.Input.Pointer) => {
       if (store.build.open) return // build mode has its own handlers
       if (p.getDistance() > 6) return // was a drag
+      if (this.deskSystem.handlePointerUp(p.worldX, p.worldY)) return
+      if (this.deskSystem.handleBadgeClick(p.worldX, p.worldY)) return
       const tx = Math.floor(p.worldX / TILE)
       const ty = Math.floor(p.worldY / TILE)
       for (const a of store.players.values()) {
@@ -192,7 +198,7 @@ class OfficeScene extends Phaser.Scene {
     this.mapTex.refresh()
     if (c.areas || c.all) {
       this.drawAreaLabels()
-      this.dimArea = undefined
+      this.dimKey = null
     }
   }
 
@@ -405,8 +411,9 @@ class OfficeScene extends Phaser.Scene {
   }
 
   private updateDim(area: Area | null) {
-    if (area === this.dimArea) return
-    this.dimArea = area
+    const key = area ? `${area.name}:${area.x},${area.y},${area.w},${area.h}` : null
+    if (key === this.dimKey) return
+    this.dimKey = key
     this.dim.clear()
 
     // Ruangan tertutup yang memiliki pintu dan pembatas dinding
@@ -418,6 +425,7 @@ class OfficeScene extends Phaser.Scene {
         area.name === "Meeting Room A" ||
         area.name === "Meeting Room B" ||
         area.name.startsWith("Focus Booth") ||
+        area.name.endsWith("'s desk") ||
         area.name === "HR & Finance" ||
         area.name === "Lounge" ||
         area.name === "Café" ||
@@ -535,6 +543,10 @@ class OfficeScene extends Phaser.Scene {
     }
     const v = cam.worldView
     store.view = { x: v.x, y: v.y, w: v.width, h: v.height }
+
+    const allPlayers = [...store.players.values()].map((p) => ({ x: p.rx + 0.5, y: p.ry + 0.5 }))
+    this.doorSystem.update(allPlayers)
+    this.deskSystem.update(me)
 
     this.updateDim(me && !building ? areaAt(me.x, me.y) : null)
     void time

@@ -70,23 +70,29 @@ export const OFFICE_DOORS: DoorDef[] = [
     swingDir: "down",
     double: false,
   },
-  // 5. Focus Booth 1
+  // 5. Focus Booth 1 (Private Office 1 - Pintu Ganda Ayun ke Luar)
   {
     id: "focus-1",
     roomName: "Focus Booth 1",
-    tiles: [[OX + 15, OY + 10]],
+    tiles: [
+      [OX + 15, OY + 10],
+      [OX + 16, OY + 10],
+    ],
     orientation: "horizontal",
     swingDir: "down",
-    double: false,
+    double: true,
   },
-  // 6. Focus Booth 2
+  // 6. Focus Booth 2 (Private Office 2 - Pintu Ganda Ayun ke Luar)
   {
     id: "focus-2",
     roomName: "Focus Booth 2",
-    tiles: [[OX + 20, OY + 10]],
+    tiles: [
+      [OX + 20, OY + 10],
+      [OX + 21, OY + 10],
+    ],
     orientation: "horizontal",
     swingDir: "down",
-    double: false,
+    double: true,
   },
   // 7. HR & Finance
   {
