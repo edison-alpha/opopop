@@ -7,6 +7,7 @@ import { eraseOps, floorOps, placeError, placeOps, roomOps, rotateObj } from "..
 import { advancePath, cancelPath, editMap, react, redoEdit, tryStep, undoEdit, updateProximity, walkTo } from "../session"
 import { STEP_MS, store, type Avatar } from "../store"
 import { VoiceActivity } from "../voiceActivity"
+import { DoorSystem } from "./doors"
 import { drawAvatar, redrawTiles, renderObjectThumb, renderSeatFrontRow, renderStaticMap } from "./art"
 import { REACTION_KEYS, REACTION_MS, STATUS_COLOR } from "./constants"
 import {
@@ -68,6 +69,7 @@ class OfficeScene extends Phaser.Scene {
   private pan: { x: number; y: number; sx: number; sy: number } | null = null
   private hoverTile: [number, number] | null = null
   private wasBuilding = false
+  private doorSystem!: DoorSystem
 
   constructor() {
     super("office")
@@ -88,7 +90,9 @@ class OfficeScene extends Phaser.Scene {
     this.mapTex = this.textures.addCanvas("map", this.mapCanvas)!
     this.add.image(0, 0, "map").setOrigin(0).setDepth(0)
 
-    this.dim = this.add.graphics().setDepth(1)
+    this.dim = this.add.graphics().setDepth(150)
+    this.doorSystem = new DoorSystem(this)
+    this.cleanup.push(() => this.doorSystem.destroy())
     this.drawAreaLabels()
     this.rebuildSeatRows(0, MAP_H - 1)
     this.ghost = this.add.image(0, 0, "__DEFAULT").setOrigin(0).setAlpha(0.7).setDepth(900).setVisible(false)
@@ -404,16 +408,38 @@ class OfficeScene extends Phaser.Scene {
     if (area === this.dimArea) return
     this.dimArea = area
     this.dim.clear()
-    if (!area?.private) return
+
+    // Ruangan tertutup yang memiliki pintu dan pembatas dinding
+    const isEnclosedRoom =
+      !!area &&
+      (area.private ||
+        area.meeting ||
+        area.name === "Lobby" ||
+        area.name === "Meeting Room A" ||
+        area.name === "Meeting Room B" ||
+        area.name.startsWith("Focus Booth") ||
+        area.name === "HR & Finance" ||
+        area.name === "Lounge" ||
+        area.name === "Café" ||
+        area.name === "Game Room" ||
+        area.name === "Library" ||
+        area.name === "Pantry")
+
+    if (!isEnclosedRoom || !area) return
+
     const mapW = MAP_W * TILE
     const mapH = MAP_H * TILE
     const ax = area.x * TILE, ay = area.y * TILE, aw = area.w * TILE, ah = area.h * TILE
-    this.dim.fillStyle(0x0b0d1e, 0.32)
+
+    // Gelap pekat di luar ruangan saat pemain di dalam ruangan (72% dark overlay)
+    this.dim.fillStyle(0x070914, 0.72)
     this.dim.fillRect(0, 0, mapW, ay)
     this.dim.fillRect(0, ay + ah, mapW, mapH - ay - ah)
     this.dim.fillRect(0, ay, ax, ah)
     this.dim.fillRect(ax + aw, ay, mapW - ax - aw, ah)
-    this.dim.lineStyle(2, 0x8b8ff5, 0.9).strokeRect(ax, ay, aw, ah)
+
+    // Border glowing halus penanda ruangan
+    this.dim.lineStyle(2, 0x6366f1, 0.5).strokeRect(ax, ay, aw, ah)
   }
 
   update(time: number) {
